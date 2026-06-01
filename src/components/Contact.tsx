@@ -32,8 +32,9 @@ export default function Contact() {
 
             <div className="space-y-8">
               {[
-                { icon: Mail, label: "Email Us", val: "vision@melhek.tech", href: "mailto:vision@melhek.tech" },
-                { icon: Phone, label: "Call Us", val: "+251 900 00 0000", href: "tel:+251900000000" },
+                { icon: Mail, label: "Email Us", val: "melhektechnologies@gmail.com", href: "mailto:melhektechnologies@gmail.com" },
+                { icon: Phone, label: "Call Us", val: "+251 972 23 7318", href: "tel:+251972237318" },
+                { icon: Phone, label: "WhatsApp", val: "+251 721 23 7318", href: "https://wa.me/251721237318" },
                 { icon: MapPin, label: "Visit Us", val: "Addis Ababa, Ethiopia", href: "https://maps.google.com/?q=Addis+Ababa+Ethiopia" },
               ].map((item) => (
                 <a

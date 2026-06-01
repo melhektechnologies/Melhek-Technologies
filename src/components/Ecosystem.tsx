@@ -25,7 +25,7 @@ export default function Ecosystem() {
             viewport={{ once: true }}
             className="px-4 py-1 rounded-full glass border-white/10 text-[10px] font-mono font-bold text-melhek-blue uppercase tracking-[0.2em] inline-block mb-6"
           >
-            The Ecosystem
+            Our Services
           </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -33,8 +33,8 @@ export default function Ecosystem() {
             viewport={{ once: true }}
             className="text-[clamp(36px,5vw,64px)] font-syne font-extrabold text-white mb-6 leading-[1.1]"
           >
-            Five Pillars of <br />
-            <span className="text-gradient">Digital Excellence.</span>
+            What We Build<br />
+            <span className="text-gradient">For Your Business.</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -43,7 +43,7 @@ export default function Ecosystem() {
             transition={{ delay: 0.1 }}
             className="text-[17px] text-melhek-steel/50 leading-relaxed max-w-2xl mx-auto font-light"
           >
-            Our divisions form an integrated technology ecosystem, each specializing in distinct domains to deliver comprehensive solutions for the modern enterprise.
+            From premium web platforms and AI-powered workflows to smart hotel systems and digital transformation — Melhek delivers real solutions for Ethiopian businesses ready to scale.
           </motion.p>
         </div>
 
@@ -89,7 +89,7 @@ export default function Ecosystem() {
 
                 <div className="pt-8 border-t border-white/5 flex items-center justify-between">
                   <span className="text-[11px] font-mono font-bold text-melhek-blue/80 uppercase tracking-[0.2em] group-hover:text-melhek-blue transition-colors">
-                    Division Details →
+                    Service Details →
                   </span>
                   <div className="w-8 h-[1px] bg-white/10 group-hover:w-16 group-hover:bg-melhek-blue transition-all duration-500" />
                 </div>

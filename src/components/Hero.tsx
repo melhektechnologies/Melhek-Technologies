@@ -72,7 +72,7 @@ export default function Hero() {
           >
             <span className="w-1.5 h-1.5 bg-melhek-blue rounded-full animate-pulse shadow-[0_0_8px_#7FA9FF]" />
             <span className="text-[11px] font-mono font-semibold uppercase tracking-[0.12em] text-melhek-blue">
-              Advanced Digital Infrastructure · Est. 2024
+              Addis Ababa's Leading Tech Company · Est. 2024
             </span>
           </motion.div>
 
@@ -84,8 +84,8 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
             className="font-syne font-extrabold text-[clamp(42px,7vw,88px)] leading-[1.0] tracking-[-0.03em] mb-8 text-white"
           >
-            <span className="block">Engineering Intelligent</span>
-            <span className="text-gradient block">Digital Infrastructure.</span>
+            <span className="block">Your Digital Anchor in</span>
+            <span className="text-gradient block">Modern Ethiopia.</span>
           </motion.h1>
 
           {/* Subheadline */}
@@ -93,10 +93,11 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className="text-[clamp(16px,2vw,20px)] text-melhek-steel/70 mb-12 max-w-2xl mx-auto leading-[1.7] font-light"
+            className="text-[clamp(16px,2vw,20px)] text-melhek-steel/70 mb-12 max-w-3xl mx-auto leading-[1.7] font-light"
           >
-            Melhek Technologies is your digital anchor — building precision technology systems, intelligent platforms, and future-ready infrastructure for visionary businesses.
+            Melhek Technologies provides Website Development, AI Systems, Business Automation, Hotel Technology, and Digital Transformation Services. We help businesses modernize, automate, and scale using high-end digital solutions designed for real impact.
           </motion.p>
+
 
           {/* Actions */}
           <motion.div
@@ -127,10 +128,10 @@ export default function Hero() {
             className="mt-16 flex flex-wrap justify-center gap-8 text-[11px] font-medium uppercase tracking-[0.08em] text-melhek-blue/40"
           >
             {[
-              "Enterprise Ready",
-              "AI-Powered Systems",
-              "Future Infrastructure",
-              "Precision Engineered"
+              "Website Development",
+              "AI Systems",
+              "Hotel Technology",
+              "Business Automation"
             ].map((text) => (
               <div key={text} className="flex items-center gap-2 font-mono">
                 <div className="w-1 h-1 bg-melhek-blue rounded-full" />

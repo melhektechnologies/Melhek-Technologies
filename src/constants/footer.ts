@@ -1,10 +1,10 @@
 export const FOOTER_LINKS = {
   ecosystem: [
-    { label: "Melhek Digital", href: "/ecosystem/digital" },
-    { label: "Melhek Hospitality", href: "/ecosystem/hospitality" },
-    { label: "Melhek Secure", href: "/ecosystem/secure" },
-    { label: "Melhek Infrastructure", href: "/ecosystem/infrastructure" },
-    { label: "Melhek AI Labs", href: "/ecosystem/ai-labs" },
+    { label: "Website Development", href: "/ecosystem/website-development" },
+    { label: "AI Systems", href: "/ecosystem/ai-systems" },
+    { label: "Business Automation", href: "/ecosystem/business-automation" },
+    { label: "Hotel Technology", href: "/ecosystem/hotel-technology" },
+    { label: "Digital Transformation", href: "/ecosystem/digital-transformation" },
   ],
   company: [
     { label: "About Mission", href: "/about" },

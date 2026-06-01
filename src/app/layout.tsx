@@ -26,9 +26,19 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Melhek Technologies | Your Digital Anchor",
-  description: "Advanced Digital Infrastructure & Intelligent Technology Solutions. Engineering the future of modern business with precision and stability.",
-  keywords: ["Digital Infrastructure", "AI Systems", "Enterprise Solutions", "Technology Ecosystem", "Melhek", "Digital Anchor"],
+  title: "Melhek Technologies | Website Development, AI Systems & Digital Transformation in Ethiopia",
+  description: "Melhek Technologies is Addis Ababa's leading tech company — providing Website Development, AI Systems, Business Automation, Hotel Technology, and Digital Transformation Services. Your Digital Anchor.",
+  keywords: [
+    "website development Ethiopia",
+    "AI systems Addis Ababa",
+    "business automation Ethiopia",
+    "hotel technology Ethiopia",
+    "digital transformation Addis Ababa",
+    "tech company Ethiopia",
+    "Melhek Technologies",
+    "software development Ethiopia",
+    "best tech company Addis Ababa",
+  ],
   metadataBase: new URL("https://melhek.tech"),
   alternates: {
     canonical: "/",
@@ -38,8 +48,8 @@ export const metadata: Metadata = {
     follow: true,
   },
   openGraph: {
-    title: "Melhek Technologies | Your Digital Anchor",
-    description: "Engineering Intelligent Digital Infrastructure.",
+    title: "Melhek Technologies | Ethiopia's Digital Anchor",
+    description: "Website Development, AI Systems, Business Automation & Hotel Technology for Ethiopian businesses.",
     url: "https://melhek.tech",
     type: "website",
     locale: "en_US",
@@ -47,8 +57,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Melhek Technologies | Your Digital Anchor",
-    description: "Engineering Intelligent Digital Infrastructure.",
+    title: "Melhek Technologies | Ethiopia's Digital Anchor",
+    description: "Website Development, AI Systems, Business Automation & Hotel Technology for Ethiopian businesses.",
   },
 };
 

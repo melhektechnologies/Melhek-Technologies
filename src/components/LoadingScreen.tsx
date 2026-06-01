@@ -7,17 +7,17 @@ import Image from 'next/image'
 const MotionImage = motion.create(Image)
 
 export default function LoadingScreen() {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const hasSeenLoader = window.sessionStorage.getItem('melhek_loader_seen') === '1'
 
-    if (prefersReducedMotion || hasSeenLoader) return
+    if (prefersReducedMotion) {
+      setLoading(false)
+      return
+    }
 
-    setLoading(true)
-    window.sessionStorage.setItem('melhek_loader_seen', '1')
-    const timer = window.setTimeout(() => setLoading(false), 1100)
+    const timer = window.setTimeout(() => setLoading(false), 3500)
     return () => clearTimeout(timer)
   }, [])
 

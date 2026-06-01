@@ -1,12 +1,11 @@
-import { ReactNode } from 'react';
-
 export type ProjectCategory = 
   | "Hospitality Tech"
   | "Healthcare Tech"
-  | "Automotive · Commerce"
-  | "Healthcare · Vision"
-  | "Food & Beverage Tech"
-  | "Finance · Analytics";
+  | "Automotive · Luxury"
+  | "Legal Tech"
+  | "Fitness · SaaS"
+  | "E-commerce · Fashion"
+  | "Business Automation";
 
 export interface Project {
   id: string;
@@ -14,8 +13,11 @@ export interface Project {
   category: ProjectCategory;
   description: string;
   gradient: string;
-  iconName: string; // Storing icon name as string for serializability if needed
+  iconName: string;
   slug: string;
+  image?: string;
+  link?: string;
+  tags?: string[];
 }
 
 export interface ProjectResponse {
@@ -23,3 +25,4 @@ export interface ProjectResponse {
   error: string | null;
   loading: boolean;
 }
+

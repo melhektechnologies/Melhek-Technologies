@@ -12,7 +12,6 @@ const navLinks = [
   { name: 'Portfolio', href: '/portfolio' },
   { name: 'Why Us', href: '/#trust' },
   { name: 'Vision', href: '/#vision' },
-  { name: 'PMS', href: '/pharmacy' },
 ]
 
 export default function Navbar() {

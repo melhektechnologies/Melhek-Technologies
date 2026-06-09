@@ -178,7 +178,6 @@ export const DIVISIONS: Division[] = [
     iconId: "server",
     tags: ["Office Internet", "Network Cabling", "Smart Facilities"],
     delay: 0.5,
-    span: true,
     highlights: [
       "Ensure fast, drop-free Wi-Fi and network coverage throughout your office",
       "Set up backup power and internet connections so you never go offline",

@@ -128,9 +128,9 @@ export default function Contact() {
                   aria-invalid={!!state.fieldErrors?.division}
                   aria-describedby={state.fieldErrors?.division ? 'err-division' : undefined}
                 >
-                  <option value="" disabled>Select Division</option>
+                  <option value="" disabled className="bg-melhek-dark text-white">Select Division</option>
                   {DIVISIONS.map((d) => (
-                    <option key={d.slug} value={d.slug}>{d.title}</option>
+                    <option key={d.slug} value={d.slug} className="bg-melhek-dark text-white">{d.title}</option>
                   ))}
                 </select>
                 {state.fieldErrors?.division ? (

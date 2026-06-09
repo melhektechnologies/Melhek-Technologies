@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -40,17 +40,17 @@ export default function Navbar() {
       }`}>
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 group" aria-label="Melhek Home">
-          <div className="relative w-9 h-9 group-hover:rotate-[15deg] transition-transform duration-500">
+          <div className="relative w-11 h-11 group-hover:rotate-[15deg] transition-transform duration-500">
             <Image 
               src="/logo-light.png" 
               alt="Melhek Logo" 
               fill
-              sizes="36px"
+              sizes="44px"
               className="object-contain filter brightness-110" 
             />
           </div>
           <span className="text-[17px] font-syne font-extrabold tracking-[-0.03em] text-white">
-            Melhek<span className="text-melhek-blue">.</span>
+            Melhek
           </span>
         </Link>
 

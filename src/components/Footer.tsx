@@ -60,21 +60,21 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center gap-3 mb-8" aria-label="Melhek Technologies Home">
-              <div className="relative w-12 h-12">
+              <div className="relative w-14 h-14">
                 <Image 
                   src="/logo-light.png" 
                   alt="" 
                   fill 
-                  sizes="48px"
+                  sizes="56px"
                   className="object-contain" 
                 />
               </div>
               <span className="text-xl font-syne font-bold tracking-tighter text-white">
-                MELHEK<span className="text-melhek-blue">TECH</span>
+                Melhek <span className="text-melhek-blue">Technologies</span>
               </span>
             </Link>
             <p className="text-white/40 text-sm leading-relaxed mb-8 max-w-xs font-light">
-              Addis Ababa&apos;s leading technology company — building websites, AI systems, and digital solutions that help Ethiopian businesses modernize and scale. Your Digital Anchor.
+              Addis Ababa&apos;s dependable technology partner. We build company websites, simple management tools, and automated operations software that help Ethiopian businesses grow and run smoothly.
             </p>
             <nav className="flex gap-4" aria-label="Social Media">
               {SocialIcons.map((social) => (

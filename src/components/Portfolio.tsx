@@ -33,13 +33,19 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             <div className="w-2 h-2 rounded-full bg-[#ff5f57]" aria-hidden="true" />
             <div className="w-2 h-2 rounded-full bg-[#febc2e]" aria-hidden="true" />
             <div className="w-2 h-2 rounded-full bg-[#28c840]" aria-hidden="true" />
-            <span className="ml-3 text-[9px] font-mono text-white/25 uppercase tracking-widest truncate max-w-[140px]">
+            <span className="ml-3 text-[9px] font-mono text-white/25 uppercase tracking-widest truncate max-w-[120px]">
               melhek.tech / {project.slug}
             </span>
-            {project.link && (
+            {project.link && !project.status && (
               <span className="ml-auto flex items-center gap-1 text-[8px] font-mono text-emerald-400/80 uppercase tracking-wide">
                 <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
                 Live
+              </span>
+            )}
+            {project.status && (
+              <span className="ml-auto flex items-center gap-1 text-[8px] font-mono text-yellow-500 uppercase tracking-wide">
+                <span className="w-1.5 h-1.5 bg-yellow-500 rounded-full animate-pulse" />
+                {project.status}
               </span>
             )}
           </div>
@@ -49,7 +55,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             {project.image ? (
               <Image
                 src={project.image}
-                alt={`${project.name} screenshot`}
+                alt={`${project.name} preview`}
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
@@ -90,11 +96,11 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                   <span className="text-white/80">{project.businessOutcome}</span>
                 </div>
                 <div>
-                  <span className="text-melhek-blue font-mono font-bold uppercase tracking-wider text-[8px] mr-1">System:</span>
+                  <span className="text-melhek-blue font-mono font-bold uppercase tracking-wider text-[8px] mr-1">Capability:</span>
                   <span className="text-white/80">{project.techCapability}</span>
                 </div>
                 <div>
-                  <span className="text-melhek-blue font-mono font-bold uppercase tracking-wider text-[8px] mr-1">Scale:</span>
+                  <span className="text-melhek-blue font-mono font-bold uppercase tracking-wider text-[8px] mr-1">Reliability:</span>
                   <span className="text-white/80">{project.scalability}</span>
                 </div>
               </div>
@@ -135,12 +141,13 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
 const SECTORS = [
   "All",
-  "Hospitality Technology",
-  "Healthcare Technology",
-  "Retail Technology",
-  "Automotive Technology",
-  "Faith & Community Platforms",
-  "Business Intelligence"
+  "Hospitality",
+  "Healthcare",
+  "Retail & Commerce",
+  "Professional Services",
+  "Community & Faith",
+  "Fitness & Wellness",
+  "Automotive"
 ]
 
 export default function Portfolio() {
@@ -190,7 +197,7 @@ export default function Portfolio() {
               viewport={{ once: true }}
               className="text-melhek-blue font-mono text-xs font-bold tracking-[0.2em] uppercase mb-4"
             >
-              Capability Showcase · Industrial Systems
+              Case Studies · Real Proof
             </motion.div>
             <motion.h2
               id="portfolio-heading"
@@ -199,8 +206,8 @@ export default function Portfolio() {
               viewport={{ once: true }}
               className="text-5xl md:text-7xl font-syne font-extrabold text-white leading-tight"
             >
-              Platforms That <br />
-              <span className="text-gradient">Move Industries.</span>
+              Solutions That <br />
+              <span className="text-gradient">Deliver Results.</span>
             </motion.h2>
           </div>
           <motion.div

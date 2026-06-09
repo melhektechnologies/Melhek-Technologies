@@ -5,7 +5,7 @@ import { Anchor, Compass, Shield, Rocket } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "About | Melhek Technologies",
-  description: "Learn about the mission, engineering philosophy, and the anchor brand story of Melhek Technologies.",
+  description: "Learn about the mission, simple technology standards, and the anchor brand story of Melhek Technologies.",
 };
 
 export default function AboutPage() {
@@ -17,7 +17,7 @@ export default function AboutPage() {
 
         <div className="container mx-auto px-6 max-w-4xl">
           <p className="text-melhek-blue font-mono text-xs font-bold tracking-[0.2em] uppercase mb-4">
-            About Melhek
+            Our Mission
           </p>
           <h1 className="text-5xl md:text-7xl font-syne font-extrabold text-white mb-10 leading-[1.05]">
             Your Digital Anchor in a <br />
@@ -27,17 +27,18 @@ export default function AboutPage() {
           <div className="space-y-12 text-white/60 leading-relaxed text-lg font-light">
             <section className="space-y-6">
               <h2 className="text-2xl font-syne font-bold text-white uppercase tracking-wider border-b border-white/10 pb-3">
-                The Anchor Foundation
+                The Anchor Story
               </h2>
               <p>
-                In Amharic, <strong>Melhek</strong> means <strong>Anchor</strong>. This name defines our entire operational philosophy. 
-                An anchor represents unshakeable stability, security, direction, and strength. We exist to help modern enterprises 
-                navigate a complex digital landscape by establishing robust technology foundations that support long-term operational scale.
+                In Amharic, <strong>Melhek</strong> means <strong>Anchor</strong>. This is the foundation of our entire brand. 
+                An anchor represents stability, security, guidance, trust, reliability, strength, and direction. 
+                Melhek exists to help businesses navigate an increasingly complex digital world through simple, stable, 
+                and reliable software systems.
               </p>
               <p>
-                As businesses undergo rapid transformation, they face fragmented software stacks, security vulnerabilities, and 
-                scaling bottlenecks. Melhek acts as a reliable partner, ensuring that your digital footprint remains grounded in stability 
-                while remaining agile enough to seize future opportunities.
+                We believe you shouldn&apos;t have to worry about your technology. Just like a ship relies on its anchor 
+                to stay grounded in rough waters, your business should be able to rely on its digital systems to run without 
+                errors, keep data safe, and handle daily transactions smoothly.
               </p>
             </section>
 
@@ -45,39 +46,38 @@ export default function AboutPage() {
               <div className="glass p-8 rounded-2xl border-white/5 hover:border-melhek-blue/25 transition-all">
                 <div className="text-melhek-blue mb-4"><Anchor className="w-8 h-8" /></div>
                 <h3 className="text-lg font-syne font-bold text-white mb-2">Stability & Trust</h3>
-                <p className="text-sm text-white/50">Systems built to handle millions of queries without degradation or downtime.</p>
+                <p className="text-sm text-white/50">Consistent business platforms built to stay online and run without errors.</p>
               </div>
               <div className="glass p-8 rounded-2xl border-white/5 hover:border-melhek-blue/25 transition-all">
                 <div className="text-melhek-blue mb-4"><Compass className="w-8 h-8" /></div>
-                <h3 className="text-lg font-syne font-bold text-white mb-2">Guidance & Clarity</h3>
-                <p className="text-sm text-white/50">Translating complex operational goals into clean technical specifications and roadmaps.</p>
+                <h3 className="text-lg font-syne font-bold text-white mb-2">Simple Guidance</h3>
+                <p className="text-sm text-white/50">Translating complex technical choices into clear, easy-to-understand solutions.</p>
               </div>
               <div className="glass p-8 rounded-2xl border-white/5 hover:border-melhek-blue/25 transition-all">
                 <div className="text-melhek-blue mb-4"><Shield className="w-8 h-8" /></div>
-                <h3 className="text-lg font-syne font-bold text-white mb-2">Security & Control</h3>
-                <p className="text-sm text-white/50">Protecting digital assets from day one with encrypted connections and role-based policies.</p>
+                <h3 className="text-lg font-syne font-bold text-white mb-2">Data Protection</h3>
+                <p className="text-sm text-white/50">Keeping your business records and customer payment details safe from unauthorized access.</p>
               </div>
               <div className="glass p-8 rounded-2xl border-white/5 hover:border-melhek-blue/25 transition-all">
                 <div className="text-melhek-blue mb-4"><Rocket className="w-8 h-8" /></div>
-                <h3 className="text-lg font-syne font-bold text-white mb-2">Ecosystem Growth</h3>
-                <p className="text-sm text-white/50">Consolidating digital platforms, AI labs, and secure networks into a unified partner ecosystem.</p>
+                <h3 className="text-lg font-syne font-bold text-white mb-2">Support for Growth</h3>
+                <p className="text-sm text-white/50">Software layouts prepared to adapt as you open new branches or expand services.</p>
               </div>
             </div>
 
             <section className="space-y-6">
               <h2 className="text-2xl font-syne font-bold text-white uppercase tracking-wider border-b border-white/10 pb-3">
-                Why We Build
+                Built to Deliver Outcomes
               </h2>
               <p>
-                Melhek was founded to replace fragile software setups and slow-loading agency projects with clean, production-grade 
-                systems. We combine systems thinking, product discipline, and advanced software engineering. We believe modern enterprises 
-                deserve technology that is as reliable as physical utilities—built with clear boundaries, comprehensive logging, and 
-                modular architectures.
+                We do not build technology just for the sake of it. Every system we create is designed to solve a practical 
+                business problem: saving your staff time, reducing order mistakes, attracting new customers, or streamlining 
+                daily checkouts.
               </p>
               <p>
-                From our engineering base in Addis Ababa, we aim to establish a leading African technology ecosystem. By bridging 
-                the gap between custom SaaS platforms, secure hotel automation systems, agentic analytics, and local facility networking, 
-                we provide full-spectrum digital infrastructure that drives real, measurable business outcome.
+                Our vision is to build a leading African technology ecosystem that local business owners can trust. Whether you 
+                are running a luxury resort, a busy medical clinic, a neighborhood supermarket, or a growing consulting firm, 
+                Melhek is here to provide the stable digital foundations you need to succeed.
               </p>
             </section>
           </div>

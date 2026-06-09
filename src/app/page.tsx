@@ -7,9 +7,8 @@ import SmoothScroll from "@/components/SmoothScroll";
 import { HashScroll } from "@/components/HashScroll";
 import About from "@/components/About";
 import Ecosystem from "@/components/Ecosystem";
-import WhyTrust from "@/components/WhyTrust";
-import EngineeringPrinciples from "@/components/EngineeringPrinciples";
 import Industries from "@/components/Industries";
+import WhyTrust from "@/components/WhyTrust";
 import Portfolio from "@/components/Portfolio";
 import Vision from "@/components/Vision";
 import Testimonials from "@/components/Testimonials";
@@ -30,9 +29,8 @@ export default function Home() {
         <StatsBar />
         <About />
         <Ecosystem />
-        <WhyTrust />
-        <EngineeringPrinciples />
         <Industries />
+        <WhyTrust />
         <Portfolio />
         <Vision />
         <Testimonials />

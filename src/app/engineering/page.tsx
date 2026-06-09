@@ -5,46 +5,46 @@ import { ShieldCheck, Zap, Layers, Smartphone, Eye, Award } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Engineering Excellence | Melhek Technologies",
-  description: "Learn about the six core engineering principles that drive Melhek's digital infrastructure systems.",
+  description: "Learn about the six development principles that ensure Melhek systems remain reliable and simple.",
 };
 
 export default function EngineeringPage() {
   const principles = [
     {
       icon: <ShieldCheck className="w-8 h-8 text-melhek-blue" />,
-      title: "Security First",
-      desc: "Security is embedded into every development phase. We enforce role-based access policies, isolate database layers, and write secure authentication systems to protect client data assets.",
-      detail: "All configurations follow OWASP specifications, utilizing tokenization for API connections and AES-256 for persistent database storage."
+      title: "Data Safety",
+      desc: "We build protection into every layer. We enforce secure employee login rules, isolate database records, and secure transactions to keep your business information and customer details protected.",
+      detail: "Result: Customer payment histories and files stay private and secure from day one."
     },
     {
       icon: <Zap className="w-8 h-8 text-melhek-blue" />,
-      title: "Performance Driven",
-      desc: "Speed directly impacts user interaction and compute costs. We structure systems using static-first rendering, local caching layers, and database indices to achieve sub-second execution speeds.",
-      detail: "We target sub-100ms time-to-first-byte (TTFB) and leverage global CDN edge networks for asset delivery."
+      title: "Sub-Second Speed",
+      desc: "Slow loading times frustrate customers and waste staff time. We optimize all website images, structure database queries cleanly, and deliver files from fast local servers.",
+      detail: "Result: Pages and menus load in under a second, keeping customers happy."
     },
     {
       icon: <Layers className="w-8 h-8 text-melhek-blue" />,
-      title: "Scalable Architecture",
-      desc: "We build systems prepared to handle growth. By utilizing stateless layers, clean boundary contexts, and microservice separations, systems scale without increased complexity.",
-      detail: "Supports serverless autoscaling and stateless container orchestration for predictable horizontal scaling."
+      title: "Scalable Growth",
+      desc: "Your software should grow as your business grows. We separate data layers so that you can add new storefront checkouts, register more staff, or log more items without slow-down.",
+      detail: "Result: Your system handles customer rushes smoothly without freezing."
     },
     {
       icon: <Smartphone className="w-8 h-8 text-melhek-blue" />,
-      title: "Mobile First",
-      desc: "Operations in emerging markets run primarily on mobile devices. We develop lightweight, mobile-optimized interfaces that load fast even over unstable mobile data connections.",
-      detail: "Optimized bundle sizes, offline-resilient local caches, and responsive layouts designed for cell networks."
+      title: "Mobile Accessibility",
+      desc: "Most people access information on their cell phones. We design lightweight, mobile-optimized pages that load quickly even on weaker mobile networks.",
+      detail: "Result: Staff can coordinate inventory and customers can make bookings on any mobile phone."
     },
     {
       icon: <Eye className="w-8 h-8 text-melhek-blue" />,
-      title: "Future Ready Systems",
-      desc: "We protect codebases from architectural rot. By adopting strict TypeScript types, comprehensive unit testing, and modular designs, codebases remain easy to refactor.",
-      detail: "Enforces 90%+ type coverage, structured API contracts, and fully automated deployment checks."
+      title: "Easy to Manage",
+      desc: "We write clean, strictly-organized code and compile thorough documentation so your systems remain easy to update, adapt, and expand over time.",
+      detail: "Result: Adding new features or modifying workflows in the future is simple and affordable."
     },
     {
       icon: <Award className="w-8 h-8 text-melhek-blue" />,
-      title: "Business Focused Design",
-      desc: "We design software to achieve operational outcomes. Every database schema, background worker, and UI module is engineered to optimize workflows and reduce cost.",
-      detail: "Translating business indicators into code parameters to deliver concrete operational ROI."
+      title: "Direct Business Outcomes",
+      desc: "We do not build software for its own sake. Every database calendar, button layout, and automated notification is engineered to solve a practical store or office issue.",
+      detail: "Result: Concrete ROI by saving your staff hours of work and reducing checkout errors."
     }
   ];
 
@@ -56,16 +56,16 @@ export default function EngineeringPage() {
 
         <div className="container mx-auto px-6 max-w-4xl">
           <p className="text-melhek-blue font-mono text-xs font-bold tracking-[0.2em] uppercase mb-4">
-            Engineering Standards
+            Our Standards
           </p>
           <h1 className="text-5xl md:text-7xl font-syne font-extrabold text-white mb-10 leading-tight">
-            Built for <span className="text-gradient">Production.</span>
+            Built for <span className="text-gradient">Reliability.</span>
           </h1>
 
           <p className="text-lg text-white/60 leading-relaxed font-light mb-16">
-            Melhek Technologies constructs software systems adhering to rigid engineering protocols. 
-            We replace custom, fragile scripts with structured, observable, and hardened infrastructure 
-            designed to run continuously and securely.
+            Melhek Technologies designs and develops systems according to strict quality standards. 
+            We replace complex, unstable software setups with simple, dependable business tools 
+            built to serve your staff and customers.
           </p>
 
           <div className="space-y-12">
@@ -83,7 +83,7 @@ export default function EngineeringPage() {
                     {pr.desc}
                   </p>
                   <div className="text-xs font-mono text-melhek-blue/70 pt-2 uppercase tracking-wider">
-                    Metrics: {pr.detail}
+                    {pr.detail}
                   </div>
                 </div>
               </div>
@@ -92,10 +92,10 @@ export default function EngineeringPage() {
 
           <div className="mt-16 flex flex-wrap gap-4 border-t border-white/10 pt-10">
             <Link href="/contact" className="btn-primary text-sm">
-              Discuss your architecture
+              Discuss your project
             </Link>
             <Link href="/portfolio" className="btn-secondary text-sm">
-              See delivered platforms
+              See delivered work
             </Link>
           </div>
         </div>

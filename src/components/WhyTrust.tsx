@@ -27,8 +27,8 @@ export default function WhyTrust() {
             viewport={{ once: true }}
             className="text-[clamp(36px,5vw,64px)] font-syne font-extrabold text-white mb-6 leading-[1.1]"
           >
-            Why Businesses <br />
-            <span className="text-gradient">Choose Melhek.</span>
+            Reliability Engineered<br />
+            <span className="text-gradient">Into Every Solution.</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -37,11 +37,11 @@ export default function WhyTrust() {
             transition={{ delay: 0.1 }}
             className="text-[17px] text-melhek-steel/50 leading-relaxed max-w-2xl mx-auto font-light"
           >
-            We deliver uncompromising systems engineering, reliable operational metrics, and dedicated technical leadership.
+            We design business software on strict engineering principles to guarantee long-term stability, seamless growth, and active support.
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {TRUST_REASONS.map((reason, i) => (
             <motion.article
               key={reason.id}
@@ -49,21 +49,42 @@ export default function WhyTrust() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="group relative p-12 rounded-[24px] glass border-white/5 hover:border-melhek-blue/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_24px_80px_rgba(0,0,0,0.4)] flex flex-col h-full"
+              className="group relative p-10 rounded-[24px] glass border-white/5 hover:border-melhek-blue/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_24px_80px_rgba(0,0,0,0.4)] flex flex-col justify-between h-full"
             >
-              {/* Border Glow */}
-              <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-melhek-blue to-transparent opacity-0 group-hover:opacity-40 transition-opacity" aria-hidden="true" />
-              
-              <div className="text-melhek-blue mb-8 group-hover:scale-110 transition-transform duration-500" aria-hidden="true">
-                {reason.icon}
+              <div>
+                {/* Border Glow */}
+                <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-melhek-blue to-transparent opacity-0 group-hover:opacity-40 transition-opacity" aria-hidden="true" />
+                
+                <div className="text-melhek-blue mb-8 group-hover:scale-110 transition-transform duration-500" aria-hidden="true">
+                  {reason.icon}
+                </div>
+
+                <h3 className="text-2xl font-syne font-extrabold text-white mb-2 group-hover:text-melhek-blue transition-colors leading-tight">
+                  {reason.title}
+                </h3>
+                
+                <div className="text-xs font-mono font-bold text-melhek-blue uppercase tracking-wider mb-6">
+                  {reason.benefit}
+                </div>
+
+                <p className="text-[14px] text-melhek-steel/45 leading-relaxed mb-8 font-medium">
+                  {reason.desc}
+                </p>
               </div>
 
-              <h3 className="text-[22px] font-syne font-bold text-white mb-4 group-hover:text-melhek-blue transition-colors leading-tight">
-                {reason.title}
-              </h3>
-              <p className="text-[15px] text-melhek-steel/40 leading-relaxed font-medium">
-                {reason.desc}
-              </p>
+              <div className="pt-6 border-t border-white/5 flex flex-wrap gap-2 mt-auto">
+                <span className="text-[9px] font-mono text-white/30 uppercase tracking-widest block w-full mb-1">
+                  Built On Standards:
+                </span>
+                {reason.builtOn.map((principle) => (
+                  <span
+                    key={principle}
+                    className="px-2.5 py-0.5 bg-white/5 border border-white/10 rounded-full text-[9px] font-mono text-white/40 uppercase tracking-tight"
+                  >
+                    {principle}
+                  </span>
+                ))}
+              </div>
             </motion.article>
           ))}
         </div>
@@ -80,4 +101,3 @@ export default function WhyTrust() {
     </section>
   )
 }
-

@@ -7,47 +7,47 @@ const industries = [
   {
     icon: <Hotel className="w-8 h-8" />,
     name: "Hospitality",
-    desc: "Unified Property Management Systems (PMS), direct-booking engines, and automated digital concierge services designed to drive reservations."
+    desc: "Direct online room bookings, front desk guest calendars, and digital café ordering systems to increase bookings and improve guest service."
   },
   {
     icon: <Activity className="w-8 h-8" />,
     name: "Healthcare",
-    desc: "Secure patient calendars, electronic prescription managers, and automated appointment alerts built under strict data compliance policies."
+    desc: "Simple patient appointment schedules, eye clinic databases, and secure medical office registers to cut waiting room times."
   },
   {
     icon: <ShoppingBag className="w-8 h-8" />,
     name: "Retail",
-    desc: "Real-time stock synchronization pipelines, local POS offline-resilience layers, and automated inventory reconciliation engines."
+    desc: "Easy barcode scanning checkouts, automatic low-stock notifications, and real-time sales summaries to manage multiple store branches."
   },
   {
     icon: <Car className="w-8 h-8" />,
     name: "Automotive",
-    desc: "High-asset interactive digital showrooms, import milestone notification queues, and automated client CRM pipelines."
+    desc: "High-quality vehicle showcase pages, automated vehicle import tracking, and simplified customer contact routing."
   },
   {
     icon: <BookOpen className="w-8 h-8" />,
     name: "Education",
-    desc: "Custom student administration databases, curriculum scheduling modules, and digital examination verification tools."
+    desc: "Student registration databases, school calendars, and digital schedules for classroom administration."
   },
   {
     icon: <Scale className="w-8 h-8" />,
     name: "Professional Services",
-    desc: "Polished corporate platforms, case management integrations, secure client file vaults, and automated scheduling funnels."
+    desc: "Authority-building websites, client consultation request forms, and company portfolios for legal and consulting practices."
   },
   {
     icon: <Users className="w-8 h-8" />,
     name: "Religious Organizations",
-    desc: "High-capacity serverless media streaming integrations, secure multi-currency tithes payment interfaces, and member portals."
+    desc: "Community homepages, live broadcast video streaming, and secure online tithes and donation forms to connect with members abroad."
   },
   {
     icon: <Cpu className="w-8 h-8" />,
-    name: "SMEs",
-    desc: "Operational automation systems, CRM setups, billing integrations, and lightweight ERP modules designed to fuel business growth."
+    name: "SMEs & Startups",
+    desc: "Billing programs, customer contact sheets, and simple sales trackers built to help new businesses establish operations."
   },
   {
     icon: <Layers className="w-8 h-8" />,
-    name: "Enterprises",
-    desc: "Multi-branch data warehouses, telemetry streaming dashboards, cloud migration pipelines, and custom security audits."
+    name: "Growing Enterprises",
+    desc: "Multi-branch sales managers, operational dashboards, and database security checks to coordinate large organizations."
   }
 ]
 
@@ -74,7 +74,7 @@ export default function Industries() {
             className="text-[clamp(36px,5vw,64px)] font-syne font-extrabold text-white mb-6 leading-[1.1]"
           >
             Systems Engineered For<br />
-            <span className="text-gradient">Critical Verticals.</span>
+            <span className="text-gradient">Modern Businesses.</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -83,7 +83,7 @@ export default function Industries() {
             transition={{ delay: 0.1 }}
             className="text-[17px] text-melhek-steel/50 leading-relaxed max-w-2xl mx-auto font-light"
           >
-            We deploy specialized software architectures and database designs tailored to the operational demands of diverse industries.
+            We build and deploy reliable software tools tailored to the daily needs of diverse business organizations.
           </motion.p>
         </div>
 

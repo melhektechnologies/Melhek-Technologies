@@ -11,6 +11,8 @@ import {
   TrendingUp,
   Users,
   Brain,
+  Coffee,
+  Globe,
 } from "lucide-react";
 
 export const IconMap = {
@@ -26,6 +28,8 @@ export const IconMap = {
   TrendingUp: <TrendingUp className="w-16 h-16" />,
   Users: <Users className="w-16 h-16" />,
   Brain: <Brain className="w-16 h-16" />,
+  Coffee: <Coffee className="w-16 h-16" />,
+  Globe: <Globe className="w-16 h-16" />,
 } as const;
 
 export type IconType = keyof typeof IconMap;

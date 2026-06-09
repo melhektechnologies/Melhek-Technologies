@@ -2,6 +2,7 @@ export const FOOTER_LINKS = {
   ecosystem: [
     { label: "Melhek Digital", href: "/ecosystem/melhek-digital" },
     { label: "Melhek Hospitality", href: "/ecosystem/melhek-hospitality" },
+    { label: "Melhek Business Systems", href: "/ecosystem/melhek-business-systems" },
     { label: "Melhek AI Labs", href: "/ecosystem/melhek-ai-labs" },
     { label: "Melhek Secure", href: "/ecosystem/melhek-secure" },
     { label: "Melhek Infrastructure", href: "/ecosystem/melhek-infrastructure" },

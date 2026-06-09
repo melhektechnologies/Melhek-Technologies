@@ -3,7 +3,8 @@ export type DivisionIconId =
   | "hotel"
   | "shield"
   | "construction"
-  | "brain";
+  | "brain"
+  | "server";
 
 export interface Division {
   slug: string;
@@ -18,6 +19,7 @@ export interface Division {
   highlights: string[];
   detailIntro: string;
   capabilities: { title: string; desc: string }[];
+  projectSlugs: string[];
 }
 
 export const DIVISIONS: Division[] = [
@@ -25,142 +27,176 @@ export const DIVISIONS: Division[] = [
     slug: "melhek-digital",
     id: "01 / DIVISION",
     title: "Melhek Digital",
-    sub: "Enterprise Platforms · Web Applications · SaaS",
+    sub: "Professional Websites · Online Presence · Customer Portals",
     description:
-      "Engineering high-performance web systems, custom SaaS architectures, and premium digital interfaces that form the operational backbone of scaling enterprises.",
+      "Helping businesses build a strong digital presence, attract customers, and establish credibility online through modern, responsive corporate and professional websites.",
     iconId: "monitor",
-    tags: ["Enterprise Web", "SaaS Architecture", "Platform Engineering"],
+    tags: ["Business Websites", "Company Portals", "Customer Experiences"],
     delay: 0,
     highlights: [
-      "Custom Next.js edge-rendered architectures",
-      "High-conversion, sub-second load environments",
-      "Robust state management and API design",
+      "Attract customers with a modern, fast company website",
+      "Display your professional credentials and services clearly",
+      "Connect with clients using simple contact and appointment forms",
     ],
     detailIntro:
-      "Melhek Digital delivers custom frontend and backend systems built to withstand enterprise-grade operational scale. We design robust digital interfaces that drive direct value and guarantee structural reliability.",
+      "Melhek Digital helps companies build credibility and reach new customers online. We design and build professional websites that load instantly, display beautifully on mobile phones, and make it easy for clients to connect with your business.",
     capabilities: [
       {
-        title: "Platform Engineering",
-        desc: "Building low-latency, scalable architectures utilizing modern React frameworks, edge databases, and secure APIs.",
+        title: "Company & Business Websites",
+        desc: "High-quality homepages tailored to represent your brand, highlight your services, and attract new customers.",
       },
       {
-        title: "Premium User Experience",
-        desc: "Developing polished UI designs with custom micro-animations that establish credibility and engage enterprise-level clientele.",
+        title: "Client Intake & Inquiries",
+        desc: "Simple, secure forms that allow your visitors to request consultations, book appointments, or ask questions online.",
       },
     ],
+    projectSlugs: ["healthcare-booking", "belete-tasew-law", "corporate-business-website", "religious-organization"]
   },
   {
     slug: "melhek-hospitality",
     id: "02 / DIVISION",
     title: "Melhek Hospitality",
-    sub: "Hotel Systems · Booking Ecosystems · PMS Integration",
+    sub: "Hotels · Restaurants · Cafés · Booking Systems",
     description:
-      "Modernizing East Africa's hospitality sector with integrated property management systems, custom booking pipelines, and guest experience portals.",
+      "Helping hotels, restaurants, and cafés serve guests better, simplify daily bookings, speed up dining orders, and increase direct business sales.",
     iconId: "hotel",
-    tags: ["Booking Engines", "PMS Sync Pipelines", "Guest Portals"],
+    tags: ["Hotel Bookings", "Restaurant Digital Menus", "Café Ordering"],
     delay: 0.1,
     highlights: [
-      "Direct-booking engines to maximize profit margins",
-      "Automated property management sync interfaces",
-      "Omnichannel reservation analytics and metrics",
+      "Accept direct room bookings online and avoid high agency commissions",
+      "Manage front desk, room planning, and check-ins in one calendar view",
+      "Let diners view menus and place quick orders on their mobile phones",
     ],
     detailIntro:
-      "Melhek Hospitality engineers the technology that powers premium accommodation providers. We streamline complex guest and admin operations, replacing friction with high-availability tools.",
+      "Melhek Hospitality combines all accommodation and dining technology into a single division. We help hotels coordinate room availability and check-ins, while helping restaurants and cafés handle dining orders and speed up kitchen operations.",
     capabilities: [
       {
-        title: "Integrated Reservation Systems",
-        desc: "Creating zero-commission booking pipelines that sync instantly with local Property Management Systems (PMS).",
+        title: "Direct Hotel Booking Engines",
+        desc: "Accept room reservations and process guest bookings directly on your own website, eliminating middleman fees.",
       },
       {
-        title: "Digital Concierge Apps",
-        desc: "Developing guest portals for in-room service requests, activity reservations, and checkout administration.",
+        title: "Digital Menus & POS Ordering",
+        desc: "Streamline restaurant and café orders with digital table menus, contactless ordering, and kitchen coordination screens.",
       },
     ],
+    projectSlugs: ["luxury-hotel-management", "smart-restaurant-platform", "cafe-digital-ordering", "hotel-booking"]
+  },
+  {
+    slug: "melhek-business-systems",
+    id: "03 / DIVISION",
+    title: "Melhek Business Systems",
+    sub: "Inventory Tracking · Sales Dashboards · Store Management",
+    description:
+      "Helping retail stores, supermarkets, pharmacies, and wellness centers manage inventory, automate billing, and track sales without errors.",
+    iconId: "construction",
+    tags: ["Inventory Management", "Sales & Billing", "Multi-branch Sync"],
+    delay: 0.2,
+    highlights: [
+      "Track inventory levels automatically and get alerts when stock runs low",
+      "Speed up checkout counter queues with easy barcode scanning and billing",
+      "Monitor sales totals and store performance from any computer",
+    ],
+    detailIntro:
+      "Melhek Business Systems focuses on operational efficiency. We replace manual stock counting and paperwork with clear management dashboards, helping retail shops, supermarkets, pharmacies, and gyms run smoothly and track progress.",
+    capabilities: [
+      {
+        title: "Sales & Inventory Organizers",
+        desc: "Auto-update stock counts during checkouts, alert managers about expiration dates, and simplify stock reordering.",
+      },
+      {
+        title: "Operational Dashboards",
+        desc: "See daily sales, monitor cashier lanes, manage member registration, and generate accounting reports in one place.",
+      },
+    ],
+    projectSlugs: ["pharmacy-management", "retail-management-system", "supermarket-management", "gym-management"]
   },
   {
     slug: "melhek-ai-labs",
-    id: "03 / DIVISION",
+    id: "04 / DIVISION",
     title: "Melhek AI Labs",
-    sub: "Intelligent Workflows · Analytics · Automation",
+    sub: "Automating Tasks · Smarter Operations · Business Data",
     description:
-      "Integrating production-grade machine learning pipelines and agentic automation workflows to optimize business processes and visual telemetry.",
+      "Helping businesses automate repetitive administrative tasks, summarize large corporate databases, and make smarter decisions.",
     iconId: "brain",
-    tags: ["Agentic Workflows", "Business Intelligence", "Machine Learning"],
-    delay: 0.2,
+    tags: ["Task Automation", "Smarter Decisions", "Data Summaries"],
+    delay: 0.3,
     highlights: [
-      "Autonomous agent systems executing complex workflows",
-      "Retrieval-Augmented Generation (RAG) knowledge search",
-      "Telemetry extraction and business intelligence modeling",
+      "Free your staff from repetitive data entry and document processing",
+      "Find patterns in your sales data to reduce unnecessary waste",
+      "Search and summarize large folders of text in seconds",
     ],
     detailIntro:
-      "Melhek AI Labs focuses on bringing tangible machine intelligence to operations. We build pipelines that eliminate admin bottlenecks, synthesize complex data assets, and automate decision metrics.",
+      "Melhek AI Labs focuses on real-world outcomes. We build systems that automate time-consuming administrative tasks, find cost-saving bottlenecks in your operations, and translate raw spreadsheets into clear business decisions.",
     capabilities: [
       {
-        title: "Agentic Automation",
-        desc: "Engineering autonomous software agents that process emails, handle compliance checks, and run operational loops.",
+        title: "Automated Administrative Tasks",
+        desc: "Systems that automatically process intake sheets, route files, and organize schedules without manual effort.",
       },
       {
-        title: "Information Synthesis & RAG",
-        desc: "Building search interfaces that enable employees to query vast technical databases and retrieve precise answers.",
+        title: "Data Insights & Summaries",
+        desc: "Summarize thousands of transaction records or document files into simple lists of highlights and recommendations.",
       },
     ],
+    projectSlugs: ["ai-dashboard", "analytics-systems"]
   },
   {
     slug: "melhek-secure",
-    id: "04 / DIVISION",
+    id: "05 / DIVISION",
     title: "Melhek Secure",
-    sub: "Cybersecurity · Identity Management · Threat Analysis",
+    sub: "Protecting Data · Customer Security · Asset Safety",
     description:
-      "Establishing unshakeable cybersecurity postures, secure credential workflows, data protection protocols, and operational compliance strategies.",
+      "Future Division — Protecting your business systems, securing customer information, and safeguarding digital assets against modern threats.",
     iconId: "shield",
-    tags: ["Data Hardening", "Identity Protocols", "Compliance Auditing"],
-    delay: 0.3,
+    tags: ["Data Safety", "Customer Privacy", "Threat Protection"],
+    delay: 0.4,
     highlights: [
-      "Threat modeling for high-transaction environments",
-      "Role-based access controls and tokenization security",
-      "Data sovereignty and end-to-end encrypted tunnels",
+      "Keep customer credentials and payment history strictly secure",
+      "Protect your computers and local databases from unauthorized access",
+      "Align your business operations with modern security guidelines",
     ],
     detailIntro:
-      "Melhek Secure guarantees the integrity of your corporate assets. We audit, harden, and defend database infrastructure and user endpoints against emerging cyber threats.",
+      "Melhek Secure establishes robust security protocols to protect your files, records, and databases. We guard your system integrity, keeping customer details safe and operations online.",
     capabilities: [
       {
-        title: "Security Infrastructure Audit",
-        desc: "Identifying vulnerability profiles in application logic, server ports, and cloud server configurations.",
+        title: "Security & Access Control",
+        desc: "Enforcing secure employee login procedures and managing access permissions to keep files protected.",
       },
       {
-        title: "Identity Protection Frameworks",
-        desc: "Deploying multi-factor authentication, single sign-on (SSO), and zero-trust verification procedures.",
+        title: "Threat Assessments",
+        desc: "Analyzing your computer setups and database servers to fix security gaps before they cause issues.",
       },
     ],
+    projectSlugs: []
   },
   {
     slug: "melhek-infrastructure",
-    id: "05 / DIVISION",
+    id: "06 / DIVISION",
     title: "Melhek Infrastructure",
-    sub: "Networking · Smart Systems · Edge Computing",
+    sub: "Office Networking · Smart Devices · Stable Connections",
     description:
-      "Bridging virtual systems and physical infrastructure. Engineering edge computing environments, corporate local networks, and smart facility controllers.",
-    iconId: "construction",
-    tags: ["Local Area Networks", "Edge Computing Nodes", "Smart Automation"],
-    delay: 0.4,
+      "Future Division — Installing reliable physical networks, stable office internet connections, and smart technology foundations for modern buildings.",
+    iconId: "server",
+    tags: ["Office Internet", "Network Cabling", "Smart Facilities"],
+    delay: 0.5,
     span: true,
     highlights: [
-      "Low-latency edge deployment distribution",
-      "Structured networking layouts and cabling strategy",
-      "Hardware-software communication system links",
+      "Ensure fast, drop-free Wi-Fi and network coverage throughout your office",
+      "Set up backup power and internet connections so you never go offline",
+      "Connect building devices and smart sensors to a central dashboard",
     ],
     detailIntro:
-      "Melhek Infrastructure designs the structural foundation of modern offices and facilities. We integrate physical local networks with modern cloud orchestration systems.",
+      "Melhek Infrastructure coordinates the physical networks that keep your business online. We wire offices, configure local routers, and build stable local networks that support daily office operations.",
     capabilities: [
       {
-        title: "Edge Deployments",
-        desc: "Deploying edge server environments close to physical operators to guarantee maximum speed and localized uptime.",
+        title: "Stable Local Networks",
+        desc: "Designing and installing office routers, Wi-Fi access points, and cabling layouts for fast file sharing and internet.",
       },
       {
-        title: "Smart Facility Controls",
-        desc: "Engineering software-defined network (SDN) configurations and automated facility control systems.",
+        title: "Smart Building Setup",
+        desc: "Connecting security cameras, smart locks, and sensor systems to unified controls that can be monitored on a phone.",
       },
     ],
+    projectSlugs: []
   },
 ];
 

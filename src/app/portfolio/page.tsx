@@ -6,16 +6,17 @@ import { ArrowUpRight } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Portfolio | Melhek Technologies",
-  description: "Explore representative digital systems and enterprise platforms engineered by Melhek Technologies grouped by industry sector.",
+  description: "Explore representative business systems and websites engineered by Melhek Technologies grouped by industry.",
 };
 
 const SECTORS = [
-  { name: "Hospitality Technology", desc: "Property management engines, direct reservation funnels, and digital guest concierges." },
-  { name: "Healthcare Technology", desc: "Secure operational backends, appointment synchronization calendars, and compliance-hardened schemas." },
-  { name: "Retail Technology", desc: "Omnichannel inventory synchronization engines and POS offline-resilient pipelines." },
-  { name: "Automotive Technology", desc: "Premium media-optimized digital showrooms and automated client CRM pipelines." },
-  { name: "Faith & Community Platforms", desc: "High-capacity serverless live streaming and secure multi-currency online payments." },
-  { name: "Business Intelligence", desc: "Real-time analytics visualization, RAG pipelines, and automated reporting systems." }
+  { name: "Hospitality", desc: "Direct hotel reservation pages, front desk calendars, and dining digital menu screens." },
+  { name: "Healthcare", desc: "Simple patient appointment calendars, optical records, and medical office schedulers." },
+  { name: "Retail & Commerce", desc: "Easy barcode checkouts, automatic inventory alerts, and sales dashboard totals." },
+  { name: "Professional Services", desc: "Credibility-building websites, inquiry contact forms, and client scheduling tools." },
+  { name: "Community & Faith", desc: "Church homepages, live broadcasts streaming, and online tithes donation forms." },
+  { name: "Fitness & Wellness", desc: "Gym member registers, entry door check-ins, and automated billing reminders." },
+  { name: "Automotive", desc: "High-quality car import showcases, specs search, and inquiry routing." }
 ];
 
 export default function PortfolioIndexPage() {
@@ -27,14 +28,14 @@ export default function PortfolioIndexPage() {
 
         <div className="container mx-auto px-6">
           <p className="text-melhek-blue font-mono text-xs font-bold tracking-[0.2em] uppercase mb-4">
-            Industrial Portfolio
+            Delivered Solutions
           </p>
           <h1 className="text-5xl md:text-7xl font-syne font-extrabold text-white mb-6 leading-tight">
             Case <span className="text-gradient">Studies.</span>
           </h1>
           <p className="text-white/50 max-w-2xl mb-20 leading-relaxed font-light">
-            Representative software platforms engineered by Melhek Technologies. Rather than isolated design projects, 
-            these are robust systems grouped by industry sector, showcasing real business outcome, technology capability, and architectural scalability.
+            Explore software solutions and websites built by Melhek Technologies. To help you find relevant projects, 
+            these case studies are organized by industry, highlighting the practical results, core capabilities, and reliability of each system.
           </p>
 
           <div className="space-y-20">
@@ -62,8 +63,13 @@ export default function PortfolioIndexPage() {
                       >
                         <div>
                           <div className="flex justify-between items-start mb-4">
-                            <span className="text-[10px] font-mono text-melhek-blue uppercase tracking-widest">
+                            <span className="text-[10px] font-mono text-melhek-blue uppercase tracking-widest flex items-center gap-1.5">
                               Case STUDY · {project.slug}
+                              {project.status && (
+                                <span className="px-1.5 py-0.5 bg-yellow-500/10 border border-yellow-500/20 text-yellow-500 rounded text-[8px] uppercase tracking-wide">
+                                  {project.status}
+                                </span>
+                              )}
                             </span>
                             <ArrowUpRight className="w-4 h-4 text-white/30 group-hover:text-melhek-blue group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
                           </div>
@@ -87,7 +93,7 @@ export default function PortfolioIndexPage() {
                             </div>
                             <div>
                               <strong className="text-melhek-blue font-mono uppercase tracking-wider text-[9px] block mb-1">
-                                Technology Capability:
+                                Core Capability:
                               </strong>
                               <span className="text-white/80 leading-relaxed font-light">
                                 {project.techCapability}
@@ -95,7 +101,7 @@ export default function PortfolioIndexPage() {
                             </div>
                             <div>
                               <strong className="text-melhek-blue font-mono uppercase tracking-wider text-[9px] block mb-1">
-                                Scalability Metric:
+                                Reliability:
                               </strong>
                               <span className="text-white/80 leading-relaxed font-light">
                                 {project.scalability}

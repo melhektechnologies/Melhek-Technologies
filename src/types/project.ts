@@ -1,10 +1,11 @@
 export type ProjectCategory = 
-  | "Hospitality Technology"
-  | "Healthcare Technology"
-  | "Retail Technology"
-  | "Automotive Technology"
-  | "Faith & Community Platforms"
-  | "Business Intelligence";
+  | "Hospitality"
+  | "Healthcare"
+  | "Retail & Commerce"
+  | "Professional Services"
+  | "Community & Faith"
+  | "Fitness & Wellness"
+  | "Automotive";
 
 export interface Project {
   id: string;
@@ -21,6 +22,7 @@ export interface Project {
   businessOutcome: string;
   techCapability: string;
   scalability: string;
+  status?: string;
 }
 
 export interface ProjectResponse {

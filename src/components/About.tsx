@@ -6,17 +6,17 @@ import Image from 'next/image'
 import { Anchor, Compass, Zap, Shield, Warehouse, Brain, Globe, Rocket } from 'lucide-react'
 
 const pillars = [
-  { icon: <Anchor />, label: "Stability", desc: "Rock-solid digital foundations for lasting growth" },
-  { icon: <Compass />, label: "Guidance & Direction", desc: "Navigating complex digital environments with strategic clarity" },
-  { icon: <Shield />, label: "Security & Trust", desc: "Encrypted, audit-proof infrastructure you can rely on" },
-  { icon: <Zap />, label: "Reliability & Strength", desc: "High-availability execution built for continuous operations" }
+  { icon: <Anchor />, label: "Stability", desc: "Consistent systems that keep your business running smoothly" },
+  { icon: <Compass />, label: "Guidance", desc: "Navigating digital choices with clear, simple advice" },
+  { icon: <Shield />, label: "Security", desc: "Protecting your customer details and database records" },
+  { icon: <Zap />, label: "Reliability", desc: "Long-lasting software built to handle daily store operations" }
 ]
 
 const values = [
-  { icon: <Warehouse />, label: "Systems Thinking", desc: "Designing comprehensive, enterprise-wide architectures" },
-  { icon: <Brain />, label: "Intelligent Systems", desc: "AI-powered automation embedded at the core" },
-  { icon: <Globe />, label: "African Infrastructure", desc: "World-class digital technology engineered from the continent" },
-  { icon: <Rocket />, label: "Future-Ready Platforms", desc: "Anticipating and adapting to tomorrow's requirements" }
+  { icon: <Warehouse />, label: "Simple Operations", desc: "Software that is easy for your team to learn and manage" },
+  { icon: <Brain />, label: "Task Automation", desc: "Saving time by handling repetitive tasks automatically" },
+  { icon: <Globe />, label: "Local Excellence", desc: "World-class business solutions built by local engineers" },
+  { icon: <Rocket />, label: "Growth Ready", desc: "Systems prepared to support your future business expansion" }
 ]
 
 export default function About() {
@@ -72,7 +72,7 @@ export default function About() {
               viewport={{ once: true }}
               className="px-4 py-1.5 rounded-full glass border-white/10 text-[10px] font-mono font-bold text-melhek-blue uppercase tracking-[0.2em] inline-block mb-6"
             >
-              About Melhek
+              Our Foundation
             </motion.div>
             
             <motion.h2
@@ -92,7 +92,7 @@ export default function About() {
               transition={{ delay: 0.1 }}
               className="text-[17px] text-melhek-steel/60 leading-[1.8] mb-12 font-light"
             >
-              Melhek Technologies was founded with a singular vision: to serve as the unshakeable digital anchor for modern enterprises. In an increasingly complex digital landscape, we combine engineering rigor, systems thinking, and product design. We don&apos;t just build software; we engineer and deploy the high-availability digital infrastructure that visionary organizations stake their futures on.
+              Melhek Technologies was founded to help organizations build stable, reliable, and easy-to-use digital tools. In a fast-changing business world, we believe you deserve software systems that work without errors. We combine clean design with precise development so you can manage your operations with complete confidence.
             </motion.p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

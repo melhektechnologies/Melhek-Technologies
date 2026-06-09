@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Monitor, Hotel, Shield, Construction, Brain } from "lucide-react";
+import { ArrowLeft, Monitor, Hotel, Shield, Construction, Brain, Server } from "lucide-react";
 import { MarketingLayout } from "@/components/MarketingLayout";
 import {
   getDivisionBySlug,
@@ -16,6 +16,7 @@ const ICONS: Record<DivisionIconId, ReactNode> = {
   shield: <Shield className="w-12 h-12" />,
   construction: <Construction className="w-12 h-12" />,
   brain: <Brain className="w-12 h-12" />,
+  server: <Server className="w-12 h-12" />,
 };
 
 type Props = { params: Promise<{ slug: string }> };

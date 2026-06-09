@@ -34,7 +34,11 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
       infinite: false,
     })
 
-    setLenis(lenisInstance)
+    const load = async () => {
+      await Promise.resolve()
+      setLenis(lenisInstance)
+    }
+    load()
 
     function raf(time: number) {
       lenisInstance.raf(time)

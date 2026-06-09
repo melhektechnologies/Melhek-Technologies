@@ -18,7 +18,7 @@ export default function WhyTrust() {
             viewport={{ once: true }}
             className="px-4 py-1 rounded-full glass border-white/10 text-[10px] font-mono font-bold text-melhek-blue uppercase tracking-[0.2em] inline-block mb-6"
           >
-            Why Melhek
+            Pillars of Partnership
           </motion.div>
           <motion.h2
             id="trust-heading"
@@ -28,7 +28,7 @@ export default function WhyTrust() {
             className="text-[clamp(36px,5vw,64px)] font-syne font-extrabold text-white mb-6 leading-[1.1]"
           >
             Why Businesses <br />
-            <span className="text-gradient">Trust Melhek.</span>
+            <span className="text-gradient">Choose Melhek.</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -37,7 +37,7 @@ export default function WhyTrust() {
             transition={{ delay: 0.1 }}
             className="text-[17px] text-melhek-steel/50 leading-relaxed max-w-2xl mx-auto font-light"
           >
-            We don't just build technology — we build digital foundations that visionary businesses stake their futures on.
+            We deliver uncompromising systems engineering, reliable operational metrics, and dedicated technical leadership.
           </motion.p>
         </div>
 

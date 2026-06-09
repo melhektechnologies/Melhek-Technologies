@@ -18,7 +18,11 @@ export default function CustomCursor() {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (!isFinePointer || prefersReducedMotion) return
 
-    setEnabled(true)
+    const load = async () => {
+      await Promise.resolve()
+      setEnabled(true)
+    }
+    load()
 
     const handleMouseMove = (e: MouseEvent) => {
       mouseX.set(e.clientX)

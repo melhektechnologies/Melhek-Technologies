@@ -8,7 +8,8 @@ import { HashScroll } from "@/components/HashScroll";
 import About from "@/components/About";
 import Ecosystem from "@/components/Ecosystem";
 import WhyTrust from "@/components/WhyTrust";
-import Process from "@/components/Process";
+import EngineeringPrinciples from "@/components/EngineeringPrinciples";
+import Industries from "@/components/Industries";
 import Portfolio from "@/components/Portfolio";
 import Vision from "@/components/Vision";
 import Testimonials from "@/components/Testimonials";
@@ -30,8 +31,8 @@ export default function Home() {
         <About />
         <Ecosystem />
         <WhyTrust />
-        <Process />
-        {/* Placeholder for Tech Stack / Why Trust sections if needed later, but assembled core for now */}
+        <EngineeringPrinciples />
+        <Industries />
         <Portfolio />
         <Vision />
         <Testimonials />

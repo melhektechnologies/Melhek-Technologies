@@ -72,7 +72,7 @@ export default function Hero() {
           >
             <span className="w-1.5 h-1.5 bg-melhek-blue rounded-full animate-pulse shadow-[0_0_8px_#7FA9FF]" />
             <span className="text-[11px] font-mono font-semibold uppercase tracking-[0.12em] text-melhek-blue">
-              Addis Ababa's Leading Tech Company · Est. 2024
+              Digital Infrastructure Partner · Enterprise Grade
             </span>
           </motion.div>
 
@@ -84,8 +84,8 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
             className="font-syne font-extrabold text-[clamp(42px,7vw,88px)] leading-[1.0] tracking-[-0.03em] mb-8 text-white"
           >
-            <span className="block">Your Digital Anchor in</span>
-            <span className="text-gradient block">Modern Ethiopia.</span>
+            <span className="block">Your Digital Anchor in a</span>
+            <span className="text-gradient block">Rapidly Evolving World.</span>
           </motion.h1>
 
           {/* Subheadline */}
@@ -95,7 +95,7 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             className="text-[clamp(16px,2vw,20px)] text-melhek-steel/70 mb-12 max-w-3xl mx-auto leading-[1.7] font-light"
           >
-            Melhek Technologies provides Website Development, AI Systems, Business Automation, Hotel Technology, and Digital Transformation Services. We help businesses modernize, automate, and scale using high-end digital solutions designed for real impact.
+            Melhek Technologies designs, builds, and deploys high-availability digital systems, automated operational workflows, and intelligent software infrastructure. We act as your digital anchor, securing stability and driving scale.
           </motion.p>
 
 
@@ -128,10 +128,10 @@ export default function Hero() {
             className="mt-16 flex flex-wrap justify-center gap-8 text-[11px] font-medium uppercase tracking-[0.08em] text-melhek-blue/40"
           >
             {[
-              "Website Development",
-              "AI Systems",
-              "Hotel Technology",
-              "Business Automation"
+              "Enterprise Systems",
+              "Hospitality Technology",
+              "AI & Automation",
+              "Secure Infrastructure"
             ].map((text) => (
               <div key={text} className="flex items-center gap-2 font-mono">
                 <div className="w-1 h-1 bg-melhek-blue rounded-full" />
@@ -150,8 +150,8 @@ export default function Hero() {
         >
           <div className="glass p-5 rounded-2xl border-white/10 max-w-[180px] animate-float will-change-transform">
             <div className="text-[10px] font-mono text-melhek-blue/50 uppercase tracking-widest mb-1">System Uptime</div>
-            <div className="text-2xl font-syne font-bold text-melhek-blue">99.97%</div>
-            <div className="text-[11px] text-white/30 mt-1">All systems operational</div>
+            <div className="text-2xl font-syne font-bold text-melhek-blue">99.99%</div>
+            <div className="text-[11px] text-white/30 mt-1">Production-grade stability</div>
           </div>
         </motion.div>
 
@@ -160,9 +160,9 @@ export default function Hero() {
           className="absolute top-[25%] right-[6%] hidden xl:block"
         >
           <div className="glass p-5 rounded-2xl border-white/10 max-w-[180px] animate-float [animation-delay:-3s] will-change-transform">
-            <div className="text-[10px] font-mono text-melhek-blue/50 uppercase tracking-widest mb-1">Projects Delivered</div>
-            <div className="text-2xl font-syne font-bold text-melhek-blue">40+</div>
-            <div className="text-[11px] text-white/30 mt-1">Across 8 industries</div>
+            <div className="text-[10px] font-mono text-melhek-blue/50 uppercase tracking-widest mb-1">Delivered Systems</div>
+            <div className="text-2xl font-syne font-bold text-melhek-blue">50+</div>
+            <div className="text-[11px] text-white/30 mt-1">Across 6 critical sectors</div>
           </div>
         </motion.div>
       </div>

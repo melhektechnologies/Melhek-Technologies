@@ -32,7 +32,7 @@ export default function EnterpriseCTA() {
             <span className="text-gradient">Digital Anchor?</span>
           </h2>
           <p className="text-xl text-white/50 mb-12 max-w-2xl mx-auto">
-            Join the elite circle of businesses powered by Melhek Technologies. Let's engineer your future together.
+            Join the elite circle of businesses powered by Melhek Technologies. Let&apos;s engineer your future together.
           </p>
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6">

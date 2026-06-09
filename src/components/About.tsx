@@ -7,16 +7,16 @@ import { Anchor, Compass, Zap, Shield, Warehouse, Brain, Globe, Rocket } from 'l
 
 const pillars = [
   { icon: <Anchor />, label: "Stability", desc: "Rock-solid digital foundations for lasting growth" },
-  { icon: <Compass />, label: "Direction", desc: "Strategic clarity through intelligent technology" },
-  { icon: <Zap />, label: "Precision", desc: "Engineered to exacting standards, every time" },
-  { icon: <Shield />, label: "Security", desc: "Protected infrastructure you can trust absolutely" }
+  { icon: <Compass />, label: "Guidance & Direction", desc: "Navigating complex digital environments with strategic clarity" },
+  { icon: <Shield />, label: "Security & Trust", desc: "Encrypted, audit-proof infrastructure you can rely on" },
+  { icon: <Zap />, label: "Reliability & Strength", desc: "High-availability execution built for continuous operations" }
 ]
 
 const values = [
-  { icon: <Warehouse />, label: "Premium Engineering", desc: "Production-grade systems built for scale" },
-  { icon: <Brain />, label: "Intelligent Systems", desc: "AI-powered automation at the core" },
-  { icon: <Globe />, label: "African Excellence", desc: "World-class tech from the continent" },
-  { icon: <Rocket />, label: "Future-Ready", desc: "Designed for tomorrow's landscape" }
+  { icon: <Warehouse />, label: "Systems Thinking", desc: "Designing comprehensive, enterprise-wide architectures" },
+  { icon: <Brain />, label: "Intelligent Systems", desc: "AI-powered automation embedded at the core" },
+  { icon: <Globe />, label: "African Infrastructure", desc: "World-class digital technology engineered from the continent" },
+  { icon: <Rocket />, label: "Future-Ready Platforms", desc: "Anticipating and adapting to tomorrow's requirements" }
 ]
 
 export default function About() {
@@ -92,7 +92,7 @@ export default function About() {
               transition={{ delay: 0.1 }}
               className="text-[17px] text-melhek-steel/60 leading-[1.8] mb-12 font-light"
             >
-              Melhek Technologies was founded with a singular vision — to become the digital anchor for modern businesses. We build intelligent systems, advanced infrastructure, and future-ready technology experiences that don't just meet today's demands, but anticipate tomorrow's.
+              Melhek Technologies was founded with a singular vision: to serve as the unshakeable digital anchor for modern enterprises. In an increasingly complex digital landscape, we combine engineering rigor, systems thinking, and product design. We don&apos;t just build software; we engineer and deploy the high-availability digital infrastructure that visionary organizations stake their futures on.
             </motion.p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

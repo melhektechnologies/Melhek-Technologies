@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion'
 import { AlertCircle, RefreshCw } from 'lucide-react'
 
 export function GridSkeleton({ count = 3 }: { count?: number }) {

@@ -25,7 +25,7 @@ export default function Ecosystem() {
             viewport={{ once: true }}
             className="px-4 py-1 rounded-full glass border-white/10 text-[10px] font-mono font-bold text-melhek-blue uppercase tracking-[0.2em] inline-block mb-6"
           >
-            Our Services
+            Melhek Ecosystem
           </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -33,8 +33,8 @@ export default function Ecosystem() {
             viewport={{ once: true }}
             className="text-[clamp(36px,5vw,64px)] font-syne font-extrabold text-white mb-6 leading-[1.1]"
           >
-            What We Build<br />
-            <span className="text-gradient">For Your Business.</span>
+            Our Core Technology<br />
+            <span className="text-gradient">Infrastructure.</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -43,7 +43,7 @@ export default function Ecosystem() {
             transition={{ delay: 0.1 }}
             className="text-[17px] text-melhek-steel/50 leading-relaxed max-w-2xl mx-auto font-light"
           >
-            From premium web platforms and AI-powered workflows to smart hotel systems and digital transformation — Melhek delivers real solutions for Ethiopian businesses ready to scale.
+            Five specialized, inter-connected business units delivering robust digital applications, custom hospitality systems, agentic automation pipelines, cybersecurity hardening, and networking infrastructure.
           </motion.p>
         </div>
 

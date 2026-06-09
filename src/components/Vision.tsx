@@ -5,33 +5,33 @@ import { motion } from 'framer-motion'
 
 const milestones = [
   {
-    year: "2024",
-    title: "The Foundation",
-    description: "Launch of Melhek Technologies. Establishing the first three technology divisions: Digital, Hospitality, and AI Labs.",
-    status: "completed"
-  },
-  {
     year: "2026",
-    title: "Industrial Intelligence",
-    description: "Deployment of AI-powered infrastructure for 100+ enterprise clients. Scaling the Hospitality ecosystem globally.",
+    title: "Advanced Digital Systems",
+    description: "Architecting high-availability corporate platforms, local-first database operations, and initial AI Labs setups for enterprise clients.",
     status: "current"
   },
   {
+    year: "2027",
+    title: "Hospitality Expansion",
+    description: "Rolling out unified booking systems, PMS integration pipelines, and smart concierges globally across hotel chains.",
+    status: "upcoming"
+  },
+  {
     year: "2028",
-    title: "Infrastructure Convergence",
-    description: "Launching Melhek Infrastructure. Bridging the gap between physical building tech and digital networking systems.",
+    title: "Enterprise Infrastructure",
+    description: "Launching Melhek Infrastructure. Bridging local network cabling, edge nodes, and SDN software controllers under one division.",
     status: "upcoming"
   },
   {
     year: "2029",
-    title: "Melhek Secure",
-    description: "Inauguration of the Secure division. Advancing cloud protection and real-time cybersecurity monitoring.",
+    title: "Secure Systems",
+    description: "Inauguration of Melhek Secure. Deploying vulnerability scanners, role-based access identity management, and encrypted tunnels.",
     status: "upcoming"
   },
   {
     year: "2030",
-    title: "Autonomous Ecosystem",
-    description: "Realization of the fully integrated Melhek Digital Anchor. A self-optimizing technology infrastructure for the future.",
+    title: "Intelligent Infrastructure",
+    description: "Realization of a self-optimizing technology ecosystem. Fully autonomous software agents managing infrastructure operations.",
     status: "upcoming"
   }
 ]
@@ -57,16 +57,16 @@ export default function Vision() {
             className="text-5xl md:text-7xl font-syne font-extrabold text-white mb-6"
           >
             Our Strategic <br />
-            <span className="text-gradient">Vision Track.</span>
+            <span className="text-gradient">Roadmap.</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="text-white/60 leading-relaxed"
+            className="text-white/60 leading-relaxed max-w-2xl mx-auto"
           >
-            A disciplined roadmap toward building the world's most dependable digital infrastructure ecosystem.
+            A disciplined roadmap toward building the continent&apos;s most dependable digital infrastructure ecosystem.
           </motion.p>
         </div>
 
@@ -102,7 +102,7 @@ export default function Vision() {
                    <h3 className="text-base font-syne font-bold text-white mb-3 group-hover:text-melhek-blue transition-colors">
                      {milestone.title}
                    </h3>
-                   <p className="text-[11px] text-white/40 leading-relaxed">
+                   <p className="text-[11px] text-white/45 leading-relaxed">
                      {milestone.description}
                    </p>
                 </div>

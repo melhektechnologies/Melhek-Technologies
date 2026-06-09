@@ -27,7 +27,11 @@ export default function Testimonials() {
   }, [])
 
   useEffect(() => {
-    syncTestimonials()
+    const load = async () => {
+      await Promise.resolve()
+      syncTestimonials()
+    }
+    load()
   }, [syncTestimonials])
 
   return (
@@ -101,7 +105,7 @@ function TestimonialCard({ testimonial, index }: { testimonial: Testimonial, ind
       <div className="absolute top-0 right-0 w-24 h-24 bg-melhek-blue/5 blur-3xl rounded-full translate-x-12 -translate-y-12 group-hover:bg-melhek-blue/10 transition-colors" />
       
       <p className="text-lg text-white/70 italic mb-10 leading-relaxed relative z-10">
-        "{testimonial.quote}"
+        &ldquo;{testimonial.quote}&rdquo;
       </p>
       
       <footer className="relative z-10">

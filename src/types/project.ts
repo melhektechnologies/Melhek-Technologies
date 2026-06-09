@@ -1,16 +1,16 @@
 export type ProjectCategory = 
-  | "Hospitality Tech"
-  | "Healthcare Tech"
-  | "Automotive · Luxury"
-  | "Legal Tech"
-  | "Fitness · SaaS"
-  | "E-commerce · Fashion"
-  | "Business Automation";
+  | "Hospitality Technology"
+  | "Healthcare Technology"
+  | "Retail Technology"
+  | "Automotive Technology"
+  | "Faith & Community Platforms"
+  | "Business Intelligence";
 
 export interface Project {
   id: string;
   name: string;
   category: ProjectCategory;
+  sector: string;
   description: string;
   gradient: string;
   iconName: string;
@@ -18,6 +18,9 @@ export interface Project {
   image?: string;
   link?: string;
   tags?: string[];
+  businessOutcome: string;
+  techCapability: string;
+  scalability: string;
 }
 
 export interface ProjectResponse {

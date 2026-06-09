@@ -13,7 +13,11 @@ export default function LoadingScreen() {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     if (prefersReducedMotion) {
-      setLoading(false)
+      const load = async () => {
+        await Promise.resolve()
+        setLoading(false)
+      }
+      load()
       return
     }
 

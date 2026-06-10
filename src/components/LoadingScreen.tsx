@@ -86,9 +86,9 @@ export default function LoadingScreen() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.5 }}
-            className="mt-16 text-[10px] uppercase tracking-[0.6em] text-white/40 font-bold"
+            className="mt-16 text-[10px] uppercase tracking-[0.6em] text-melhek-blue/60 font-bold font-mono"
           >
-            Precision Infrastructure Initializing
+            Your Digital Anchor
           </motion.div>
         </motion.div>
       )}

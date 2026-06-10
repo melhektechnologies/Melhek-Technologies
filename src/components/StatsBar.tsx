@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 
 const stats = [
-  { label: 'Projects Delivered', value: '40', href: '/portfolio' },
+  { label: 'Projects Delivered', value: '50+', href: '/portfolio' },
   { label: 'Industries Served', value: '8', href: '/#portfolio' },
   { label: 'Technology Divisions', value: '5', href: '/#ecosystem' },
   { label: 'Client Satisfaction %', value: '100', href: '/#testimonials' },

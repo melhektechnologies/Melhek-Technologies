@@ -1,20 +1,10 @@
 'use client'
 
-import type { ReactNode } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Monitor, Hotel, Shield, Construction, Brain, Server } from 'lucide-react'
-import { DIVISIONS, type DivisionIconId } from '@/constants/divisions'
+import { DIVISIONS } from '@/constants/divisions'
 import { PROJECTS_DATA } from '@/data/projects'
-
-const ICONS: Record<DivisionIconId, ReactNode> = {
-  monitor: <Monitor className="w-10 h-10" />,
-  hotel: <Hotel className="w-10 h-10" />,
-  shield: <Shield className="w-10 h-10" />,
-  construction: <Construction className="w-10 h-10" />,
-  brain: <Brain className="w-10 h-10" />,
-  server: <Server className="w-10 h-10" />,
-}
+import EcosystemDiagram from './EcosystemDiagram'
 
 export default function Ecosystem() {
   return (
@@ -73,8 +63,8 @@ export default function Ecosystem() {
                     {division.id}
                   </div>
 
-                  <div className="text-melhek-blue mb-8 group-hover:scale-110 transition-transform duration-500">
-                    {ICONS[division.iconId]}
+                  <div className="mb-8 group-hover:scale-105 transition-transform duration-500">
+                    <EcosystemDiagram iconId={division.iconId} />
                   </div>
 
                   <h3 className="text-2xl font-syne font-extrabold text-white mb-2">

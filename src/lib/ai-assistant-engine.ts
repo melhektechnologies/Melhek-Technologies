@@ -9,30 +9,31 @@ export interface AiResponse {
 const KNOWLEDGE_BASE = {
   about: {
     keywords: ["about", "who are you", "what is melhek", "meaning of", "anchor", "origin", "philosophy", "story", "ethiopia", "addis"],
-    response: "Melhek Technologies is Addis Ababa's premium engineering partner. 'Melhek' (meaning 'Anchor' in Ge'ez/Amharic) represents our core philosophy: serving as a dependable, stable digital anchor for businesses navigating technological complexity. We don't just write code; we design robust digital infrastructure that scales. Our leadership and engineering teams are focused on elevating Ethiopian business standards.",
+    response: "Melhek Technologies is a world-class technology engineering partner. 'Melhek' (derived from the classical Semitic root meaning 'Anchor') represents our core philosophy: serving as a dependable, stable digital anchor for businesses navigating technological complexity. We don't just write code; we design robust digital infrastructure that scales. Our leadership and engineering teams are focused on elevating global and local business standards alike.",
     suggestions: ["Explain Ecosystem Divisions", "Tell me about your portfolio", "How much do services cost?"]
   },
   divisions: {
     keywords: ["division", "ecosystem", "service", "what do you do", "digital", "hospitality", "business systems", "ai labs", "secure", "infrastructure"],
     response: "Melhek Technologies operates through six specialized divisions:\n\n" +
-      "1. **Melhek Digital**: High-performance corporate websites and customer portals.\n" +
-      "2. **Melhek Hospitality**: End-to-end hotel room booking engines, POS ordering, and kitchen coordinators.\n" +
-      "3. **Melhek Business Systems**: Inventory management, cashier screens, billing, and multi-branch database sync.\n" +
-      "4. **Melhek AI Labs**: Automation of administrative tasks, document processing, and business analytics.\n" +
-      "5. **Melhek Secure** (Future): Enterprise security auditing and private database encryption.\n" +
-      "6. **Melhek Infrastructure** (Future): Local Wi-Fi networking, cabling, and backup power grids.",
+      "1. **Melhek Digital**: High-performance business websites and custom web portals.\n" +
+      "2. **Melhek Hospitality**: End-to-end hotel room booking engines, restaurant ordering, and POS systems.\n" +
+      "3. **Melhek Business Systems**: Sales & inventory systems, cashier screens, billing, and multi-store sync.\n" +
+      "4. **Melhek AI Labs**: Automation of repetitive business tasks and smart AI assistants.\n" +
+      "5. **Melhek Secure** (Future): Corporate data security, safe database storage, and encryption.\n" +
+      "6. **Melhek Infrastructure** (Future): Stable office internet, network cabling, and server setups.",
     suggestions: ["Tell me about your portfolio", "Explain Hospitality", "How long does a website take?"]
   },
   pricing: {
-    keywords: ["price", "cost", "how much", "rate", "fee", "budget", "pricing", "cheap", "expensive", "payment", "etb", "birr"],
+    keywords: ["price", "cost", "how much", "rate", "fee", "budget", "pricing", "cheap", "expensive", "payment", "etb", "birr", "usd", "dollar"],
     response: "At Melhek Technologies, we align project investments with custom operational value rather than flat packages. Every solution is tailored to your workflow and requirements.\n\n" +
-      "Indicative Investment Ranges (in ETB):\n" +
-      "• **Business Websites**: 35,000 – 120,000 ETB\n" +
-      "• **Professional Websites**: 60,000 – 300,000 ETB\n" +
-      "• **Digital Menu Systems**: 15,000 – 150,000 ETB\n" +
-      "• **Business Management Systems**: 100,000 – 800,000 ETB\n" +
-      "• **Hospitality & AI Systems**: Custom Quoted\n\n" +
-      "You can design an estimate using our **Interactive Estimator** tool on our Pricing page.",
+      "Indicative Investment Ranges (ETB / USD support):\n" +
+      "• **Business Websites**: 35,000 – 120,000 ETB / $300 – $1,000 USD\n" +
+      "• **Interactive Web Portals**: 60,000 – 300,000 ETB / $500 – $2,500 USD\n" +
+      "• **Digital Menu Systems**: 15,000 – 150,000 ETB / $125 – $1,250 USD\n" +
+      "• **Sales & Inventory Systems (POS)**: 100,000 – 800,000 ETB / $850 – $6,600 USD\n" +
+      "• **Hotel Booking & Ordering Systems**: Custom Quoted\n" +
+      "• **AI Assistants & Automators**: Custom Quoted\n\n" +
+      "You can design an estimate in either currency using our **Interactive Estimator** tool on our Pricing page.",
     suggestions: ["Open Project Estimator", "How long does a project take?", "Let's start a project"]
   },
   timeline: {

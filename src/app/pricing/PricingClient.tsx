@@ -1,7 +1,8 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Calendar, Layers, ShieldAlert, Cpu, BarChart3, Landmark, CheckCircle2 } from 'lucide-react'
+import { Calendar, Layers, ShieldAlert, Cpu, BarChart3, CheckCircle2 } from 'lucide-react'
 import ProjectEstimator from '@/components/ProjectEstimator'
 import FaqSection from '@/components/FaqSection'
 
@@ -13,17 +14,17 @@ const PRICING_DRIVERS = [
   },
   {
     title: 'Custom Integrations',
-    desc: 'Connecting standard platforms with local payment gateways (Chapa, Telebirr) or external branch APIs.',
+    desc: 'Connecting standard platforms with global payment processors, local mobile wallets, or external company APIs.',
     icon: Cpu,
   },
   {
     title: 'Concurrency & Volume',
-    desc: 'The size of your database and expected traffic load during checkout rushes or peak tourist bookings.',
+    desc: 'The size of your database and expected traffic load during checkout rushes or peak guest bookings.',
     icon: BarChart3,
   },
   {
     title: 'Security Auditing',
-    desc: 'Specialized protocols, database field encryption, and pentesting compliance benchmarks.',
+    desc: 'Specialized protocols, database field encryption, and complete vulnerability testing benchmarks.',
     icon: ShieldAlert,
   },
 ]
@@ -31,45 +32,59 @@ const PRICING_DRIVERS = [
 const INVESTMENT_TIERS = [
   {
     title: 'Business Websites',
-    starting: '35,000 ETB+',
-    range: '35,000 – 120,000 ETB',
-    description: 'Corporate informational homepages, attorney showcases, organizational calendars, and inquiry forms.'
+    etbStarting: '35,000 ETB+',
+    etbRange: '35,000 – 120,000 ETB',
+    usdStarting: '$300+',
+    usdRange: '$300 – $1,000 USD',
+    description: 'Corporate informational homepages, showcase portfolios, organization details, and simple contact forms.'
   },
   {
-    title: 'Professional Platforms',
-    starting: '60,000 ETB+',
-    range: '60,000 – 300,000 ETB',
-    description: 'Interactive dashboards, client portals, customized APIs, and automated notifications.'
+    title: 'Interactive Web Portals',
+    etbStarting: '60,000 ETB+',
+    etbRange: '60,000 – 300,000 ETB',
+    usdStarting: '$500+',
+    usdRange: '$500 – $2,500 USD',
+    description: 'Interactive client dashboards, custom logins, database tables, and automated notifications.'
   },
   {
     title: 'Digital Menu Systems',
-    starting: '15,000 ETB+',
-    range: '15,000 – 150,000 ETB',
-    description: 'Interactive dining menus, table ordering coordinates, POS sync, and kitchen displays.'
+    etbStarting: '15,000 ETB+',
+    etbRange: '15,000 – 150,000 ETB',
+    usdStarting: '$125+',
+    usdRange: '$125 – $1,250 USD',
+    description: 'Interactive restaurant menus, QR codes, sales desk sync, and kitchen display views.'
   },
   {
-    title: 'Business Management Systems',
-    starting: '100,000 ETB+',
-    range: '100,000 – 800,000 ETB',
-    description: 'Pharmacy inventory trackers, barcode cashier desks, gym memberships, and database sync.'
+    title: 'Sales & Inventory Systems (POS)',
+    etbStarting: '100,000 ETB+',
+    etbRange: '100,000 – 800,000 ETB',
+    usdStarting: '$850+',
+    usdRange: '$850 – $6,600 USD',
+    description: 'Store stock tracking, cashier checkouts, barcode scanning, client registers, and sales reports.'
   },
   {
-    title: 'Hospitality Tech Solutions',
-    starting: 'Custom Pricing',
-    range: 'Custom Quoted',
-    description: 'Hotel room booking engines, booking site commission bypass, and central property manager portals.'
+    title: 'Hotel Booking & Ordering Systems',
+    etbStarting: 'Custom Quoted',
+    etbRange: 'Custom Quoted',
+    usdStarting: 'Custom Quoted',
+    usdRange: 'Custom Quoted',
+    description: 'Hotel room booking engines, front desk calendars, and unified guest management controls.'
   },
   {
-    title: 'Enterprise Platforms',
-    starting: 'Custom Pricing',
-    range: 'Custom Quoted',
-    description: 'High-volume concurrent transaction networks, secure data systems, and enterprise architecture.'
+    title: 'Multi-branch Custom Networks',
+    etbStarting: 'Custom Quoted',
+    etbRange: 'Custom Quoted',
+    usdStarting: 'Custom Quoted',
+    usdRange: 'Custom Quoted',
+    description: 'High-volume concurrent transaction networks, enterprise databases, and maximum security compliance.'
   },
   {
-    title: 'AI Solutions & Automation',
-    starting: 'Custom Pricing',
-    range: 'Custom Quoted',
-    description: 'Task automation scripts, localized search databases, and predictive analytics dashboards.'
+    title: 'AI Assistants & Automators',
+    etbStarting: 'Custom Quoted',
+    etbRange: 'Custom Quoted',
+    usdStarting: 'Custom Quoted',
+    usdRange: 'Custom Quoted',
+    description: 'Automated task script routines, text database summaries, and custom AI chatbots.'
   }
 ]
 
@@ -77,30 +92,32 @@ const TIMELINE_CARDS = [
   {
     title: 'Business Websites',
     timeline: '2 – 6 Weeks',
-    description: 'Design and deployment of highly optimized, conversion-oriented informational corporate portals.',
+    description: 'Design and deployment of highly optimized, conversion-oriented informational corporate layouts.',
     outcome: 'Establish digital authority'
   },
   {
-    title: 'Professional Platforms',
+    title: 'Interactive Web Portals',
     timeline: '4 – 12 Weeks',
-    description: 'Core engineering of interactive user dashboards, API integrations, and client portals.',
+    description: 'Core engineering of interactive user dashboards, API integrations, and client logins.',
     outcome: 'Streamline client interactions'
   },
   {
-    title: 'Business Systems',
+    title: 'Sales & Inventory Systems',
     timeline: '6 – 16 Weeks',
-    description: 'Full-scope database design, multi-branch replication protocols, and inventory control setups.',
-    outcome: 'Automate physical registers'
+    description: 'Full-scope database design, multi-store stock replication, and inventory control panels.',
+    outcome: 'Automate store sales'
   },
   {
-    title: 'Enterprise Solutions',
+    title: 'Custom Enterprise Networks',
     timeline: 'Custom Timeline',
-    description: 'Complete multi-phased deployment plan tailored to organizational compliance and audit grids.',
-    outcome: 'Ultimate operational security'
+    description: 'Complete multi-phased deployment plan tailored to high-volume security and audit requirements.',
+    outcome: 'Ultimate database stability'
   }
 ]
 
 export default function PricingClient() {
+  const [currency, setCurrency] = useState<'ETB' | 'USD'>('ETB')
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -153,11 +170,37 @@ export default function PricingClient() {
           variants={itemVariants}
           className="text-white/50 text-sm md:text-base leading-relaxed mt-6 max-w-2xl font-light"
         >
-          Melhek Technologies builds custom-engineered technology solutions for Ethiopian enterprises. 
+          Melhek Technologies builds custom-engineered technology solutions for global businesses and local market leaders. 
           To eliminate uncertainty and maintain visual excellence, we outline indicative project investments 
           and timelines mapping directly to system scale, integration scopes, and complexity.
         </motion.p>
       </motion.div>
+
+      {/* Currency Switcher Overlay */}
+      <div className="flex justify-end max-w-7xl mx-auto -mb-24 relative z-50">
+        <div className="glass p-1 rounded-xl border-white/10 flex items-center gap-1 bg-white/[0.02]">
+          <button
+            onClick={() => setCurrency('ETB')}
+            className={`px-4 py-1.5 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer ${
+              currency === 'ETB'
+                ? 'bg-melhek-blue text-melhek-navy shadow-[0_0_15px_rgba(127,169,255,0.3)] font-extrabold'
+                : 'text-white/60 hover:text-white'
+            }`}
+          >
+            ETB (Birr)
+          </button>
+          <button
+            onClick={() => setCurrency('USD')}
+            className={`px-4 py-1.5 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer ${
+              currency === 'USD'
+                ? 'bg-melhek-blue text-melhek-navy shadow-[0_0_15px_rgba(127,169,255,0.3)] font-extrabold'
+                : 'text-white/60 hover:text-white'
+            }`}
+          >
+            USD (Dollar)
+          </button>
+        </div>
+      </div>
 
       {/* Indicative Investment Ranges */}
       <section className="space-y-16">
@@ -167,7 +210,7 @@ export default function PricingClient() {
           </h2>
           <p className="text-white/40 text-xs md:text-sm leading-relaxed max-w-2xl">
             We reject the cheap, cookie-cutter approach of flat packages. The pricing structures below reflect 
-            typical investments for tailor-made, high-end business systems built in Ethiopian Birr (ETB).
+            typical investments for tailor-made, high-end business systems in your chosen currency.
           </p>
         </div>
 
@@ -183,11 +226,11 @@ export default function PricingClient() {
                 </span>
                 <div className="flex items-baseline gap-2 mb-3">
                   <span className="text-lg font-display font-extrabold text-white">
-                    {tier.starting}
+                    {currency === 'ETB' ? tier.etbStarting : tier.usdStarting}
                   </span>
-                  {tier.range !== 'Custom Quoted' && (
+                  {tier.etbRange !== 'Custom Quoted' && (
                     <span className="text-xs text-white/40 font-mono">
-                      (Typical: {tier.range})
+                      (Typical: {currency === 'ETB' ? tier.etbRange : tier.usdRange})
                     </span>
                   )}
                 </div>
@@ -284,7 +327,7 @@ export default function PricingClient() {
           </p>
         </div>
 
-        <ProjectEstimator />
+        <ProjectEstimator currency={currency} exchangeRate={120} />
       </section>
 
       {/* Categorized FAQs Section */}

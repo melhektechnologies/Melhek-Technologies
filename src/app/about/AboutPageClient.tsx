@@ -295,14 +295,13 @@ export default function AboutPageClient() {
             <FadeUp><SectionLabel>Brand Etymology</SectionLabel></FadeUp>
             <FadeUp delay={0.06}>
               <h2 className="text-[clamp(34px,5.5vw,74px)] font-syne font-extrabold text-white leading-[1.05] mb-6 tracking-[-0.03em]">
-                In Amharic,{' '}
-                <span className="text-gradient">Melhek</span>
-                <br />Means Anchor.
+                Melhek Means{' '}
+                <span className="text-gradient">Anchor.</span>
               </h2>
             </FadeUp>
             <FadeUp delay={0.12}>
               <p className="text-[18px] text-white/40 font-light max-w-xl mx-auto">
-                This is not a marketing device. It is the reason we exist.
+                Derived from the classical Semitic root, it represents our core engineering philosophy: serving as a stable digital anchor for business operations.
               </p>
             </FadeUp>
           </div>

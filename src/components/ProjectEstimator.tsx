@@ -2,7 +2,7 @@
 
 import { useState, useActionState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Calculator, CheckCircle2, ChevronRight, ChevronLeft, Calendar, Landmark, ArrowRight, ShieldAlert, Cpu, Laptop, Hotel, Network, HelpCircle, Briefcase, ChevronDown } from 'lucide-react'
+import { Calculator, CheckCircle2, ChevronRight, ChevronLeft, Calendar, ShieldAlert, Cpu, Laptop, Hotel, Network, HelpCircle, Briefcase, ChevronDown } from 'lucide-react'
 import { submitEstimateLead, ActionState } from '@/app/actions/leads'
 
 interface ProjectCategory {
@@ -49,19 +49,19 @@ const PROJECT_CATEGORIES: ProjectCategory[] = [
     baseMax: 120000,
     timelineMin: 2,
     timelineMax: 6,
-    description: 'Informational homepages, attorney profiles, organization calendars, and intake inquiry funnels.',
+    description: 'Informational homepages, showcase portfolios, organization details, and simple contact forms.',
     recommendedDivision: 'Melhek Digital (01 / DIVISION)',
     isCustom: false
   },
   {
     id: 'professional_website',
-    name: 'Professional Platform',
+    name: 'Custom Web Portal / Client Dashboard',
     icon: Laptop,
     baseMin: 60000,
     baseMax: 300000,
     timelineMin: 4,
     timelineMax: 12,
-    description: 'Interactive client portals, client-facing dashboards, custom API connections, and automation workflows.',
+    description: 'Interactive client dashboards, custom logins, database tables, and automated notifications.',
     recommendedDivision: 'Melhek Digital (01 / DIVISION)',
     isCustom: false
   },
@@ -73,55 +73,55 @@ const PROJECT_CATEGORIES: ProjectCategory[] = [
     baseMax: 150000,
     timelineMin: 3,
     timelineMax: 8,
-    description: 'Interactive restaurant menus, QR codes, POS sync, and kitchen routing screens.',
+    description: 'Interactive restaurant menus, QR codes, sales desk sync, and kitchen display views.',
     recommendedDivision: 'Melhek Hospitality (02 / DIVISION)',
     isCustom: false
   },
   {
     id: 'business_system',
-    name: 'Business Management System',
+    name: 'Sales & Inventory System (POS)',
     icon: Network,
     baseMin: 100000,
     baseMax: 800000,
     timelineMin: 6,
     timelineMax: 16,
-    description: 'Pharmacy stock alerts, barcode scanning registers, member registration tables, and multi-branch database sync.',
+    description: 'Store stock tracking, cashier checkouts, barcode scanning, client registers, and sales reports.',
     recommendedDivision: 'Melhek Business Systems (03 / DIVISION)',
     isCustom: false
   },
   {
     id: 'hospitality_solutions',
-    name: 'Hospitality Tech Solution',
+    name: 'Hotel Booking & Booking Management',
     icon: Hotel,
     baseMin: 0,
     baseMax: 0,
     timelineMin: 0,
     timelineMax: 0,
-    description: 'Custom hotel booking engines, room availability planning calendars, and unified guest management operations.',
+    description: 'Hotel room booking engines, front desk availability planners, and unified guest check-ins.',
     recommendedDivision: 'Melhek Hospitality (02 / DIVISION)',
     isCustom: true
   },
   {
     id: 'enterprise_platforms',
-    name: 'Enterprise Platform',
+    name: 'Multi-branch Custom System',
     icon: Briefcase,
     baseMin: 0,
     baseMax: 0,
     timelineMin: 0,
     timelineMax: 0,
-    description: 'High-volume checkout networks, multi-branch replication protocols, secure data systems, and enterprise architecture.',
+    description: 'High-volume checkout networks, multi-store stock sync, enterprise databases, and maximum security.',
     recommendedDivision: 'Melhek Infrastructure (06 / DIVISION)',
     isCustom: true
   },
   {
     id: 'ai_automation',
-    name: 'AI & Automation Platform',
+    name: 'AI Assistant & Task Automator',
     icon: Cpu,
     baseMin: 0,
     baseMax: 0,
     timelineMin: 0,
     timelineMax: 0,
-    description: 'Repetitive task automation scripts, file scrapers, localized search engines, and business analysis models.',
+    description: 'Automated task script routines, text database summaries, and custom AI chatbots.',
     recommendedDivision: 'Melhek AI Labs (04 / DIVISION)',
     isCustom: true
   }
@@ -162,49 +162,54 @@ const COMPLEXITY_LEVELS: ComplexityLevel[] = [
 const FEATURES_LIST: FeatureItem[] = [
   {
     id: 'auth',
-    name: 'User Accounts & Roles Control',
+    name: 'Staff Logins & Account Levels',
     price: 12000,
     timelineAdd: 1,
-    description: 'Secure customer login portals, role-based access, and admin permissions dashboards.'
+    description: 'Secure staff login portals, permission settings, and manager dashboards.'
   },
   {
     id: 'payments',
-    name: 'Online Payments Integration',
+    name: 'Mobile & Card Payments',
     price: 18000,
     timelineAdd: 1,
-    description: 'Integrations with Chapa, Telebirr, CBE, or international credit card systems.'
+    description: 'Integrate international credit cards or local mobile wallets (Telebirr, CBE, Chapa) seamlessly.'
   },
   {
     id: 'realtime',
-    name: 'Real-Time Alerts & Sync',
+    name: 'Instant Notifications',
     price: 10000,
     timelineAdd: 1,
-    description: 'Live order updates, immediate email/Telegram alerts, and instant dashboard synchronization.'
+    description: 'Real-time database updates, auto-emails, and instant notifications to Telegram channels.'
   },
   {
     id: 'multibranch',
-    name: 'Multi-Branch Database Replication',
+    name: 'Multi-store Stock & Cashier Sync',
     price: 45000,
     timelineAdd: 2,
     description: 'Central cloud server syncing stock counts and checkout totals from multiple store locations.'
   },
   {
     id: 'analytics',
-    name: 'Analytics & Reporting Grid',
+    name: 'Sales Charts & Excel Reports',
     price: 22000,
     timelineAdd: 1.5,
     description: 'Custom visual graphs, downloadable spreadsheets, and automated sales metrics summaries.'
   },
   {
     id: 'security',
-    name: 'Security Audit & Field Encryption',
+    name: 'Data Security & Safe Storage',
     price: 30000,
     timelineAdd: 2,
     description: 'Rigorous penetration testing, database field-level encryption, and complete vulnerability patches.'
   }
 ]
 
-export default function ProjectEstimator() {
+interface ProjectEstimatorProps {
+  currency?: 'ETB' | 'USD'
+  exchangeRate?: number
+}
+
+export default function ProjectEstimator({ currency = 'ETB', exchangeRate = 120 }: ProjectEstimatorProps) {
   const [currentStep, setCurrentStep] = useState(1)
   
   // Selections State
@@ -221,6 +226,18 @@ export default function ProjectEstimator() {
     maxTimeline: 0,
     isCustom: false
   })
+
+  // Format Helper
+  const formatPrice = (amount: number) => {
+    if (currency === 'USD') {
+      const usdAmount = Math.round(amount / exchangeRate)
+      if (usdAmount === 0) return '$0'
+      // Rounded to nearest $5 or $10 for clean aesthetics
+      if (usdAmount < 100) return `$${Math.round(usdAmount / 10) * 10} USD`
+      return `$${Math.round(usdAmount / 25) * 25} USD`
+    }
+    return `${amount.toLocaleString()} ETB`
+  }
 
   // Recalculate whenever selections change
   useEffect(() => {
@@ -285,6 +302,21 @@ export default function ProjectEstimator() {
   const activeSectorData = BUSINESS_SECTORS.find(s => s.id === selectedSector)
   const activeComplexityData = COMPLEXITY_LEVELS.find(l => l.id === selectedComplexity)
 
+  // Calculate final budget display values
+  const getMinDisplayPrice = () => {
+    if (currency === 'USD') {
+      return Math.round((estimate.minPrice / exchangeRate) / 25) * 25
+    }
+    return estimate.minPrice
+  }
+
+  const getMaxDisplayPrice = () => {
+    if (currency === 'USD') {
+      return Math.round((estimate.maxPrice / exchangeRate) / 25) * 25
+    }
+    return estimate.maxPrice
+  }
+
   return (
     <section className="glass rounded-[32px] border-white/10 p-6 md:p-10 relative overflow-hidden bg-melhek-navy/60">
       {/* Decorative Glow */}
@@ -301,7 +333,7 @@ export default function ProjectEstimator() {
             Project Blueprint Estimator
           </h3>
           <p className="text-white/40 text-xs mt-1 max-w-md">
-            Design your custom system parameters and receive an indicative investment range and solution timeline.
+            Design your software layout parameters and receive an indicative investment range and solution timeline.
           </p>
         </div>
 
@@ -501,7 +533,7 @@ export default function ProjectEstimator() {
                           <div>
                             <p className="text-[10px] text-white/30 leading-normal mb-2">{feat.description}</p>
                             <div className="flex justify-between items-center text-[10px] font-mono">
-                              <span className="text-melhek-blue">+{feat.price.toLocaleString()} ETB</span>
+                              <span className="text-melhek-blue">+{formatPrice(feat.price)}</span>
                               <span className="text-white/40">+{feat.timelineAdd} wks</span>
                             </div>
                           </div>
@@ -551,7 +583,11 @@ export default function ProjectEstimator() {
                     <input 
                       type="hidden" 
                       name="budgetRange" 
-                      value={estimate.isCustom ? 'Custom Pricing Required' : `${estimate.minPrice.toLocaleString()} - ${estimate.maxPrice.toLocaleString()} ETB`} 
+                      value={estimate.isCustom ? 'Custom Pricing Required' : (
+                        currency === 'USD' 
+                          ? `$${getMinDisplayPrice().toLocaleString()} - $${getMaxDisplayPrice().toLocaleString()} USD`
+                          : `${getMinDisplayPrice().toLocaleString()} - ${getMaxDisplayPrice().toLocaleString()} ETB`
+                      )} 
                     />
                     <input 
                       type="hidden" 
@@ -591,7 +627,7 @@ export default function ProjectEstimator() {
                         <input 
                           type="tel" 
                           name="phone" 
-                          placeholder="+251 ..."
+                          placeholder="+..."
                           className="w-full bg-white/5 border border-white/5 focus:border-melhek-blue focus:outline-none rounded-xl px-4 py-3 text-xs text-white" 
                         />
                       </div>
@@ -685,13 +721,15 @@ export default function ProjectEstimator() {
                 <span className="text-[10px] uppercase tracking-widest font-mono text-white/30 block mb-1">Indicative Investment Range</span>
                 <div className="flex items-baseline gap-1 text-white">
                   <span className="text-2xl md:text-3xl font-display font-extrabold tracking-tighter">
-                    {estimate.minPrice.toLocaleString()}
+                    {currency === 'USD' ? '$' : ''}{getMinDisplayPrice().toLocaleString()}
                   </span>
                   <span className="text-white/40 font-light mx-2">—</span>
                   <span className="text-2xl md:text-3xl font-display font-extrabold tracking-tighter">
-                    {estimate.maxPrice.toLocaleString()}
+                    {currency === 'USD' ? '$' : ''}{getMaxDisplayPrice().toLocaleString()}
                   </span>
-                  <span className="text-xs text-melhek-blue uppercase tracking-widest font-mono font-bold ml-2">ETB</span>
+                  <span className="text-xs text-melhek-blue uppercase tracking-widest font-mono font-bold ml-2">
+                    {currency}
+                  </span>
                 </div>
                 <span className="text-[10px] text-white/30 font-mono block mt-1">
                   Indicative value mapped to {activeCategoryData?.name} scale.

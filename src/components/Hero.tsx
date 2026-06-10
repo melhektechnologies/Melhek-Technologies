@@ -1,11 +1,13 @@
 'use client'
 
+import { useState, useRef } from 'react'
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
-import { useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import OfficeShowcaseModal from './OfficeShowcaseModal'
 
 export default function Hero() {
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const containerRef = useRef(null)
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -118,6 +120,15 @@ export default function Hero() {
             >
               Explore Ecosystem
             </Link>
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="btn-secondary px-8 py-4 text-sm font-bold uppercase tracking-widest focus-visible:ring-2 ring-melhek-blue outline-none transition-all flex items-center gap-2 cursor-pointer bg-white/5 border-white/10 hover:bg-white/10"
+            >
+              <span className="w-2 h-2 rounded-full bg-melhek-blue animate-pulse shadow-[0_0_8px_#7FA9FF]" />
+              Watch Office Showcase
+            </button>
+
+            <OfficeShowcaseModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
           </motion.div>
 
           {/* Trust Indicators */}

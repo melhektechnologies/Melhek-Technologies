@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Calendar, Layers, ShieldAlert, Cpu, BarChart3, HelpCircle, CheckCircle2 } from 'lucide-react'
+import { Calendar, Layers, ShieldAlert, Cpu, BarChart3, Landmark, CheckCircle2 } from 'lucide-react'
 import ProjectEstimator from '@/components/ProjectEstimator'
 import FaqSection from '@/components/FaqSection'
 
@@ -28,30 +28,75 @@ const PRICING_DRIVERS = [
   },
 ]
 
+const INVESTMENT_TIERS = [
+  {
+    title: 'Business Websites',
+    starting: '35,000 ETB+',
+    range: '35,000 – 120,000 ETB',
+    description: 'Corporate informational homepages, attorney showcases, organizational calendars, and inquiry forms.'
+  },
+  {
+    title: 'Professional Platforms',
+    starting: '60,000 ETB+',
+    range: '60,000 – 300,000 ETB',
+    description: 'Interactive dashboards, client portals, customized APIs, and automated notifications.'
+  },
+  {
+    title: 'Digital Menu Systems',
+    starting: '15,000 ETB+',
+    range: '15,000 – 150,000 ETB',
+    description: 'Interactive dining menus, table ordering coordinates, POS sync, and kitchen displays.'
+  },
+  {
+    title: 'Business Management Systems',
+    starting: '100,000 ETB+',
+    range: '100,000 – 800,000 ETB',
+    description: 'Pharmacy inventory trackers, barcode cashier desks, gym memberships, and database sync.'
+  },
+  {
+    title: 'Hospitality Tech Solutions',
+    starting: 'Custom Pricing',
+    range: 'Custom Quoted',
+    description: 'Hotel room booking engines, booking site commission bypass, and central property manager portals.'
+  },
+  {
+    title: 'Enterprise Platforms',
+    starting: 'Custom Pricing',
+    range: 'Custom Quoted',
+    description: 'High-volume concurrent transaction networks, secure data systems, and enterprise architecture.'
+  },
+  {
+    title: 'AI Solutions & Automation',
+    starting: 'Custom Pricing',
+    range: 'Custom Quoted',
+    description: 'Task automation scripts, localized search databases, and predictive analytics dashboards.'
+  }
+]
+
 const TIMELINE_CARDS = [
   {
     title: 'Business Websites',
     timeline: '2 – 6 Weeks',
-    description: 'Corporate homepages, attorney showcase profiles, organization calendars, and consultation booking setups.',
+    description: 'Design and deployment of highly optimized, conversion-oriented informational corporate portals.',
     outcome: 'Establish digital authority'
   },
   {
-    title: 'Custom Business Systems',
+    title: 'Professional Platforms',
     timeline: '4 – 12 Weeks',
-    description: 'Pharmacy inventories, cashier billing lanes, gym registrations, and central data synchronizers.',
-    outcome: 'Automate daily registers'
+    description: 'Core engineering of interactive user dashboards, API integrations, and client portals.',
+    outcome: 'Streamline client interactions'
   },
   {
-    title: 'Hospitality Platforms',
+    title: 'Business Systems',
     timeline: '6 – 16 Weeks',
-    description: 'Front-desk hotel calendars, direct reservation engines, restaurant digital menus, and kitchen displays.',
-    outcome: 'Cut middleman agency fees'
+    description: 'Full-scope database design, multi-branch replication protocols, and inventory control setups.',
+    outcome: 'Automate physical registers'
   },
   {
-    title: 'Enterprise Platforms',
+    title: 'Enterprise Solutions',
     timeline: 'Custom Timeline',
-    description: 'Multi-region supply sync, secure health databases, or deep artificial intelligence automation models.',
-    outcome: 'Complete operational control'
+    description: 'Complete multi-phased deployment plan tailored to organizational compliance and audit grids.',
+    outcome: 'Ultimate operational security'
   }
 ]
 
@@ -93,34 +138,79 @@ export default function PricingClient() {
           className="flex items-center gap-2 text-melhek-blue mb-4 border border-melhek-blue/20 bg-melhek-blue/5 rounded-full px-4 py-1.5"
         >
           <span className="w-1.5 h-1.5 rounded-full bg-melhek-blue animate-pulse" />
-          <span className="text-[10px] uppercase tracking-[0.35em] font-mono font-bold">Transparent Engineering</span>
+          <span className="text-[10px] uppercase tracking-[0.35em] font-mono font-bold">Investment Guide</span>
         </motion.div>
 
         <motion.h1 
           variants={itemVariants}
           className="text-4xl md:text-6xl font-display font-extrabold text-white tracking-tight leading-[1.1]"
         >
-          Value-Aligned <br />
-          <span className="text-gradient">Pricing & Timelines</span>
+          Understanding Project <br />
+          <span className="text-gradient">Investments & Timelines</span>
         </motion.h1>
 
         <motion.p 
           variants={itemVariants}
           className="text-white/50 text-sm md:text-base leading-relaxed mt-6 max-w-2xl font-light"
         >
-          We build robust, high-performance software systems tailored to Ethiopian enterprises. 
-          By aligning costs with complexity and business outcomes, we eliminate guesswork and guarantee returns on your technology investment.
+          Melhek Technologies builds custom-engineered technology solutions for Ethiopian enterprises. 
+          To eliminate uncertainty and maintain visual excellence, we outline indicative project investments 
+          and timelines mapping directly to system scale, integration scopes, and complexity.
         </motion.p>
       </motion.div>
 
-      {/* Transparent Pricing Factors Section */}
+      {/* Indicative Investment Ranges */}
       <section className="space-y-16">
         <div className="max-w-3xl">
           <h2 className="text-2xl md:text-4xl font-display font-extrabold text-white mb-4">
-            How We Price Projects
+            Indicative Project Investments
           </h2>
           <p className="text-white/40 text-xs md:text-sm leading-relaxed max-w-2xl">
-            We don&apos;t hide pricing, nor do we charge flat rates that inflate budgets. Every engagement is quoted based on four key architectural parameters to ensure transparency and flexibility.
+            We reject the cheap, cookie-cutter approach of flat packages. The pricing structures below reflect 
+            typical investments for tailor-made, high-end business systems built in Ethiopian Birr (ETB).
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {INVESTMENT_TIERS.map((tier, index) => (
+            <div 
+              key={index}
+              className="glass rounded-2xl border-white/5 p-6 hover:border-melhek-blue/30 transition-all flex flex-col justify-between h-[230px]"
+            >
+              <div>
+                <span className="text-[10px] font-mono text-white/30 uppercase tracking-wider block mb-1">
+                  {tier.title}
+                </span>
+                <div className="flex items-baseline gap-2 mb-3">
+                  <span className="text-lg font-display font-extrabold text-white">
+                    {tier.starting}
+                  </span>
+                  {tier.range !== 'Custom Quoted' && (
+                    <span className="text-xs text-white/40 font-mono">
+                      (Typical: {tier.range})
+                    </span>
+                  )}
+                </div>
+                <p className="text-[11px] text-white/40 leading-relaxed">{tier.description}</p>
+              </div>
+
+              <div className="flex items-center gap-1.5 text-[9px] font-mono text-melhek-blue/70 pt-4 border-t border-white/5">
+                <CheckCircle2 className="w-3 h-3" />
+                <span>Value-driven implementation</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Pricing Drivers */}
+      <section className="space-y-16">
+        <div className="max-w-3xl">
+          <h2 className="text-2xl md:text-4xl font-display font-extrabold text-white mb-4">
+            Architectural Investment Parameters
+          </h2>
+          <p className="text-white/40 text-xs md:text-sm leading-relaxed max-w-2xl">
+            Every project has a unique blueprint. Final investments scale proportionally based on structural drivers, ensuring your capital goes strictly towards code and capability.
           </p>
         </div>
 
@@ -143,35 +233,16 @@ export default function PricingClient() {
             )
           })}
         </div>
-
-        {/* Value statement banner */}
-        <div className="glass rounded-[24px] border-white/10 p-6 bg-gradient-to-r from-melhek-navy/80 via-white/[0.01] to-melhek-navy/80 flex flex-col md:flex-row items-center gap-6 justify-between">
-          <div className="space-y-1 max-w-xl text-center md:text-left">
-            <h4 className="text-sm font-bold text-white">Looking for Indicative Budget Ranges?</h4>
-            <p className="text-[11px] text-white/40 leading-normal">
-              Typical client entries range from $1,200 (basic corporate presence) up to $15,000+ (complex AI systems and multi-branch POS integrations). Use our blueprint tool below to calculate your estimate.
-            </p>
-          </div>
-          <button 
-            onClick={() => {
-              const el = document.getElementById('estimator')
-              el?.scrollIntoView({ behavior: 'smooth', block: 'center' })
-            }}
-            className="btn-primary !py-3 !text-xs font-mono uppercase tracking-widest whitespace-nowrap"
-          >
-            Launch Estimator →
-          </button>
-        </div>
       </section>
 
-      {/* Project Timelines Section */}
+      {/* Expected Project Timelines */}
       <section className="space-y-16">
         <div className="max-w-3xl">
           <h2 className="text-2xl md:text-4xl font-display font-extrabold text-white mb-4">
             Expected Development Timelines
           </h2>
           <p className="text-white/40 text-xs md:text-sm leading-relaxed max-w-2xl">
-            Software engineering is structured to minimize time-to-market without sacrificing system stability or security. Timelines scale directly with feature volume and testing criteria.
+            Our engineering phases are organized to minimize time-to-market while guaranteeing strict database stability, security compliance, and robust execution.
           </p>
         </div>
 
@@ -206,10 +277,10 @@ export default function PricingClient() {
       <section id="estimator" className="space-y-12 scroll-mt-24">
         <div className="max-w-3xl">
           <h2 className="text-2xl md:text-4xl font-display font-extrabold text-white mb-4">
-            Dynamic Calculation Grid
+            Interactive Project Estimator
           </h2>
           <p className="text-white/40 text-xs md:text-sm leading-relaxed max-w-2xl">
-            Configure your exact system blueprint. Select your industry sectors, select complexity thresholds, and add integration modules to view indicative costs and request a dedicated timeline review.
+            Design your baseline software layout. Select your target system category, operational sector, and key integration modules to calculate indicative budgets and request a blueprint review session.
           </p>
         </div>
 

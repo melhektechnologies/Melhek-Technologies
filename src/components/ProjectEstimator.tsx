@@ -2,10 +2,10 @@
 
 import { useState, useActionState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Calculator, CheckCircle2, ChevronRight, ChevronLeft, Calendar, DollarSign, ArrowRight, ShieldAlert, Cpu, Laptop, Hotel, Network, HelpCircle } from 'lucide-react'
+import { Calculator, CheckCircle2, ChevronRight, ChevronLeft, Calendar, Landmark, ArrowRight, ShieldAlert, Cpu, Laptop, Hotel, Network, HelpCircle, Briefcase, ChevronDown } from 'lucide-react'
 import { submitEstimateLead, ActionState } from '@/app/actions/leads'
 
-interface ProjectType {
+interface ProjectCategory {
   id: string
   name: string
   icon: any
@@ -15,6 +15,13 @@ interface ProjectType {
   timelineMax: number
   description: string
   recommendedDivision: string
+  isCustom: boolean
+}
+
+interface BusinessSector {
+  id: string
+  name: string
+  description: string
 }
 
 interface ComplexityLevel {
@@ -33,117 +40,165 @@ interface FeatureItem {
   description: string
 }
 
-const PROJECT_TYPES: ProjectType[] = [
+const PROJECT_CATEGORIES: ProjectCategory[] = [
   {
-    id: 'digital',
-    name: 'Corporate / Brand Website',
+    id: 'business_website',
+    name: 'Business Website',
     icon: Laptop,
-    baseMin: 1200,
-    baseMax: 3500,
+    baseMin: 35000,
+    baseMax: 120000,
     timelineMin: 2,
     timelineMax: 6,
-    description: 'High-speed, premium online presence, attorney profiles, organization calendars, and conversion funnels.',
-    recommendedDivision: 'Melhek Digital (01 / DIVISION)'
+    description: 'Informational homepages, attorney profiles, organization calendars, and intake inquiry funnels.',
+    recommendedDivision: 'Melhek Digital (01 / DIVISION)',
+    isCustom: false
   },
   {
-    id: 'hospitality',
-    name: 'Hospitality Booking Platform',
-    icon: Hotel,
-    baseMin: 2800,
-    baseMax: 8500,
-    timelineMin: 6,
-    timelineMax: 16,
-    description: 'Hotel room booking engines, restaurant interactive menus, POS systems, and kitchen display routing.',
-    recommendedDivision: 'Melhek Hospitality (02 / DIVISION)'
-  },
-  {
-    id: 'business',
-    name: 'Custom Business System',
-    icon: Network,
-    baseMin: 3500,
-    baseMax: 12000,
+    id: 'professional_website',
+    name: 'Professional Platform',
+    icon: Laptop,
+    baseMin: 60000,
+    baseMax: 300000,
     timelineMin: 4,
     timelineMax: 12,
-    description: 'Pharmacy inventory trackers, barcode cashier desks, gym memberships, and multi-branch database sync.',
-    recommendedDivision: 'Melhek Business Systems (03 / DIVISION)'
+    description: 'Interactive client portals, client-facing dashboards, custom API connections, and automation workflows.',
+    recommendedDivision: 'Melhek Digital (01 / DIVISION)',
+    isCustom: false
   },
   {
-    id: 'ai',
-    name: 'AI Automation / Dashboard',
-    icon: Cpu,
-    baseMin: 4500,
-    baseMax: 15000,
+    id: 'digital_menu',
+    name: 'Digital Menu System',
+    icon: Hotel,
+    baseMin: 15000,
+    baseMax: 150000,
+    timelineMin: 3,
+    timelineMax: 8,
+    description: 'Interactive restaurant menus, QR codes, POS sync, and kitchen routing screens.',
+    recommendedDivision: 'Melhek Hospitality (02 / DIVISION)',
+    isCustom: false
+  },
+  {
+    id: 'business_system',
+    name: 'Business Management System',
+    icon: Network,
+    baseMin: 100000,
+    baseMax: 800000,
     timelineMin: 6,
     timelineMax: 16,
-    description: 'Repetitive document scrapers, localized search indexes, predictive sales dashboards, and automated routines.',
-    recommendedDivision: 'Melhek AI Labs (04 / DIVISION)'
+    description: 'Pharmacy stock alerts, barcode scanning registers, member registration tables, and multi-branch database sync.',
+    recommendedDivision: 'Melhek Business Systems (03 / DIVISION)',
+    isCustom: false
+  },
+  {
+    id: 'hospitality_solutions',
+    name: 'Hospitality Tech Solution',
+    icon: Hotel,
+    baseMin: 0,
+    baseMax: 0,
+    timelineMin: 0,
+    timelineMax: 0,
+    description: 'Custom hotel booking engines, room availability planning calendars, and unified guest management operations.',
+    recommendedDivision: 'Melhek Hospitality (02 / DIVISION)',
+    isCustom: true
+  },
+  {
+    id: 'enterprise_platforms',
+    name: 'Enterprise Platform',
+    icon: Briefcase,
+    baseMin: 0,
+    baseMax: 0,
+    timelineMin: 0,
+    timelineMax: 0,
+    description: 'High-volume checkout networks, multi-branch replication protocols, secure data systems, and enterprise architecture.',
+    recommendedDivision: 'Melhek Infrastructure (06 / DIVISION)',
+    isCustom: true
+  },
+  {
+    id: 'ai_automation',
+    name: 'AI & Automation Platform',
+    icon: Cpu,
+    baseMin: 0,
+    baseMax: 0,
+    timelineMin: 0,
+    timelineMax: 0,
+    description: 'Repetitive task automation scripts, file scrapers, localized search engines, and business analysis models.',
+    recommendedDivision: 'Melhek AI Labs (04 / DIVISION)',
+    isCustom: true
   }
+]
+
+const BUSINESS_SECTORS: BusinessSector[] = [
+  { id: 'hospitality', name: 'Hospitality & Dining', description: 'Hotels, guest houses, restaurants, and cafés.' },
+  { id: 'retail', name: 'Retail & Supermarket', description: 'Supermarkets, pharmacies, retail stores, and supply chain hubs.' },
+  { id: 'healthcare', name: 'Healthcare & Clinics', description: 'Medical clinics, optical centers, and wellness facilities.' },
+  { id: 'professional', name: 'Professional Services', description: 'Law firms, consultancies, agencies, and corporate offices.' },
+  { id: 'other', name: 'General Business Operations', description: 'Manufacturing, logistics, real estate, and general entities.' }
 ]
 
 const COMPLEXITY_LEVELS: ComplexityLevel[] = [
   {
     id: 'standard',
-    name: 'Standard Operations',
+    name: 'Standard Infrastructure',
     multiplier: 1.0,
     timelineAdd: 0,
-    description: 'Ready-to-deploy structured layout, clean data entry, and optimized operations for single-branch setups.'
+    description: 'Optimized operational layouts, clean database setups, and streamlined single-location operations.'
   },
   {
     id: 'enhanced',
-    name: 'Enhanced Features',
+    name: 'Enhanced Operations',
     multiplier: 1.4,
     timelineAdd: 2,
-    description: 'Custom APIs, payment integrations, external synchronization, and client-focused dashboards.'
+    description: 'Custom APIs, external system integrations, customer dashboards, and interactive portals.'
   },
   {
     id: 'enterprise',
     name: 'Enterprise Grid',
     multiplier: 2.0,
     timelineAdd: 4,
-    description: 'High concurrency traffic patterns, robust database replication, maximum security compliance, and custom protocols.'
+    description: 'High concurrency traffic patterns, database clustering/sync, maximum security compliance, and auditing.'
   }
 ]
 
 const FEATURES_LIST: FeatureItem[] = [
   {
     id: 'auth',
-    name: 'User Accounts & Access Control',
-    price: 450,
+    name: 'User Accounts & Roles Control',
+    price: 12000,
     timelineAdd: 1,
     description: 'Secure customer login portals, role-based access, and admin permissions dashboards.'
   },
   {
     id: 'payments',
-    name: 'Online Payments & Checkout',
-    price: 600,
+    name: 'Online Payments Integration',
+    price: 18000,
     timelineAdd: 1,
     description: 'Integrations with Chapa, Telebirr, CBE, or international credit card systems.'
   },
   {
     id: 'realtime',
-    name: 'Real-Time Sync / Notifications',
-    price: 500,
+    name: 'Real-Time Alerts & Sync',
+    price: 10000,
     timelineAdd: 1,
     description: 'Live order updates, immediate email/Telegram alerts, and instant dashboard synchronization.'
   },
   {
     id: 'multibranch',
-    name: 'Multi-Branch Database Sync',
-    price: 1200,
+    name: 'Multi-Branch Database Replication',
+    price: 45000,
     timelineAdd: 2,
     description: 'Central cloud server syncing stock counts and checkout totals from multiple store locations.'
   },
   {
     id: 'analytics',
     name: 'Analytics & Reporting Grid',
-    price: 750,
+    price: 22000,
     timelineAdd: 1.5,
     description: 'Custom visual graphs, downloadable spreadsheets, and automated sales metrics summaries.'
   },
   {
     id: 'security',
-    name: 'Security Audit & Encryption',
-    price: 1000,
+    name: 'Security Audit & Field Encryption',
+    price: 30000,
     timelineAdd: 2,
     description: 'Rigorous penetration testing, database field-level encryption, and complete vulnerability patches.'
   }
@@ -153,7 +208,8 @@ export default function ProjectEstimator() {
   const [currentStep, setCurrentStep] = useState(1)
   
   // Selections State
-  const [selectedType, setSelectedType] = useState<string>('digital')
+  const [selectedCategory, setSelectedCategory] = useState<string>('business_website')
+  const [selectedSector, setSelectedSector] = useState<string>('retail')
   const [selectedComplexity, setSelectedComplexity] = useState<string>('standard')
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>([])
 
@@ -163,20 +219,32 @@ export default function ProjectEstimator() {
     maxPrice: 0,
     minTimeline: 0,
     maxTimeline: 0,
+    isCustom: false
   })
 
   // Recalculate whenever selections change
   useEffect(() => {
-    const pType = PROJECT_TYPES.find(p => p.id === selectedType)
-    const cLevel = COMPLEXITY_LEVELS.find(c => c.id === selectedComplexity)
+    const category = PROJECT_CATEGORIES.find(c => c.id === selectedCategory)
+    const complexity = COMPLEXITY_LEVELS.find(l => l.id === selectedComplexity)
 
-    if (!pType || !cLevel) return
+    if (!category || !complexity) return
+
+    if (category.isCustom) {
+      setEstimate({
+        minPrice: 0,
+        maxPrice: 0,
+        minTimeline: 0,
+        maxTimeline: 0,
+        isCustom: true
+      })
+      return
+    }
 
     // Calculate base modified by complexity
-    let minPrice = pType.baseMin * cLevel.multiplier
-    let maxPrice = pType.baseMax * cLevel.multiplier
-    let minTimeline = pType.timelineMin + cLevel.timelineAdd
-    let maxTimeline = pType.timelineMax + cLevel.timelineAdd
+    let minPrice = category.baseMin * complexity.multiplier
+    let maxPrice = category.baseMax * complexity.multiplier
+    let minTimeline = category.timelineMin + complexity.timelineAdd
+    let maxTimeline = category.timelineMax + complexity.timelineAdd
 
     // Add selected features cost and timeline
     selectedFeatures.forEach(featId => {
@@ -193,9 +261,10 @@ export default function ProjectEstimator() {
       minPrice: Math.round(minPrice),
       maxPrice: Math.round(maxPrice),
       minTimeline,
-      maxTimeline
+      maxTimeline,
+      isCustom: false
     })
-  }, [selectedType, selectedComplexity, selectedFeatures])
+  }, [selectedCategory, selectedComplexity, selectedFeatures])
 
   const toggleFeature = (featId: string) => {
     setSelectedFeatures(prev => 
@@ -212,8 +281,9 @@ export default function ProjectEstimator() {
   const handleNextStep = () => setCurrentStep(prev => Math.min(prev + 1, 4))
   const handlePrevStep = () => setCurrentStep(prev => Math.max(prev - 1, 1))
 
-  const selectedProjType = PROJECT_TYPES.find(p => p.id === selectedType)
-  const selectedCompLevel = COMPLEXITY_LEVELS.find(c => c.id === selectedComplexity)
+  const activeCategoryData = PROJECT_CATEGORIES.find(c => c.id === selectedCategory)
+  const activeSectorData = BUSINESS_SECTORS.find(s => s.id === selectedSector)
+  const activeComplexityData = COMPLEXITY_LEVELS.find(l => l.id === selectedComplexity)
 
   return (
     <section className="glass rounded-[32px] border-white/10 p-6 md:p-10 relative overflow-hidden bg-melhek-navy/60">
@@ -225,13 +295,13 @@ export default function ProjectEstimator() {
         <div>
           <div className="flex items-center gap-2 text-melhek-blue mb-2">
             <Calculator className="w-5 h-5" />
-            <span className="text-xs uppercase tracking-[0.3em] font-bold font-mono">Operations Tool</span>
+            <span className="text-xs uppercase tracking-[0.3em] font-mono font-bold">Consultancy Tool</span>
           </div>
           <h3 className="text-2xl md:text-3xl font-display font-extrabold text-white">
             Project Blueprint Estimator
           </h3>
           <p className="text-white/40 text-xs mt-1 max-w-md">
-            Calculate instant budget ranges and delivery timelines mapped to your exact operational requirements.
+            Design your custom system parameters and receive an indicative investment range and solution timeline.
           </p>
         </div>
 
@@ -272,44 +342,69 @@ export default function ProjectEstimator() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ duration: 0.3 }}
-                className="space-y-4"
+                className="space-y-6"
               >
-                <h4 className="text-sm uppercase tracking-[0.2em] font-mono text-melhek-blue font-bold">
-                  Step 1: Select Infrastructure Target
-                </h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {PROJECT_TYPES.map(type => {
-                    const Icon = type.icon
-                    return (
-                      <button
-                        key={type.id}
-                        type="button"
-                        onClick={() => setSelectedType(type.id)}
-                        className={`text-left p-5 rounded-2xl glass transition-all border flex flex-col justify-between h-[160px] cursor-pointer group ${
-                          selectedType === type.id 
-                            ? 'border-melhek-blue bg-melhek-blue/5 shadow-[0_0_20px_rgba(127,169,255,0.1)]' 
-                            : 'border-white/5 hover:border-white/20'
-                        }`}
-                      >
-                        <div className="flex justify-between items-start w-full">
-                          <div className={`p-2.5 rounded-lg border transition-colors ${
-                            selectedType === type.id ? 'bg-melhek-blue text-melhek-navy border-melhek-blue/20' : 'bg-white/5 text-white/50 border-white/5 group-hover:text-white'
-                          }`}>
-                            <Icon className="w-5 h-5" />
-                          </div>
-                          {selectedType === type.id && (
-                            <div className="w-5 h-5 rounded-full bg-melhek-blue text-melhek-navy flex items-center justify-center">
-                              <CheckCircle2 className="w-4.5 h-4.5" />
+                <div className="space-y-3">
+                  <h4 className="text-sm uppercase tracking-[0.2em] font-mono text-melhek-blue font-bold">
+                    Step 1A: Choose Project Category
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
+                    {PROJECT_CATEGORIES.map(category => {
+                      const Icon = category.icon
+                      const isSelected = selectedCategory === category.id
+                      return (
+                        <button
+                          key={category.id}
+                          type="button"
+                          onClick={() => setSelectedCategory(category.id)}
+                          className={`text-left p-4 rounded-xl glass transition-all border flex flex-col justify-between h-[120px] cursor-pointer group ${
+                            isSelected 
+                              ? 'border-melhek-blue bg-melhek-blue/5 shadow-[0_0_20px_rgba(127,169,255,0.05)]' 
+                              : 'border-white/5 hover:border-white/10'
+                          }`}
+                        >
+                          <div className="flex justify-between items-start w-full">
+                            <div className={`p-2 rounded-lg border transition-colors ${
+                              isSelected ? 'bg-melhek-blue text-melhek-navy border-melhek-blue/20' : 'bg-white/5 text-white/50 border-white/5 group-hover:text-white'
+                            }`}>
+                              <Icon className="w-4 h-4" />
                             </div>
-                          )}
-                        </div>
-                        <div>
-                          <h5 className="text-sm font-bold text-white mb-1">{type.name}</h5>
-                          <p className="text-[11px] text-white/40 leading-normal line-clamp-2">{type.description}</p>
-                        </div>
-                      </button>
-                    )
-                  })}
+                            {isSelected && (
+                              <div className="w-4 h-4 rounded-full bg-melhek-blue text-melhek-navy flex items-center justify-center">
+                                <CheckCircle2 className="w-3.5 h-3.5" />
+                              </div>
+                            )}
+                          </div>
+                          <div>
+                            <h5 className="text-xs font-bold text-white mb-0.5">{category.name}</h5>
+                            <p className="text-[10px] text-white/40 leading-normal line-clamp-1">{category.description}</p>
+                          </div>
+                        </button>
+                      )
+                    })}
+                  </div>
+                </div>
+
+                <div className="space-y-3 pt-2">
+                  <h4 className="text-sm uppercase tracking-[0.2em] font-mono text-melhek-blue font-bold">
+                    Step 1B: Select Business Sector
+                  </h4>
+                  <div className="relative">
+                    <select
+                      value={selectedSector}
+                      onChange={(e) => setSelectedSector(e.target.value)}
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-xs text-white/80 focus:outline-none focus:border-melhek-blue transition-colors appearance-none cursor-pointer"
+                    >
+                      {BUSINESS_SECTORS.map(sector => (
+                        <option key={sector.id} value={sector.id} className="bg-melhek-dark text-white">
+                          {sector.name} — {sector.description}
+                        </option>
+                      ))}
+                    </select>
+                    <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-white/40">
+                      <ChevronDown className="w-4 h-4" />
+                    </div>
+                  </div>
                 </div>
               </motion.div>
             )}
@@ -324,7 +419,7 @@ export default function ProjectEstimator() {
                 className="space-y-4"
               >
                 <h4 className="text-sm uppercase tracking-[0.2em] font-mono text-melhek-blue font-bold">
-                  Step 2: Determine Scope Complexity
+                  Step 2: Choose Complexity Threshold
                 </h4>
                 <div className="space-y-3">
                   {COMPLEXITY_LEVELS.map(level => (
@@ -347,7 +442,7 @@ export default function ProjectEstimator() {
                         <div className="flex items-center gap-2 mb-1">
                           <h5 className="text-sm font-bold text-white">{level.name}</h5>
                           <span className="text-[10px] font-mono px-2 py-0.5 bg-white/5 border border-white/5 rounded text-white/50">
-                            {level.multiplier}x multiplier
+                            {level.multiplier}x complexity scale
                           </span>
                         </div>
                         <p className="text-[11px] text-white/40 leading-relaxed max-w-lg">{level.description}</p>
@@ -368,41 +463,53 @@ export default function ProjectEstimator() {
                 className="space-y-4"
               >
                 <h4 className="text-sm uppercase tracking-[0.2em] font-mono text-melhek-blue font-bold">
-                  Step 3: Select Advanced Integrations
+                  Step 3: Select Integration Requirements
                 </h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {FEATURES_LIST.map(feat => {
-                    const isSelected = selectedFeatures.includes(feat.id)
-                    return (
-                      <button
-                        key={feat.id}
-                        type="button"
-                        onClick={() => toggleFeature(feat.id)}
-                        className={`text-left p-4 rounded-xl glass transition-all border flex flex-col justify-between cursor-pointer group ${
-                          isSelected 
-                            ? 'border-melhek-blue bg-melhek-blue/5 shadow-[0_0_20px_rgba(127,169,255,0.1)]' 
-                            : 'border-white/5 hover:border-white/10'
-                        }`}
-                      >
-                        <div className="flex justify-between items-start w-full mb-3">
-                          <h5 className="text-xs font-bold text-white">{feat.name}</h5>
-                          <div className={`w-4 h-4 rounded border flex items-center justify-center flex-shrink-0 transition-colors ${
-                            isSelected ? 'bg-melhek-blue border-melhek-blue text-melhek-navy' : 'border-white/20'
-                          }`}>
-                            {isSelected && <CheckCircle2 className="w-3.5 h-3.5" />}
+                {activeCategoryData?.isCustom ? (
+                  <div className="p-8 rounded-2xl border border-dashed border-white/10 text-center space-y-4">
+                    <HelpCircle className="w-10 h-10 text-white/30 mx-auto" />
+                    <div>
+                      <h5 className="text-sm font-bold text-white">Advanced Architecture Options</h5>
+                      <p className="text-[11px] text-white/40 mt-1 max-w-sm mx-auto leading-relaxed">
+                        For {activeCategoryData.name} projects, integrations are custom-quoted during the blueprint mapping session. Proceed directly to the next step.
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {FEATURES_LIST.map(feat => {
+                      const isSelected = selectedFeatures.includes(feat.id)
+                      return (
+                        <button
+                          key={feat.id}
+                          type="button"
+                          onClick={() => toggleFeature(feat.id)}
+                          className={`text-left p-4 rounded-xl glass transition-all border flex flex-col justify-between cursor-pointer group ${
+                            isSelected 
+                              ? 'border-melhek-blue bg-melhek-blue/5 shadow-[0_0_20px_rgba(127,169,255,0.1)]' 
+                              : 'border-white/5 hover:border-white/10'
+                          }`}
+                        >
+                          <div className="flex justify-between items-start w-full mb-3">
+                            <h5 className="text-xs font-bold text-white">{feat.name}</h5>
+                            <div className={`w-4 h-4 rounded border flex items-center justify-center flex-shrink-0 transition-colors ${
+                              isSelected ? 'bg-melhek-blue border-melhek-blue text-melhek-navy' : 'border-white/20'
+                            }`}>
+                              {isSelected && <CheckCircle2 className="w-3.5 h-3.5" />}
+                            </div>
                           </div>
-                        </div>
-                        <div>
-                          <p className="text-[10px] text-white/30 leading-normal mb-2">{feat.description}</p>
-                          <div className="flex justify-between items-center text-[10px] font-mono">
-                            <span className="text-melhek-blue">+${feat.price}</span>
-                            <span className="text-white/40">+{feat.timelineAdd} wks</span>
+                          <div>
+                            <p className="text-[10px] text-white/30 leading-normal mb-2">{feat.description}</p>
+                            <div className="flex justify-between items-center text-[10px] font-mono">
+                              <span className="text-melhek-blue">+{feat.price.toLocaleString()} ETB</span>
+                              <span className="text-white/40">+{feat.timelineAdd} wks</span>
+                            </div>
                           </div>
-                        </div>
-                      </button>
-                    )
-                  })}
-                </div>
+                        </button>
+                      )
+                    })}
+                  </div>
+                )}
               </motion.div>
             )}
 
@@ -416,7 +523,7 @@ export default function ProjectEstimator() {
                 className="space-y-4"
               >
                 <h4 className="text-sm uppercase tracking-[0.2em] font-mono text-melhek-blue font-bold">
-                  Step 4: Lock In Estimate & Request Contact
+                  Step 4: Register Estimate & Request Blueprint Session
                 </h4>
                 
                 {state.success ? (
@@ -426,23 +533,31 @@ export default function ProjectEstimator() {
                     className="p-8 rounded-2xl glass border-melhek-blue/20 bg-melhek-blue/[0.02] text-center space-y-4"
                   >
                     <div className="w-16 h-16 rounded-full bg-melhek-blue/10 flex items-center justify-center mx-auto border border-melhek-blue/20">
-                      <CheckCircle2 className="w-8 h-8 text-melhek-blue animate-pulse" />
+                      <CheckCircle2 className="w-8 h-8 text-melhek-blue" />
                     </div>
                     <div>
-                      <h5 className="text-lg font-bold text-white">Estimate Logged Successfully</h5>
+                      <h5 className="text-lg font-bold text-white">Project Inquiry Captured</h5>
                       <p className="text-xs text-white/40 mt-1 max-w-sm mx-auto leading-relaxed">
-                        Your configuration is queued. A Melhek engineer will contact you at your email in under 6 business hours.
+                        Your configuration has been transmitted. A consulting engineer will follow up within 6 business hours.
                       </p>
                     </div>
                   </motion.div>
                 ) : (
                   <form action={formAction} className="space-y-4">
                     {/* Hidden Estimate Details */}
-                    <input type="hidden" name="projectType" value={selectedProjType?.name || ''} />
-                    <input type="hidden" name="complexity" value={selectedCompLevel?.name || ''} />
+                    <input type="hidden" name="projectType" value={activeCategoryData?.name || ''} />
+                    <input type="hidden" name="complexity" value={`${activeComplexityData?.name} (${activeSectorData?.name})`} />
                     <input type="hidden" name="features" value={JSON.stringify(selectedFeatures.map(f => FEATURES_LIST.find(feat => feat.id === f)?.name || ''))} />
-                    <input type="hidden" name="budgetRange" value={`$${estimate.minPrice} - $${estimate.maxPrice}`} />
-                    <input type="hidden" name="timelineRange" value={`${estimate.minTimeline} - ${estimate.maxTimeline} Weeks`} />
+                    <input 
+                      type="hidden" 
+                      name="budgetRange" 
+                      value={estimate.isCustom ? 'Custom Pricing Required' : `${estimate.minPrice.toLocaleString()} - ${estimate.maxPrice.toLocaleString()} ETB`} 
+                    />
+                    <input 
+                      type="hidden" 
+                      name="timelineRange" 
+                      value={estimate.isCustom ? 'Custom Timeline' : `${estimate.minTimeline} - ${estimate.maxTimeline} Weeks`} 
+                    />
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-1">
@@ -472,7 +587,7 @@ export default function ProjectEstimator() {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-1">
-                        <label className="text-[10px] uppercase tracking-wider font-mono text-white/40">Phone Number (Optional)</label>
+                        <label className="text-[10px] uppercase tracking-wider font-mono text-white/40">Phone Number</label>
                         <input 
                           type="tel" 
                           name="phone" 
@@ -482,7 +597,7 @@ export default function ProjectEstimator() {
                       </div>
 
                       <div className="space-y-1">
-                        <label className="text-[10px] uppercase tracking-wider font-mono text-white/40">Company / Entity (Optional)</label>
+                        <label className="text-[10px] uppercase tracking-wider font-mono text-white/40">Company / Organization</label>
                         <input 
                           type="text" 
                           name="company" 
@@ -497,7 +612,7 @@ export default function ProjectEstimator() {
                       <textarea 
                         name="message" 
                         rows={3}
-                        placeholder="Share any special integration needs or design directions..."
+                        placeholder="Detail any timeline boundaries, specific features, or database sizes..."
                         className="w-full bg-white/5 border border-white/5 focus:border-melhek-blue focus:outline-none rounded-xl px-4 py-3 text-xs text-white resize-none" 
                       />
                     </div>
@@ -517,7 +632,7 @@ export default function ProjectEstimator() {
                       {isPending ? (
                         <div className="w-5 h-5 border-2 border-melhek-navy border-t-transparent rounded-full animate-spin" />
                       ) : (
-                        'Secure Calculated Estimate →'
+                        'Request Project Blueprint Session →'
                       )}
                     </button>
                   </form>
@@ -550,54 +665,71 @@ export default function ProjectEstimator() {
         {/* Live Calculation Panel (Right) */}
         <div className="lg:col-span-5 glass rounded-2xl border-white/10 p-6 bg-white/[0.01] sticky top-28">
           <h4 className="text-xs uppercase tracking-[0.2em] font-mono text-white/40 font-bold mb-6 pb-2 border-b border-white/5">
-            Live Calculation Projections
+            Investment Projection
           </h4>
 
           {/* Pricing display */}
           <div className="space-y-6">
-            <div>
-              <span className="text-[10px] uppercase tracking-widest font-mono text-white/30 block mb-1">Indicative Budget Range</span>
-              <div className="flex items-baseline gap-1 text-white">
-                <DollarSign className="w-6 h-6 text-melhek-blue self-center -mr-1" />
-                <span className="text-3xl md:text-4xl font-display font-extrabold tracking-tighter">
-                  {estimate.minPrice.toLocaleString()}
+            {estimate.isCustom ? (
+              <div>
+                <span className="text-[10px] uppercase tracking-widest font-mono text-white/30 block mb-1">Investment Framework</span>
+                <span className="text-xl md:text-2xl font-display font-extrabold text-melhek-blue block">
+                  Custom Quoted
                 </span>
-                <span className="text-white/40 font-light mx-2">—</span>
-                <span className="text-3xl md:text-4xl font-display font-extrabold tracking-tighter">
-                  {estimate.maxPrice.toLocaleString()}
+                <span className="text-[10px] text-white/30 leading-relaxed block mt-2">
+                  Due to the highly specialized infrastructure required for {activeCategoryData?.name} integrations, pricing is tailored during an Architecture Review.
                 </span>
-                <span className="text-xs text-white/40 uppercase tracking-widest font-mono font-bold ml-2">USD</span>
               </div>
-              <span className="text-[10px] text-white/30 font-mono block mt-1">
-                Equivalent to ~ {Math.round(estimate.minPrice * 120).toLocaleString()} – {Math.round(estimate.maxPrice * 120).toLocaleString()} ETB
-              </span>
-            </div>
+            ) : (
+              <div>
+                <span className="text-[10px] uppercase tracking-widest font-mono text-white/30 block mb-1">Indicative Investment Range</span>
+                <div className="flex items-baseline gap-1 text-white">
+                  <span className="text-2xl md:text-3xl font-display font-extrabold tracking-tighter">
+                    {estimate.minPrice.toLocaleString()}
+                  </span>
+                  <span className="text-white/40 font-light mx-2">—</span>
+                  <span className="text-2xl md:text-3xl font-display font-extrabold tracking-tighter">
+                    {estimate.maxPrice.toLocaleString()}
+                  </span>
+                  <span className="text-xs text-melhek-blue uppercase tracking-widest font-mono font-bold ml-2">ETB</span>
+                </div>
+                <span className="text-[10px] text-white/30 font-mono block mt-1">
+                  Indicative value mapped to {activeCategoryData?.name} scale.
+                </span>
+              </div>
+            )}
 
             {/* Timeline display */}
             <div>
-              <span className="text-[10px] uppercase tracking-widest font-mono text-white/30 block mb-1">Estimated Delivery</span>
+              <span className="text-[10px] uppercase tracking-widest font-mono text-white/30 block mb-1">Estimated Timelines</span>
               <div className="flex items-center gap-2 text-white">
                 <Calendar className="w-5 h-5 text-melhek-blue" />
-                <span className="text-xl font-display font-extrabold">{estimate.minTimeline} – {estimate.maxTimeline} Weeks</span>
+                <span className="text-lg font-display font-bold">
+                  {estimate.isCustom ? 'Custom Timeline' : `${estimate.minTimeline} – ${estimate.maxTimeline} Weeks`}
+                </span>
               </div>
             </div>
 
             {/* Config details */}
             <div className="p-4 rounded-xl bg-white/5 border border-white/5 space-y-3 text-[11px]">
               <div className="flex justify-between">
-                <span className="text-white/40">Target Division</span>
-                <span className="text-melhek-blue font-bold">{selectedProjType?.recommendedDivision.split(" (")[0]}</span>
+                <span className="text-white/40">Category</span>
+                <span className="text-melhek-blue font-bold">{activeCategoryData?.name}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-white/40">Complexity Multiplier</span>
-                <span className="text-white font-mono">{selectedCompLevel?.name} ({selectedCompLevel?.multiplier}x)</span>
+                <span className="text-white/40">Business Sector</span>
+                <span className="text-white font-medium">{activeSectorData?.name}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-white/40">Complexity Threshold</span>
+                <span className="text-white font-mono">{activeComplexityData?.name}</span>
               </div>
               <div className="flex justify-between items-start">
-                <span className="text-white/40">Feature Integrations</span>
+                <span className="text-white/40">Key Integrations</span>
                 <span className="text-white text-right max-w-[150px] font-mono line-clamp-2">
-                  {selectedFeatures.length > 0 
+                  {selectedFeatures.length > 0 && !estimate.isCustom
                     ? selectedFeatures.map(f => FEATURES_LIST.find(feat => feat.id === f)?.name).join(', ')
-                    : 'Core Blueprint Only'
+                    : 'Standard Baseline Scope'
                   }
                 </span>
               </div>
@@ -605,7 +737,7 @@ export default function ProjectEstimator() {
 
             <div className="p-4 rounded-xl border border-dashed border-white/5 bg-white/[0.01]">
               <span className="text-[10px] text-white/40 leading-relaxed block">
-                💡 **Pro Tip**: Lock in this configuration setup. An engineer will review these specific modules prior to your blueprint session to save time.
+                💼 **Consultancy Path**: We recommend **{activeCategoryData?.recommendedDivision.split(" (")[0]}** for this profile. We will structure the technical blueprints during your initial consultation.
               </span>
             </div>
           </div>

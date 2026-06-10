@@ -24,24 +24,25 @@ const KNOWLEDGE_BASE = {
     suggestions: ["Tell me about your portfolio", "Explain Hospitality", "How long does a website take?"]
   },
   pricing: {
-    keywords: ["price", "cost", "how much", "rate", "fee", "budget", "pricing", "cheap", "expensive", "payment"],
-    response: "At Melhek Technologies, we align pricing with actual business value rather than flat rates. Because every business system is custom-engineered, final pricing depends on project complexity, security audits, third-party integrations, and scope. \n\n" +
-      "Indicative ranges include:\n" +
-      "• **Corporate Websites**: $1,200 - $3,500\n" +
-      "• **Custom Business Systems**: $3,500 - $12,000\n" +
-      "• **Hospitality Booking Engines**: $2,800 - $8,500\n" +
-      "• **AI Automation Dashboards**: $4,500 - $15,000+\n\n" +
-      "You can calculate a detailed custom projection using our **Interactive Project Estimator** on our Pricing page.",
+    keywords: ["price", "cost", "how much", "rate", "fee", "budget", "pricing", "cheap", "expensive", "payment", "etb", "birr"],
+    response: "At Melhek Technologies, we align project investments with custom operational value rather than flat packages. Every solution is tailored to your workflow and requirements.\n\n" +
+      "Indicative Investment Ranges (in ETB):\n" +
+      "• **Business Websites**: 35,000 – 120,000 ETB\n" +
+      "• **Professional Websites**: 60,000 – 300,000 ETB\n" +
+      "• **Digital Menu Systems**: 15,000 – 150,000 ETB\n" +
+      "• **Business Management Systems**: 100,000 – 800,000 ETB\n" +
+      "• **Hospitality & AI Systems**: Custom Quoted\n\n" +
+      "You can design an estimate using our **Interactive Estimator** tool on our Pricing page.",
     suggestions: ["Open Project Estimator", "How long does a project take?", "Let's start a project"]
   },
   timeline: {
     keywords: ["time", "duration", "how long", "weeks", "months", "schedule", "deadline", "timeline", "delivery"],
-    response: "Project timelines are carefully managed and vary based on project requirements:\n\n" +
+    response: "Project timelines depend on the scale of integration required:\n\n" +
       "• **Business Websites**: 2 – 6 Weeks\n" +
-      "• **Custom Business Systems**: 4 – 12 Weeks\n" +
-      "• **Hospitality Platforms**: 6 – 16 Weeks\n" +
-      "• **Enterprise Solutions**: Custom Timeline & Phase rollout\n\n" +
-      "We follow a transparent process: Blueprint & Wireframe (Phase 1), Core Engineering & Integration (Phase 2), and Security Audit & Deploy (Phase 3).",
+      "• **Professional Platforms**: 4 – 12 Weeks\n" +
+      "• **Business Systems**: 6 – 16 Weeks\n" +
+      "• **Enterprise Solutions**: Custom Timeline\n\n" +
+      "Each engagement begins with a complete Architecture Blueprint phase to map out all requirements before coding.",
     suggestions: ["Explain your process", "How much do systems cost?", "Let's start a project"]
   },
   process: {

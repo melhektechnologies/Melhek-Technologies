@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Plus_Jakarta_Sans, Syne, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import AiAssistant from "@/components/AiAssistant";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -73,6 +74,7 @@ export default function RootLayout({
         className={`${inter.variable} ${plusJakarta.variable} ${syne.variable} ${jetbrainsMono.variable} antialiased selection:bg-melhek-blue/30`}
       >
         {children}
+        <AiAssistant />
       </body>
     </html>
   );

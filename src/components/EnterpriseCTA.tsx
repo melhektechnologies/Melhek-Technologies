@@ -39,8 +39,8 @@ export default function EnterpriseCTA() {
             <Link href="/contact" className="btn-primary flex items-center gap-3">
               Consult with Engineering <ArrowRight className="w-5 h-5" />
             </Link>
-            <Link href="/portfolio" className="btn-secondary">
-              View Case Studies
+            <Link href="/pricing" className="btn-secondary">
+              Calculate Project Cost
             </Link>
           </div>
         </motion.div>

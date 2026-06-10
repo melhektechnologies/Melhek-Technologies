@@ -7,11 +7,11 @@ import Image from 'next/image'
 import { Menu, X } from 'lucide-react'
 
 const navLinks = [
-  { name: 'About', href: '/#about' },
+  { name: 'About', href: '/about' },
   { name: 'Ecosystem', href: '/#ecosystem' },
+  { name: 'Pricing & FAQs', href: '/pricing' },
   { name: 'Portfolio', href: '/portfolio' },
   { name: 'Why Us', href: '/#trust' },
-  { name: 'Vision', href: '/#vision' },
 ]
 
 export default function Navbar() {

@@ -6,7 +6,7 @@ import { motion } from 'framer-motion'
 import { useActionState, type ComponentProps } from 'react'
 import { subscribeToNewsletter, NewsletterState } from '@/app/actions/newsletter'
 import { FOOTER_LINKS } from '@/constants/footer'
-import { CheckCircle2, AlertCircle, Send } from 'lucide-react'
+import { CheckCircle2, AlertCircle, Send, Globe, MapPin } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const SocialIcons = [
@@ -47,57 +47,110 @@ const SocialIcons = [
   }
 ]
 
+const quickStats = [
+  { value: '50+', label: 'Projects' },
+  { value: '9', label: 'Industries' },
+  { value: '6', label: 'Divisions' },
+  { value: '100%', label: 'Satisfaction' },
+]
+
 export default function Footer() {
   const initialState: NewsletterState = {}
   const [state, formAction, isPending] = useActionState(subscribeToNewsletter, initialState)
 
   return (
-    <footer className="bg-melhek-dark pt-24 pb-12 relative overflow-hidden" role="contentinfo">
+    <footer className="bg-melhek-dark pt-20 pb-8 relative overflow-hidden" role="contentinfo">
       {/* Decorative Glow */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1000px] h-[300px] bg-melhek-blue/5 blur-[120px] -z-10" aria-hidden="true" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1000px] h-[350px] bg-melhek-blue/4 blur-[140px] -z-10" aria-hidden="true" />
+      {/* Top border line */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[1px] bg-gradient-to-r from-transparent via-melhek-blue/20 to-transparent" />
 
       <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
+
+        {/* ── Top Banner: Quick Stats ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16 p-6 glass rounded-3xl border-white/5"
+        >
+          {quickStats.map((s, i) => (
+            <div key={s.label} className={`text-center py-2 ${i < quickStats.length - 1 ? 'md:border-r border-white/5' : ''}`}>
+              <div className="text-2xl font-syne font-extrabold text-melhek-blue">{s.value}</div>
+              <div className="text-[10px] font-mono text-white/30 uppercase tracking-widest mt-1">{s.label}</div>
+            </div>
+          ))}
+        </motion.div>
+
+        {/* ── Main Grid ── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+
+          {/* Brand Column */}
           <div className="lg:col-span-1">
-            <Link href="/" className="flex items-center gap-3 mb-8" aria-label="Melhek Technologies Home">
-              <div className="relative w-14 h-14">
-                <Image 
-                  src="/logo-light.png" 
-                  alt="" 
-                  fill 
-                  sizes="56px"
-                  className="object-contain" 
+            <Link href="/" className="flex items-center gap-3 mb-6" aria-label="Melhek Technologies Home">
+              <div className="relative w-12 h-12">
+                <Image
+                  src="/logo-light.png"
+                  alt=""
+                  fill
+                  sizes="48px"
+                  className="object-contain"
                 />
               </div>
-              <span className="text-xl font-syne font-bold tracking-tighter text-white">
-                Melhek <span className="text-melhek-blue">Technologies</span>
-              </span>
+              <div>
+                <span className="text-lg font-syne font-bold tracking-tighter text-white block">
+                  Melhek <span className="text-melhek-blue">Technologies</span>
+                </span>
+                <span className="text-[9px] font-mono text-white/25 uppercase tracking-widest">Your Digital Anchor</span>
+              </div>
             </Link>
-            <p className="text-white/40 text-sm leading-relaxed mb-8 max-w-xs font-light">
-              Addis Ababa&apos;s dependable technology partner. We build company websites, simple management tools, and automated operations software that help Ethiopian businesses grow and run smoothly.
+
+            <p className="text-white/40 text-[13px] leading-relaxed mb-6 font-light">
+              A world-class technology partner delivering dependable websites, smart management systems, and automated operations — built for ambitious organisations across Africa and beyond.
             </p>
-            <nav className="flex gap-4" aria-label="Social Media">
+
+            {/* Location badges */}
+            <div className="flex flex-wrap gap-2 mb-7">
+              <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-mono text-white/40">
+                <MapPin className="w-3 h-3 text-melhek-blue" />
+                Addis Ababa, Ethiopia
+              </div>
+              <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-mono text-white/40">
+                <Globe className="w-3 h-3 text-melhek-blue" />
+                Global Delivery
+              </div>
+            </div>
+
+            {/* Live system status */}
+            <div className="flex items-center gap-2 mb-7 px-4 py-2.5 rounded-full glass border-white/5 w-fit">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_#4ade80]" />
+              <span className="text-[10px] font-mono text-emerald-400 uppercase tracking-widest font-bold">All Systems Operational</span>
+            </div>
+
+            <nav className="flex gap-3" aria-label="Social Media">
               {SocialIcons.map((social) => (
-                <a 
-                  key={social.name} 
+                <a
+                  key={social.name}
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full glass flex items-center justify-center text-white/40 hover:text-melhek-blue hover:border-melhek-blue/50 transition-all focus-visible:ring-2 ring-melhek-blue outline-none" 
+                  className="w-9 h-9 rounded-full glass flex items-center justify-center text-white/40 hover:text-melhek-blue hover:border-melhek-blue/50 transition-all focus-visible:ring-2 ring-melhek-blue outline-none"
                   aria-label={`Follow us on ${social.name}`}
                 >
-                  <social.icon className="w-5 h-5" />
+                  <social.icon className="w-4 h-4" />
                 </a>
               ))}
             </nav>
           </div>
 
+          {/* Ecosystem Links */}
           <nav aria-labelledby="footer-ecosystem">
-            <h4 id="footer-ecosystem" className="text-white font-bold mb-8">Ecosystem</h4>
-            <ul className="space-y-4 text-sm text-white/40">
+            <h4 id="footer-ecosystem" className="text-white font-syne font-bold mb-6 text-sm uppercase tracking-wider">Ecosystem</h4>
+            <ul className="space-y-3 text-sm text-white/40">
               {FOOTER_LINKS.ecosystem.map((link) => (
                 <li key={link.label}>
-                  <Link href={link.href} className="hover:text-melhek-blue transition-colors focus-visible:text-melhek-blue outline-none">
+                  <Link href={link.href} className="hover:text-melhek-blue transition-colors focus-visible:text-melhek-blue outline-none flex items-center gap-2 group">
+                    <span className="w-1 h-1 rounded-full bg-melhek-blue/40 group-hover:bg-melhek-blue transition-colors" />
                     {link.label}
                   </Link>
                 </li>
@@ -105,12 +158,14 @@ export default function Footer() {
             </ul>
           </nav>
 
+          {/* Company Links */}
           <nav aria-labelledby="footer-company">
-            <h4 id="footer-company" className="text-white font-bold mb-8">Company</h4>
-            <ul className="space-y-4 text-sm text-white/40">
+            <h4 id="footer-company" className="text-white font-syne font-bold mb-6 text-sm uppercase tracking-wider">Company</h4>
+            <ul className="space-y-3 text-sm text-white/40">
               {FOOTER_LINKS.company.map((link) => (
                 <li key={link.label}>
-                  <Link href={link.href} className="hover:text-melhek-blue transition-colors focus-visible:text-melhek-blue outline-none">
+                  <Link href={link.href} className="hover:text-melhek-blue transition-colors focus-visible:text-melhek-blue outline-none flex items-center gap-2 group">
+                    <span className="w-1 h-1 rounded-full bg-melhek-blue/40 group-hover:bg-melhek-blue transition-colors" />
                     {link.label}
                   </Link>
                 </li>
@@ -118,27 +173,30 @@ export default function Footer() {
             </ul>
           </nav>
 
+          {/* Newsletter */}
           <section aria-labelledby="footer-newsletter">
-            <h4 id="footer-newsletter" className="text-white font-bold mb-8">Newsletter</h4>
-            <p className="text-sm text-white/40 mb-6 leading-relaxed">Stay updated with our latest infrastructure breakthroughs.</p>
-            
+            <h4 id="footer-newsletter" className="text-white font-syne font-bold mb-6 text-sm uppercase tracking-wider">Stay Updated</h4>
+            <p className="text-[13px] text-white/40 mb-5 leading-relaxed">
+              Get our latest technology insights, product launches, and engineering updates.
+            </p>
+
             <form action={formAction} className="relative group">
-              <input 
+              <input
                 name="email"
-                type="email" 
+                type="email"
                 required
-                placeholder="Engineering Email" 
+                placeholder="Your email address"
                 className={cn(
-                  "w-full bg-white/5 border rounded-full px-6 py-3.5 text-sm focus:outline-none transition-all outline-none pr-14",
+                  "w-full bg-white/5 border rounded-full px-5 py-3.5 text-sm focus:outline-none transition-all outline-none pr-14",
                   state.error ? "border-red-500/50" : "border-white/10 focus:border-melhek-blue"
-                )} 
+                )}
                 aria-describedby={state.error ? "newsletter-error" : state.success ? "newsletter-success" : undefined}
                 disabled={isPending || state.success}
               />
-              <button 
+              <button
                 type="submit"
                 disabled={isPending || state.success}
-                className="absolute right-2 top-1.5 bottom-1.5 w-10 h-10 bg-melhek-blue text-melhek-navy rounded-full flex items-center justify-center hover:bg-white transition-all disabled:opacity-50 disabled:hover:bg-melhek-blue"
+                className="absolute right-2 top-1.5 bottom-1.5 w-10 h-10 bg-melhek-blue text-melhek-navy rounded-full flex items-center justify-center hover:bg-white transition-all disabled:opacity-50 disabled:hover:bg-melhek-blue cursor-pointer"
                 aria-label="Subscribe"
               >
                 {isPending ? (
@@ -151,10 +209,10 @@ export default function Footer() {
 
             <div className="mt-3 min-h-[20px]">
               {state.error && (
-                <motion.p 
+                <motion.p
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  id="newsletter-error" 
+                  id="newsletter-error"
                   className="text-[11px] text-red-500 flex items-center gap-1.5 font-medium"
                 >
                   <AlertCircle className="w-3 h-3" />
@@ -162,27 +220,34 @@ export default function Footer() {
                 </motion.p>
               )}
               {state.success && (
-                <motion.p 
+                <motion.p
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  id="newsletter-success" 
+                  id="newsletter-success"
                   className="text-[11px] text-melhek-blue flex items-center gap-1.5 font-medium"
                 >
                   <CheckCircle2 className="w-3 h-3" />
-                  Transmission successful.
+                  You&apos;re on the list. Welcome aboard.
                 </motion.p>
               )}
             </div>
           </section>
         </div>
 
-        <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-[10px] font-mono text-white/20 uppercase tracking-widest">
-            © 2026 Melhek Technologies. All rights reserved. Precision Engineered.
-          </p>
-          <nav className="flex gap-8 text-[10px] font-mono text-white/20 uppercase tracking-widest" aria-label="Legal">
+        {/* ── Bottom Bar ── */}
+        <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex flex-col md:flex-row items-center gap-4">
+            <p className="text-[10px] font-mono text-white/20 uppercase tracking-widest">
+              © 2026 Melhek Technologies · Precision Engineered
+            </p>
+            <span className="hidden md:block text-white/10">·</span>
+            <p className="text-[10px] font-mono text-white/15 uppercase tracking-widest">
+              Built with Next.js · Deployed on Vercel
+            </p>
+          </div>
+          <nav className="flex gap-6 text-[10px] font-mono text-white/20 uppercase tracking-widest" aria-label="Legal">
             {FOOTER_LINKS.legal.map((link) => (
-              <Link key={link.label} href={link.href} className="hover:text-white transition-colors">
+              <Link key={link.label} href={link.href} className="hover:text-white/50 transition-colors">
                 {link.label}
               </Link>
             ))}
@@ -192,4 +257,3 @@ export default function Footer() {
     </footer>
   )
 }
-

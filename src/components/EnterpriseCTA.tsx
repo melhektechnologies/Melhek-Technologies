@@ -1,17 +1,18 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowRight, Zap, Shield, Globe } from 'lucide-react'
 
-const PARTICLES = Array.from({ length: 30 }, (_, i) => ({
-  id: i,
-  x: Math.random() * 100,
-  y: Math.random() * 100,
-  size: Math.random() * 2 + 1,
-  delay: Math.random() * 5,
-  duration: Math.random() * 4 + 4,
-}))
+interface Particle {
+  id: number
+  x: number
+  y: number
+  size: number
+  delay: number
+  duration: number
+}
 
 const highlights = [
   { icon: Zap, label: 'Fast Delivery' },
@@ -20,6 +21,20 @@ const highlights = [
 ]
 
 export default function EnterpriseCTA() {
+  const [particles, setParticles] = useState<Particle[]>([])
+
+  useEffect(() => {
+    setParticles(
+      Array.from({ length: 30 }, (_, i) => ({
+        id: i,
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        size: Math.random() * 2 + 1,
+        delay: Math.random() * 5,
+        duration: Math.random() * 4 + 4,
+      }))
+    )
+  }, [])
   return (
     <section className="py-24 relative overflow-hidden">
       <div className="container mx-auto px-6">
@@ -65,7 +80,7 @@ export default function EnterpriseCTA() {
               />
 
               {/* Animated particle dots */}
-              {PARTICLES.map((p) => (
+              {particles.map((p) => (
                 <motion.div
                   key={p.id}
                   className="absolute rounded-full bg-melhek-blue/60"

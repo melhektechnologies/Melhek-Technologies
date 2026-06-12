@@ -38,14 +38,14 @@ export default function Hero() {
       >
         <video
           src="/office-showcase.mp4"
-          className="w-full h-full object-cover opacity-35 blur-[1px] scale-100 mix-blend-screen pointer-events-none select-none"
+          className="w-full h-full object-cover opacity-50 blur-[0.5px] scale-100 mix-blend-screen pointer-events-none select-none"
           autoPlay
           loop
           muted
           playsInline
         />
         {/* Ambient Dark Overlay to ensure high text contrast */}
-        <div className="absolute inset-0 bg-gradient-to-t from-melhek-dark/70 via-transparent to-melhek-dark/40 z-0 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-melhek-dark/40 via-transparent to-melhek-dark/20 z-0 pointer-events-none" />
       </div>
 
       {/* Animated Orbs */}

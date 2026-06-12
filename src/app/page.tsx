@@ -6,6 +6,7 @@ import CustomCursor from "@/components/CustomCursor";
 import SmoothScroll from "@/components/SmoothScroll";
 import { HashScroll } from "@/components/HashScroll";
 import About from "@/components/About";
+import OfficeShowcaseSection from "@/components/OfficeShowcaseSection";
 import Ecosystem from "@/components/Ecosystem";
 import Industries from "@/components/Industries";
 import WhyTrust from "@/components/WhyTrust";
@@ -28,6 +29,7 @@ export default function Home() {
         <Hero />
         <StatsBar />
         <About />
+        <OfficeShowcaseSection />
         <Ecosystem />
         <Industries />
         <WhyTrust />

@@ -38,14 +38,14 @@ export default function Hero() {
       >
         <video
           src="/office-showcase.mp4"
-          className="w-full h-full object-cover opacity-25 blur-[2px] scale-100 mix-blend-screen pointer-events-none select-none"
+          className="w-full h-full object-cover opacity-35 blur-[1px] scale-100 mix-blend-screen pointer-events-none select-none"
           autoPlay
           loop
           muted
           playsInline
         />
         {/* Ambient Dark Overlay to ensure high text contrast */}
-        <div className="absolute inset-0 bg-gradient-to-t from-melhek-dark via-transparent to-melhek-dark/80 z-0 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-melhek-dark/70 via-transparent to-melhek-dark/40 z-0 pointer-events-none" />
       </div>
 
       {/* Animated Orbs */}
@@ -62,20 +62,6 @@ export default function Hero() {
       
       {/* Digital Grid */}
       <div className="digital-grid z-0" aria-hidden="true" />
-
-      {/* Watermark Shield */}
-      <motion.div
-        style={{ y: y1, opacity: 0.03 }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120vw] h-[120vw] pointer-events-none z-0 overflow-hidden"
-      >
-        <Image 
-          src="/logo-light.png" 
-          alt="Melhek Watermark" 
-          fill
-          sizes="100vw"
-          className="object-contain filter grayscale brightness-200 blur-[2px]" 
-        />
-      </motion.div>
 
       {/* Standard Hero Content */}
       <motion.div 

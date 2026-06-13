@@ -47,12 +47,7 @@ const SocialIcons = [
   }
 ]
 
-const quickStats = [
-  { value: '50+', label: 'Projects' },
-  { value: '9', label: 'Industries' },
-  { value: '6', label: 'Divisions' },
-  { value: '100%', label: 'Satisfaction' },
-]
+
 
 export default function Footer() {
   const initialState: NewsletterState = {}
@@ -67,20 +62,7 @@ export default function Footer() {
 
       <div className="container mx-auto px-6">
 
-        {/* ── Top Banner: Quick Stats ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16 p-6 glass rounded-3xl border-white/5"
-        >
-          {quickStats.map((s, i) => (
-            <div key={s.label} className={`text-center py-2 ${i < quickStats.length - 1 ? 'md:border-r border-white/5' : ''}`}>
-              <div className="text-2xl font-syne font-extrabold text-melhek-blue">{s.value}</div>
-              <div className="text-[10px] font-mono text-white/30 uppercase tracking-widest mt-1">{s.label}</div>
-            </div>
-          ))}
-        </motion.div>
+
 
         {/* ── Main Grid ── */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
@@ -238,12 +220,9 @@ export default function Footer() {
         <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex flex-col md:flex-row items-center gap-4">
             <p className="text-[10px] font-mono text-white/20 uppercase tracking-widest">
-              © 2026 Melhek Technologies · Precision Engineered
+              © 2026 Melhek Technologies · Your Digital Anchor
             </p>
-            <span className="hidden md:block text-white/10">·</span>
-            <p className="text-[10px] font-mono text-white/15 uppercase tracking-widest">
-              Built with Next.js · Deployed on Vercel
-            </p>
+
           </div>
           <nav className="flex gap-6 text-[10px] font-mono text-white/20 uppercase tracking-widest" aria-label="Legal">
             {FOOTER_LINKS.legal.map((link) => (

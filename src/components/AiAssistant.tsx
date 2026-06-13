@@ -154,7 +154,7 @@ export default function AiAssistant() {
         setLeadData({ name: '', email: '', projectDescription: '' })
         setIntakeState('idle')
       } else {
-        addMessage('assistant', `I apologize, but I encountered an issue saving your request: ${result.error || 'Server error'}. Please try again or email us directly at engineering@melhek.tech.`)
+        addMessage('assistant', `I apologize, but I encountered an issue saving your request: ${result.error || 'Server error'}. Please try again or email us directly at melhektechnologies@gmail.com.`)
         setIntakeState('idle')
       }
 

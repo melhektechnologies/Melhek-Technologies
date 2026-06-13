@@ -111,7 +111,7 @@ const FAQ_DATA: FaqCategory[] = [
       },
       {
         q: 'How do we get started on a project?',
-        a: 'You can use our Interactive Estimator to design a baseline setup, fill out our contact form, or schedule a physical discovery meeting at our office in Addis Ababa.'
+        a: 'You can use our Interactive Estimator to design a baseline setup, fill out our contact form, or schedule a remote discovery meeting or consultation session with our team.'
       }
     ]
   }

@@ -82,12 +82,12 @@ const KNOWLEDGE_BASE = {
   },
   contact: {
     keywords: ["contact", "email", "phone", "address", "office", "location", "hire", "meet", "schedule", "call", "start", "quote", "proposal"],
-    response: "Let's build your system! You can start a project by filling out our **Contact Intake Form**, calculating an estimate on our **Project Estimator**, or emailing our engineering desk at `engineering@melhek.tech`.\n\nWould you like to start qualifying your project right here? Tell me: what kind of project are you planning?",
-    suggestions: ["Let's start a project", "Open Project Estimator", "Where is your office?"]
+    response: "Let's build your system! You can start a project by filling out our **Contact Intake Form**, calculating an estimate on our **Project Estimator**, or emailing our engineering desk at `melhektechnologies@gmail.com`.\n\nWould you like to start qualifying your project right here? Tell me: what kind of project are you planning?",
+    suggestions: ["Let's start a project", "Open Project Estimator", "Where are you located?"]
   },
   location: {
     keywords: ["office", "location", "addis ababa", "where", "ethiopia", "physical", "address"],
-    response: "Our physical operations are centered in Addis Ababa, Ethiopia. We serve clients throughout East Africa and provide remote delivery to international partners. Meetings can be scheduled at our headquarters, your corporate office, or online.",
+    response: "Melhek Technologies operates independently and serves clients throughout East Africa and international partners via remote delivery. We do not maintain a physical walk-in office. Consultations can be scheduled at your corporate office in Addis Ababa or online via video conference.",
     suggestions: ["Can we schedule a call?", "Who are you?", "Let's start a project"]
   },
   leadStart: {

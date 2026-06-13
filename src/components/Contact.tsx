@@ -35,7 +35,7 @@ export default function Contact() {
                 { icon: Mail, label: "Email Us", val: "melhektechnologies@gmail.com", href: "mailto:melhektechnologies@gmail.com" },
                 { icon: Phone, label: "Call Us", val: "+251 972 23 7318", href: "tel:+251972237318" },
                 { icon: Phone, label: "WhatsApp", val: "+251 721 23 7318", href: "https://wa.me/251721237318" },
-                { icon: MapPin, label: "Visit Us", val: "Addis Ababa, Ethiopia", href: "https://maps.google.com/?q=Addis+Ababa+Ethiopia" },
+                { icon: MapPin, label: "Location", val: "Addis Ababa, Ethiopia", href: "https://maps.google.com/?q=Addis+Ababa+Ethiopia" },
               ].map((item) => (
                 <a
                   key={item.label}

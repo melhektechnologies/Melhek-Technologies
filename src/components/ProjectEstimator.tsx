@@ -778,6 +778,123 @@ export default function ProjectEstimator({ currency = 'ETB', exchangeRate = 120 
                 💼 **Consultancy Path**: We recommend **{activeCategoryData?.recommendedDivision.split(" (")[0]}** for this profile. We will structure the technical blueprints during your initial consultation.
               </span>
             </div>
+
+            {/* Blueprint Flowchart Canvas */}
+            <div className="mt-6 pt-6 border-t border-white/5 space-y-4">
+              <span className="text-[10px] uppercase tracking-widest font-mono text-white/30 block">
+                Blueprint System Architecture
+              </span>
+              <div className="relative p-5 rounded-xl bg-black/40 border border-white/5 overflow-hidden flex flex-col gap-6 select-none min-h-[220px] justify-center">
+                {/* Simulated connection lines */}
+                <div className="absolute inset-x-1/2 top-10 bottom-10 w-[1px] bg-gradient-to-b from-melhek-blue/40 via-melhek-blue/25 to-melhek-blue/40 -translate-x-1/2 z-0" />
+                
+                {/* Horizontal lines for features */}
+                {selectedFeatures.includes('payments') && (
+                  <div className="absolute left-6 right-1/2 top-[108px] h-[1px] bg-gradient-to-r from-emerald-500/20 to-melhek-blue/40 z-0 animate-pulse" />
+                )}
+                {selectedFeatures.includes('realtime') && (
+                  <div className="absolute right-6 left-1/2 top-[108px] h-[1px] bg-gradient-to-l from-indigo-500/20 to-melhek-blue/40 z-0 animate-pulse" />
+                )}
+                {selectedFeatures.includes('security') && (
+                  <div className="absolute right-6 left-1/2 top-[176px] h-[1px] bg-gradient-to-l from-rose-500/20 to-melhek-blue/40 z-0 animate-pulse" />
+                )}
+
+                {/* Node 1: Client Front (Top) */}
+                <div className="relative z-10 flex flex-col items-center">
+                  <div className="px-3 py-1.5 rounded-lg bg-melhek-navy border border-white/10 text-[10px] font-mono text-white flex items-center gap-1.5 shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
+                    <Laptop className="w-3.5 h-3.5 text-melhek-blue" />
+                    {(() => {
+                      switch (selectedCategory) {
+                        case 'business_website': return 'Marketing Frontend'
+                        case 'professional_website': return 'Client Portal UI'
+                        case 'digital_menu': return 'QR Menu Interface'
+                        case 'business_system': return 'Cashier POS Screen'
+                        case 'hospitality_solutions': return 'Hotel Reservation UI'
+                        case 'enterprise_platforms': return 'Multi-Terminal Hub'
+                        case 'ai_automation': return 'AI Chat Client'
+                        default: return 'Web Frontend'
+                      }
+                    })()}
+                  </div>
+                  {/* Glowing down pulse */}
+                  <div className="w-2 h-2 rounded-full bg-melhek-blue absolute -bottom-4 animate-ping" />
+                </div>
+
+                {/* Node 2: API Gateway / Core (Middle) */}
+                <div className="relative z-10 flex items-center justify-center gap-6">
+                  {/* Left Feature Node: Payments */}
+                  {selectedFeatures.includes('payments') && (
+                    <motion.div 
+                      initial={{ scale: 0.8, opacity: 0 }} 
+                      animate={{ scale: 1, opacity: 1 }}
+                      className="px-2 py-1 rounded bg-[#061b11] border border-emerald-500/30 text-[9px] font-mono text-emerald-400 flex items-center gap-1 shadow-[0_2px_8px_rgba(0,0,0,0.5)]"
+                    >
+                      <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
+                      Payment Node
+                    </motion.div>
+                  )}
+
+                  <div className="px-3 py-1.5 rounded-lg bg-melhek-navy border border-melhek-blue/30 text-[10px] font-mono text-melhek-blue flex items-center gap-1.5 shadow-[0_4px_12px_rgba(0,0,0,0.5),0_0_15px_rgba(127,169,255,0.15)]">
+                    <Cpu className="w-3.5 h-3.5 text-melhek-blue animate-spin animate-duration-10000" />
+                    {(() => {
+                      switch (selectedCategory) {
+                        case 'business_website': return 'Vercel Edge API'
+                        case 'professional_website': return 'Secure Gateway API'
+                        case 'digital_menu': return 'Kitchen routing hub'
+                        case 'business_system': return 'POS Sync Service'
+                        case 'hospitality_solutions': return 'Booking Controller'
+                        case 'enterprise_platforms': return 'Clustered API Nodes'
+                        case 'ai_automation': return 'NLP parser engine'
+                        default: return 'Serverless Gateway'
+                      }
+                    })()}
+                  </div>
+
+                  {/* Right Feature Node: Realtime Notify */}
+                  {selectedFeatures.includes('realtime') && (
+                    <motion.div 
+                      initial={{ scale: 0.8, opacity: 0 }} 
+                      animate={{ scale: 1, opacity: 1 }}
+                      className="px-2 py-1 rounded bg-[#0f1124] border border-indigo-500/30 text-[9px] font-mono text-indigo-400 flex items-center gap-1 shadow-[0_2px_8px_rgba(0,0,0,0.5)]"
+                    >
+                      <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full animate-pulse" />
+                      Notify Node
+                    </motion.div>
+                  )}
+                </div>
+
+                {/* Node 3: Database (Bottom) */}
+                <div className="relative z-10 flex items-center justify-center gap-6">
+                  <div className="px-3 py-1.5 rounded-lg bg-melhek-navy border border-white/10 text-[10px] font-mono text-white flex items-center gap-1.5 shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
+                    <Network className="w-3.5 h-3.5 text-melhek-blue" />
+                    {(() => {
+                      switch (selectedCategory) {
+                        case 'business_website': return 'Static CMS Data'
+                        case 'professional_website': return 'PostgreSQL Database'
+                        case 'digital_menu': return 'Menu Schema Store'
+                        case 'business_system': return 'Inventory Ledger'
+                        case 'hospitality_solutions': return 'Room Occupancy DB'
+                        case 'enterprise_platforms': return 'Centralized ERP Clustered DB'
+                        case 'ai_automation': return 'Vector Database'
+                        default: return 'Relational DB'
+                      }
+                    })()}
+                  </div>
+
+                  {/* Right Feature Node: Security Audit */}
+                  {selectedFeatures.includes('security') && (
+                    <motion.div 
+                      initial={{ scale: 0.8, opacity: 0 }} 
+                      animate={{ scale: 1, opacity: 1 }}
+                      className="px-2 py-1 rounded bg-[#1f0d0e] border border-rose-500/30 text-[9px] font-mono text-rose-400 flex items-center gap-1 shadow-[0_2px_8px_rgba(0,0,0,0.5),0_0_10px_rgba(239,68,68,0.05)] absolute left-[calc(50%+90px)] animate-pulse"
+                    >
+                      <span className="w-1.5 h-1.5 bg-rose-500 rounded-full animate-pulse" />
+                      Crypto Guard
+                    </motion.div>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

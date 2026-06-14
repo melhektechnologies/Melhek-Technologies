@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Plus_Jakarta_Sans, Syne, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import AiAssistant from "@/components/AiAssistant";
+import TerminalConsole from "@/components/TerminalConsole";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -75,6 +76,7 @@ export default function RootLayout({
       >
         {children}
         <AiAssistant />
+        <TerminalConsole />
       </body>
     </html>
   );

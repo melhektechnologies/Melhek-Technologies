@@ -52,12 +52,13 @@ export default function Ecosystem() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: division.delay }}
-                className={`group relative glass p-10 rounded-[24px] border-white/5 hover:border-melhek-blue/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_24px_80px_rgba(0,0,0,0.5)] flex flex-col justify-between ${
-                  division.span ? 'lg:col-span-2' : ''
-                }`}
+                className={division.span ? 'lg:col-span-2' : ''}
               >
-                <div>
-                  <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-melhek-blue to-transparent opacity-0 group-hover:opacity-40 transition-opacity" />
+                <div
+                  className={`group relative glass p-10 rounded-[24px] border-white/5 hover:border-melhek-blue/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_24px_80px_rgba(0,0,0,0.5)] flex flex-col justify-between h-full`}
+                >
+                  <div>
+                    <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-melhek-blue to-transparent opacity-0 group-hover:opacity-40 transition-opacity" />
 
                   <div className="font-mono text-[11px] text-white/20 font-bold tracking-widest mb-8">
                     {division.id}
@@ -121,7 +122,8 @@ export default function Ecosystem() {
                   </Link>
                   <div className="w-8 h-[1px] bg-white/10 group-hover:w-16 group-hover:bg-melhek-blue transition-all duration-500" />
                 </div>
-              </motion.div>
+              </div>
+            </motion.div>
             )
           })}
         </div>

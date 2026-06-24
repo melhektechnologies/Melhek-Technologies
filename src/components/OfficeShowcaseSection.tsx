@@ -91,7 +91,7 @@ export default function OfficeShowcaseSection() {
   // Autoplay and loop configuration
   useEffect(() => {
     if (!videoRef.current) return
-    videoRef.current.muted = true
+    (videoRef.current as any).muted = true
     videoRef.current.play()
       .then(() => setIsPlaying(true))
       .catch(() => setIsPlaying(false))
@@ -132,7 +132,7 @@ export default function OfficeShowcaseSection() {
   const toggleMute = useCallback(() => {
     if (!videoRef.current) return
     const newMuted = !isMuted
-    videoRef.current.muted = newMuted
+    (videoRef.current as any).muted = newMuted
     setIsMuted(newMuted)
   }, [isMuted])
 

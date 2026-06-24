@@ -96,7 +96,7 @@ export default function OfficeShowcaseModal({ isOpen, onClose }: OfficeShowcaseM
   useEffect(() => {
     if (!isOpen || !videoRef.current) return
     videoRef.current.currentTime = 0
-    videoRef.current.muted = true
+    (videoRef.current as any).muted = true
     videoRef.current.play()
       .then(() => setIsPlaying(true))
       .catch(() => setIsPlaying(false))
@@ -168,7 +168,7 @@ export default function OfficeShowcaseModal({ isOpen, onClose }: OfficeShowcaseM
   const toggleMute = useCallback(() => {
     if (!videoRef.current) return
     const newMuted = !isMuted
-    videoRef.current.muted = newMuted
+    (videoRef.current as any).muted = newMuted
     setIsMuted(newMuted)
   }, [isMuted])
 

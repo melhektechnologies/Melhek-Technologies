@@ -62,7 +62,11 @@ export const metadata: Metadata = {
     title: "Melhek Technologies | Ethiopia's Digital Anchor",
     description: "Website Development, AI Systems, Business Automation & Hotel Technology for Ethiopian businesses.",
   },
+  verification: {
+    google: "google8aee68a660859fcc",
+  },
 };
+
 
 export default function RootLayout({
   children,

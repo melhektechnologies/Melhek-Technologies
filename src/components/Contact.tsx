@@ -1,6 +1,6 @@
 'use client'
 
-import { useActionState } from 'react'
+import { useActionState, useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Mail, Phone, MapPin, Send } from 'lucide-react'
@@ -11,6 +11,17 @@ const initialState: ContactState = {}
 
 export default function Contact() {
   const [state, formAction, isPending] = useActionState(submitContact, initialState)
+  const [selectedDivision, setSelectedDivision] = useState('')
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search)
+      const division = params.get('division')
+      if (division) {
+        setSelectedDivision(division)
+      }
+    }
+  }, [])
 
   return (
     <section id="contact" className="py-24 relative bg-melhek-navy/10">
@@ -123,7 +134,8 @@ export default function Contact() {
                   id="contact-division"
                   name="division"
                   required
-                  defaultValue=""
+                  value={selectedDivision}
+                  onChange={(e) => setSelectedDivision(e.target.value)}
                   className={`w-full bg-white/5 border rounded-2xl px-6 py-4 focus:outline-none focus:border-melhek-blue transition-colors text-white appearance-none ${state.fieldErrors?.division ? 'border-red-500/50' : 'border-white/10'}`}
                   aria-invalid={!!state.fieldErrors?.division}
                   aria-describedby={state.fieldErrors?.division ? 'err-division' : undefined}

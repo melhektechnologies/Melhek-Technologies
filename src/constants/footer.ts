@@ -9,7 +9,7 @@ export const FOOTER_LINKS = {
   ],
   company: [
     { label: "About Mission", href: "/about" },
-    { label: "Pricing & FAQs", href: "/pricing" },
+    { label: "Timelines & FAQs", href: "/pricing" },
     { label: "Engineering Excellence", href: "/engineering" },
     { label: "Portfolio Showcase", href: "/portfolio" },
     { label: "Why Melhek", href: "/#trust" },

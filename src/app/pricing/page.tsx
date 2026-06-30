@@ -3,13 +3,13 @@ import { MarketingLayout } from "@/components/MarketingLayout";
 import PricingClient from "./PricingClient";
 
 export const metadata: Metadata = {
-  title: "Pricing & Timelines | Melhek Technologies",
-  description: "Explore Melhek Technologies' transparent pricing models, expected project timelines, and custom estimator. Build your enterprise website, hospitality booking app, or custom operations software with Addis Ababa's premium engineering partner.",
+  title: "Project Blueprints & Timelines | Melhek Technologies",
+  description: "Explore Melhek Technologies' expected execution timelines, custom system estimators, and technical architectures. Build your custom enterprise system with Addis Ababa's premium engineering partner.",
   keywords: [
-    "website development cost Ethiopia",
-    "custom software pricing Addis Ababa",
-    "Melhek pricing",
-    "project cost calculator",
+    "website development timeline Ethiopia",
+    "custom software development Addis Ababa",
+    "Melhek timelines",
+    "project scope estimator",
     "software development timeline",
   ],
 };

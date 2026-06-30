@@ -214,6 +214,10 @@ export default function ProjectEstimator({ currency = 'ETB', exchangeRate = 120 
   
   // Selections State
   const [selectedCategory, setSelectedCategory] = useState<string>('business_website')
+  const isDigitalOrAi = ['business_website', 'professional_website', 'ai_automation'].includes(selectedCategory)
+  const premiumCtaText = isDigitalOrAi
+    ? 'Schedule a Digital Transformation Discovery Call'
+    : 'Request an On-Site System Demo & Scope Assessment'
   const [selectedSector, setSelectedSector] = useState<string>('retail')
   const [selectedComplexity, setSelectedComplexity] = useState<string>('standard')
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>([])
@@ -333,7 +337,7 @@ export default function ProjectEstimator({ currency = 'ETB', exchangeRate = 120 
             Project Blueprint Estimator
           </h3>
           <p className="text-white/40 text-xs mt-1 max-w-md">
-            Design your software layout parameters and receive an indicative investment range and solution timeline.
+            Design your software layout parameters to map out your expected solution timeline and blueprint structure.
           </p>
         </div>
 
@@ -533,7 +537,7 @@ export default function ProjectEstimator({ currency = 'ETB', exchangeRate = 120 
                           <div>
                             <p className="text-[10px] text-white/30 leading-normal mb-2">{feat.description}</p>
                             <div className="flex justify-between items-center text-[10px] font-mono">
-                              <span className="text-melhek-blue">+{formatPrice(feat.price)}</span>
+                              <span className="text-melhek-blue">Architecture module</span>
                               <span className="text-white/40">+{feat.timelineAdd} wks</span>
                             </div>
                           </div>
@@ -583,11 +587,7 @@ export default function ProjectEstimator({ currency = 'ETB', exchangeRate = 120 
                     <input 
                       type="hidden" 
                       name="budgetRange" 
-                      value={estimate.isCustom ? 'Custom Pricing Required' : (
-                        currency === 'USD' 
-                          ? `$${getMinDisplayPrice().toLocaleString()} - $${getMaxDisplayPrice().toLocaleString()} USD`
-                          : `${getMinDisplayPrice().toLocaleString()} - ${getMaxDisplayPrice().toLocaleString()} ETB`
-                      )} 
+                      value="Custom Quoted (Architecture Review Required)" 
                     />
                     <input 
                       type="hidden" 
@@ -663,12 +663,12 @@ export default function ProjectEstimator({ currency = 'ETB', exchangeRate = 120 
                     <button 
                       type="submit" 
                       disabled={isPending}
-                      className="w-full btn-primary justify-center text-xs uppercase tracking-widest font-mono py-4 mt-2"
+                      className="w-full btn-primary justify-center text-[10px] sm:text-xs uppercase tracking-widest font-mono py-4 mt-2"
                     >
                       {isPending ? (
                         <div className="w-5 h-5 border-2 border-melhek-navy border-t-transparent rounded-full animate-spin" />
                       ) : (
-                        'Request Project Blueprint Session →'
+                        `${premiumCtaText} →`
                       )}
                     </button>
                   </form>
@@ -698,44 +698,23 @@ export default function ProjectEstimator({ currency = 'ETB', exchangeRate = 120 
           </div>
         </div>
 
-        {/* Live Calculation Panel (Right) */}
+        {/* Live Scope Panel (Right) */}
         <div className="lg:col-span-5 glass rounded-2xl border-white/10 p-6 bg-white/[0.01] sticky top-28">
           <h4 className="text-xs uppercase tracking-[0.2em] font-mono text-white/40 font-bold mb-6 pb-2 border-b border-white/5">
-            Investment Projection
+            Scope & Timeline Projection
           </h4>
 
           {/* Pricing display */}
           <div className="space-y-6">
-            {estimate.isCustom ? (
-              <div>
-                <span className="text-[10px] uppercase tracking-widest font-mono text-white/30 block mb-1">Investment Framework</span>
-                <span className="text-xl md:text-2xl font-display font-extrabold text-melhek-blue block">
-                  Custom Quoted
-                </span>
-                <span className="text-[10px] text-white/30 leading-relaxed block mt-2">
-                  Due to the highly specialized infrastructure required for {activeCategoryData?.name} integrations, pricing is tailored during an Architecture Review.
-                </span>
-              </div>
-            ) : (
-              <div>
-                <span className="text-[10px] uppercase tracking-widest font-mono text-white/30 block mb-1">Indicative Investment Range</span>
-                <div className="flex items-baseline gap-1 text-white">
-                  <span className="text-2xl md:text-3xl font-display font-extrabold tracking-tighter">
-                    {currency === 'USD' ? '$' : ''}{getMinDisplayPrice().toLocaleString()}
-                  </span>
-                  <span className="text-white/40 font-light mx-2">—</span>
-                  <span className="text-2xl md:text-3xl font-display font-extrabold tracking-tighter">
-                    {currency === 'USD' ? '$' : ''}{getMaxDisplayPrice().toLocaleString()}
-                  </span>
-                  <span className="text-xs text-melhek-blue uppercase tracking-widest font-mono font-bold ml-2">
-                    {currency}
-                  </span>
-                </div>
-                <span className="text-[10px] text-white/30 font-mono block mt-1">
-                  Indicative value mapped to {activeCategoryData?.name} scale.
-                </span>
-              </div>
-            )}
+            <div>
+              <span className="text-[10px] uppercase tracking-widest font-mono text-white/30 block mb-1.5">Engagement Objective</span>
+              <span className="text-sm sm:text-base md:text-lg font-display font-bold text-gradient block leading-snug">
+                {premiumCtaText}
+              </span>
+              <span className="text-[10px] text-white/40 leading-relaxed block mt-2">
+                We coordinate a specialized architecture review to evaluate your unique business scale and operational parameters.
+              </span>
+            </div>
 
             {/* Timeline display */}
             <div>

@@ -11,7 +11,7 @@ const navLinks = [
   { name: 'About', href: '/about' },
   { name: 'Ecosystem', href: '/#ecosystem' },
   { name: 'Portfolio', href: '/portfolio' },
-  { name: 'Pricing & FAQs', href: '/pricing' },
+  { name: 'Timelines & FAQs', href: '/pricing' },
   { name: 'Why Us', href: '/#trust' },
   { name: 'Vision', href: '/#vision' },
 ]

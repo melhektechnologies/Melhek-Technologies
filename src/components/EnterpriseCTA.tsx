@@ -179,7 +179,7 @@ export default function EnterpriseCTA() {
                 Consult with Engineering <ArrowRight className="w-5 h-5" />
               </Link>
               <Link href="/pricing" className="btn-secondary text-base px-8 py-4">
-                Calculate Project Cost
+                Explore Timelines & Scopes
               </Link>
             </motion.div>
           </div>

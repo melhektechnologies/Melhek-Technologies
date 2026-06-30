@@ -25,15 +25,11 @@ const KNOWLEDGE_BASE = {
   },
   pricing: {
     keywords: ["price", "cost", "how much", "rate", "fee", "budget", "pricing", "cheap", "expensive", "payment", "etb", "birr", "usd", "dollar"],
-    response: "At Melhek Technologies, we align project investments with custom operational value rather than flat packages. Every solution is tailored to your workflow and requirements.\n\n" +
-      "Indicative Investment Ranges (ETB / USD support):\n" +
-      "• **Business Websites**: 35,000 – 120,000 ETB / $300 – $1,000 USD\n" +
-      "• **Interactive Web Portals**: 60,000 – 300,000 ETB / $500 – $2,500 USD\n" +
-      "• **Digital Menu Systems**: 15,000 – 150,000 ETB / $125 – $1,250 USD\n" +
-      "• **Sales & Inventory Systems (POS)**: 100,000 – 800,000 ETB / $850 – $6,600 USD\n" +
-      "• **Hotel Booking & Ordering Systems**: Custom Quoted\n" +
-      "• **AI Assistants & Automators**: Custom Quoted\n\n" +
-      "You can design an estimate in either currency using our **Interactive Estimator** tool on our Pricing page.",
+    response: "To protect our premium brand standards, Melhek Technologies does not publish flat pricing packages or rate cards. Instead, we coordinate custom architecture reviews to tailor systems exactly to your enterprise needs.\n\n" +
+      "To engage with our team, we offer specialized consultations based on your project target:\n" +
+      "• **For Melhek Digital & AI Labs**: Schedule a Digital Transformation Discovery Call\n" +
+      "• **For Melhek Hospitality & Business Systems**: Request an On-Site System Demo & Scope Assessment\n\n" +
+      "You can map out your system features and expected timelines using our **Interactive Estimator** on our Timelines page.",
     suggestions: ["Open Project Estimator", "How long does a project take?", "Let's start a project"]
   },
   timeline: {
@@ -44,7 +40,7 @@ const KNOWLEDGE_BASE = {
       "• **Business Systems**: 6 – 16 Weeks\n" +
       "• **Enterprise Solutions**: Custom Timeline\n\n" +
       "Each engagement begins with a complete Architecture Blueprint phase to map out all requirements before coding.",
-    suggestions: ["Explain your process", "How much do systems cost?", "Let's start a project"]
+    suggestions: ["Explain your process", "How are project timelines structured?", "Let's start a project"]
   },
   process: {
     keywords: ["process", "methodology", "how do you work", "phases", "step", "next", "blueprint", "audit", "security"],
@@ -125,8 +121,8 @@ export function getAiResponse(query: string): AiResponse {
 
   if (!normalized) {
     return {
-      text: "Hello, I am the Melhek AI Assistant. Ask me about our divisions, timelines, indicative pricing, portfolio projects, or how to start an engagement.",
-      suggestions: ["Explain Ecosystem Divisions", "How much do services cost?", "Who are you?"],
+      text: "Hello, I am the Melhek AI Assistant. Ask me about our divisions, execution timelines, portfolio projects, or how to start a scope assessment.",
+      suggestions: ["Explain Ecosystem Divisions", "How are project timelines structured?", "Who are you?"],
       intent: "general"
     };
   }
@@ -136,7 +132,7 @@ export function getAiResponse(query: string): AiResponse {
     if (data.keywords.some(kw => normalized.includes(kw))) {
       return {
         text: data.response,
-        suggestions: ["Explain Ecosystem Divisions", "How much does a project cost?", "Let's start a project"],
+        suggestions: ["Explain Ecosystem Divisions", "How are project timelines structured?", "Let's start a project"],
         intent: "projects"
       };
     }
@@ -178,10 +174,10 @@ export function getAiResponse(query: string): AiResponse {
     text: "I want to make sure you get the exact information you need. I can answer questions about:\n" +
       "• **Ecosystem Divisions** (Digital, Hospitality, Business Systems, AI Automation)\n" +
       "• **Expected Project Timelines** (from 2 to 16 weeks)\n" +
-      "• **Indicative Pricing Structure** (transparent value-based estimates)\n" +
+      "• **Custom Scope Assessments** (for on-site demos or discovery calls)\n" +
       "• **Our Active Projects** (like Happy Optics or Luxury Hotel booking)\n\n" +
       "What can I clarify for you, or would you like to start qualifying a project directly?",
-    suggestions: ["Explain Ecosystem Divisions", "How much do services cost?", "Let's start a project"],
+    suggestions: ["Explain Ecosystem Divisions", "How are project timelines structured?", "Let's start a project"],
     intent: "general"
   };
 }

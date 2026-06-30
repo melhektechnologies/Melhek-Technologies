@@ -22,7 +22,7 @@ export default function AiAssistant() {
     {
       id: 'welcome',
       sender: 'assistant',
-      text: 'Welcome to Melhek Technologies. I am your AI Assistant. Ask me anything about our divisions, portfolio, pricing models, or timelines. Or click the option below to start your project blueprint.',
+      text: 'Welcome to Melhek Technologies. I am your AI Assistant. Ask me anything about our divisions, portfolio, custom estimators, or execution timelines. Or click the option below to start your project blueprint.',
       timestamp: new Date(),
     },
   ])
@@ -30,7 +30,7 @@ export default function AiAssistant() {
   const [isTyping, setIsTyping] = useState(false)
   const [suggestions, setSuggestions] = useState<string[]>([
     'Explain Ecosystem Divisions',
-    'How much do services cost?',
+    'How are project timelines structured?',
     'Let\'s start a project'
   ])
 
@@ -178,9 +178,9 @@ export default function AiAssistant() {
       setIsTyping(true)
       setTimeout(() => {
         setIsTyping(false)
-        addMessage('assistant', 'You can open our Interactive Project Estimator tool directly on our /pricing page to generate live cost and timeline calculations.')
-        addMessage('assistant', 'Click the link here to visit: [Pricing & Estimator](/pricing).')
-        setSuggestions(['Explain Ecosystem Divisions', 'How much do services cost?', 'Let\'s start a project'])
+        addMessage('assistant', 'You can open our Interactive Project Estimator tool directly on our timelines page to generate custom system blueprints and timeline projections.')
+        addMessage('assistant', 'Click the link here to visit: [Timelines & Estimator](/pricing).')
+        setSuggestions(['Explain Ecosystem Divisions', 'How are project timelines structured?', 'Let\'s start a project'])
       }, 600)
     } else {
       handleSendMessage(suggestion)
@@ -319,7 +319,7 @@ export default function AiAssistant() {
                   intakeState === 'waiting_name' ? 'Enter your name...' : 
                   intakeState === 'waiting_email' ? 'Enter your email...' : 
                   intakeState === 'waiting_description' ? 'Describe your project...' : 
-                  'Ask about pricing, portfolio, divisions...'
+                  'Ask about timelines, portfolio, divisions...'
                 }
                 className="flex-1 bg-white/5 border border-white/5 focus:border-melhek-blue focus:outline-none rounded-full px-4 py-2.5 text-xs text-white placeholder-white/30 transition-all"
               />

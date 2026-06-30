@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 import { Calendar, Layers, ShieldAlert, Cpu, BarChart3, CheckCircle2 } from 'lucide-react'
 import ProjectEstimator from '@/components/ProjectEstimator'
 import FaqSection from '@/components/FaqSection'
@@ -32,58 +33,51 @@ const PRICING_DRIVERS = [
 const INVESTMENT_TIERS = [
   {
     title: 'Business Websites',
-    etbStarting: '35,000 ETB+',
-    etbRange: '35,000 – 120,000 ETB',
-    usdStarting: '$300+',
-    usdRange: '$300 – $1,000 USD',
+    divisionName: 'Melhek Digital & AI Labs',
+    ctaText: 'Schedule a Digital Transformation Discovery Call',
+    ctaLink: '/contact?division=melhek-digital',
     description: 'Corporate informational homepages, showcase portfolios, organization details, and simple contact forms.'
   },
   {
     title: 'Interactive Web Portals',
-    etbStarting: '60,000 ETB+',
-    etbRange: '60,000 – 300,000 ETB',
-    usdStarting: '$500+',
-    usdRange: '$500 – $2,500 USD',
+    divisionName: 'Melhek Digital & AI Labs',
+    ctaText: 'Schedule a Digital Transformation Discovery Call',
+    ctaLink: '/contact?division=melhek-digital',
     description: 'Interactive client dashboards, custom logins, database tables, and automated notifications.'
   },
   {
     title: 'Digital Menu Systems',
-    etbStarting: '15,000 ETB+',
-    etbRange: '15,000 – 150,000 ETB',
-    usdStarting: '$125+',
-    usdRange: '$125 – $1,250 USD',
+    divisionName: 'Melhek Hospitality & Business Systems',
+    ctaText: 'Request an On-Site System Demo & Scope Assessment',
+    ctaLink: '/contact?division=melhek-hospitality',
     description: 'Interactive restaurant menus, QR codes, sales desk sync, and kitchen display views.'
   },
   {
     title: 'Sales & Inventory Systems (POS)',
-    etbStarting: '100,000 ETB+',
-    etbRange: '100,000 – 800,000 ETB',
-    usdStarting: '$850+',
-    usdRange: '$850 – $6,600 USD',
+    divisionName: 'Melhek Hospitality & Business Systems',
+    ctaText: 'Request an On-Site System Demo & Scope Assessment',
+    ctaLink: '/contact?division=melhek-business-systems',
     description: 'Store stock tracking, cashier checkouts, barcode scanning, client registers, and sales reports.'
   },
   {
     title: 'Hotel Booking & Ordering Systems',
-    etbStarting: 'Custom Quoted',
-    etbRange: 'Custom Quoted',
-    usdStarting: 'Custom Quoted',
-    usdRange: 'Custom Quoted',
+    divisionName: 'Melhek Hospitality & Business Systems',
+    ctaText: 'Request an On-Site System Demo & Scope Assessment',
+    ctaLink: '/contact?division=melhek-hospitality',
     description: 'Hotel room booking engines, front desk calendars, and unified guest management controls.'
   },
   {
     title: 'Multi-branch Custom Networks',
-    etbStarting: 'Custom Quoted',
-    etbRange: 'Custom Quoted',
-    usdStarting: 'Custom Quoted',
-    usdRange: 'Custom Quoted',
+    divisionName: 'Melhek Hospitality & Business Systems',
+    ctaText: 'Request an On-Site System Demo & Scope Assessment',
+    ctaLink: '/contact?division=melhek-business-systems',
     description: 'High-volume concurrent transaction networks, enterprise databases, and maximum security compliance.'
   },
   {
     title: 'AI Assistants & Automators',
-    etbStarting: 'Custom Quoted',
-    etbRange: 'Custom Quoted',
-    usdStarting: 'Custom Quoted',
-    usdRange: 'Custom Quoted',
+    divisionName: 'Melhek Digital & AI Labs',
+    ctaText: 'Schedule a Digital Transformation Discovery Call',
+    ctaLink: '/contact?division=melhek-ai-labs',
     description: 'Automated task script routines, text database summaries, and custom AI chatbots.'
   }
 ]
@@ -155,7 +149,7 @@ export default function PricingClient() {
           className="flex items-center gap-2 text-melhek-blue mb-4 border border-melhek-blue/20 bg-melhek-blue/5 rounded-full px-4 py-1.5"
         >
           <span className="w-1.5 h-1.5 rounded-full bg-melhek-blue animate-pulse" />
-          <span className="text-[10px] uppercase tracking-[0.35em] font-mono font-bold">Investment Guide</span>
+          <span className="text-[10px] uppercase tracking-[0.35em] font-mono font-bold">Execution Guide</span>
         </motion.div>
 
         <motion.h1 
@@ -163,7 +157,7 @@ export default function PricingClient() {
           className="text-4xl md:text-6xl font-display font-extrabold text-white tracking-tight leading-[1.1]"
         >
           Understanding Project <br />
-          <span className="text-gradient">Investments & Timelines</span>
+          <span className="text-gradient">Timelines & Scopes</span>
         </motion.h1>
 
         <motion.p 
@@ -171,46 +165,19 @@ export default function PricingClient() {
           className="text-white/50 text-sm md:text-base leading-relaxed mt-6 max-w-2xl font-light"
         >
           Melhek Technologies builds custom-engineered technology solutions for global businesses and local market leaders. 
-          To eliminate uncertainty and maintain visual excellence, we outline indicative project investments 
-          and timelines mapping directly to system scale, integration scopes, and complexity.
+          To protect our elite engineering standards and maintain visual excellence, we outline expected execution 
+          timelines mapping directly to system scale, integration scopes, and complexity.
         </motion.p>
       </motion.div>
 
-      {/* Currency Switcher Overlay */}
-      <div className="flex justify-end max-w-7xl mx-auto -mb-24 relative z-50">
-        <div className="glass p-1 rounded-xl border-white/10 flex items-center gap-1 bg-white/[0.02]">
-          <button
-            onClick={() => setCurrency('ETB')}
-            className={`px-4 py-1.5 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer ${
-              currency === 'ETB'
-                ? 'bg-melhek-blue text-melhek-navy shadow-[0_0_15px_rgba(127,169,255,0.3)] font-extrabold'
-                : 'text-white/60 hover:text-white'
-            }`}
-          >
-            ETB (Birr)
-          </button>
-          <button
-            onClick={() => setCurrency('USD')}
-            className={`px-4 py-1.5 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer ${
-              currency === 'USD'
-                ? 'bg-melhek-blue text-melhek-navy shadow-[0_0_15px_rgba(127,169,255,0.3)] font-extrabold'
-                : 'text-white/60 hover:text-white'
-            }`}
-          >
-            USD (Dollar)
-          </button>
-        </div>
-      </div>
-
-      {/* Indicative Investment Ranges */}
+      {/* Strategic Blueprints & Division Focuses */}
       <section className="space-y-16">
         <div className="max-w-3xl">
           <h2 className="text-2xl md:text-4xl font-display font-extrabold text-white mb-4">
-            Indicative Project Investments
+            Strategic System Architecture
           </h2>
           <p className="text-white/40 text-xs md:text-sm leading-relaxed max-w-2xl">
-            We reject the cheap, cookie-cutter approach of flat packages. The pricing structures below reflect 
-            typical investments for tailor-made, high-end business systems in your chosen currency.
+            We reject the cheap, cookie-cutter approach of flat templates. Below are the key system targets we develop. Select the division matching your operational requirements to request a professional engagement.
           </p>
         </div>
 
@@ -218,28 +185,29 @@ export default function PricingClient() {
           {INVESTMENT_TIERS.map((tier, index) => (
             <div 
               key={index}
-              className="glass rounded-2xl border-white/5 p-6 hover:border-melhek-blue/30 transition-all flex flex-col justify-between h-[230px]"
+              className="glass rounded-2xl border-white/5 p-6 hover:border-melhek-blue/30 transition-all flex flex-col justify-between min-h-[260px]"
             >
               <div>
                 <span className="text-[10px] font-mono text-white/30 uppercase tracking-wider block mb-1">
                   {tier.title}
                 </span>
-                <div className="flex items-baseline gap-2 mb-3">
-                  <span className="text-lg font-display font-extrabold text-white">
-                    {currency === 'ETB' ? tier.etbStarting : tier.usdStarting}
-                  </span>
-                  {tier.etbRange !== 'Custom Quoted' && (
-                    <span className="text-xs text-white/40 font-mono">
-                      (Typical: {currency === 'ETB' ? tier.etbRange : tier.usdRange})
-                    </span>
-                  )}
-                </div>
+                <span className="text-xs font-mono font-semibold text-melhek-blue mb-3 block">
+                  {tier.divisionName}
+                </span>
                 <p className="text-[11px] text-white/40 leading-relaxed">{tier.description}</p>
               </div>
 
-              <div className="flex items-center gap-1.5 text-[9px] font-mono text-melhek-blue/70 pt-4 border-t border-white/5">
-                <CheckCircle2 className="w-3 h-3" />
-                <span>Value-driven implementation</span>
+              <div className="mt-4 pt-4 border-t border-white/5 space-y-4">
+                <Link
+                  href={tier.ctaLink}
+                  className="w-full text-center py-2.5 px-4 rounded-xl bg-white/5 border border-white/10 hover:border-melhek-blue hover:bg-melhek-blue/10 hover:text-white transition-all text-[10px] font-mono font-bold text-white/70 block cursor-pointer"
+                >
+                  {tier.ctaText} →
+                </Link>
+                <div className="flex items-center gap-1.5 text-[9px] font-mono text-melhek-blue/50">
+                  <CheckCircle2 className="w-3 h-3" />
+                  <span>Enterprise-grade execution</span>
+                </div>
               </div>
             </div>
           ))}

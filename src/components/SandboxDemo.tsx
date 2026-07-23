@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { 
   Calendar, User, Plus, Check, Play, ShoppingCart, 
   Tag, CreditCard, Scale, FileText, CheckCircle2, 
-  MapPin, ShieldAlert, Key, Dumbbell, PlayCircle 
+  MapPin, ShieldAlert, Key, Dumbbell, PlayCircle, X
 } from 'lucide-react'
 
 interface SandboxDemoProps {

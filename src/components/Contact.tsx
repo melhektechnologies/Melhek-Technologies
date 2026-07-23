@@ -3,7 +3,7 @@
 import { useActionState, useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Mail, Phone, MapPin, Send } from 'lucide-react'
+import { Mail, Phone, MapPin, Send, MessageCircle } from 'lucide-react'
 import { submitContact, type ContactState } from '@/app/actions/contact'
 import { DIVISIONS } from '@/constants/divisions'
 
@@ -24,7 +24,7 @@ export default function Contact() {
   }, [])
 
   return (
-    <section id="contact" className="py-24 relative bg-melhek-navy/10">
+    <section id="contact" className="py-16 sm:py-20 lg:py-24 relative bg-melhek-navy/10">
       <div className="container mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-20">
           <div>
@@ -45,7 +45,7 @@ export default function Contact() {
               {[
                 { icon: Mail, label: "Email Us", val: "melhektechnologies@gmail.com", href: "mailto:melhektechnologies@gmail.com" },
                 { icon: Phone, label: "Call Us", val: "+251 972 23 7318", href: "tel:+251972237318" },
-                { icon: Phone, label: "WhatsApp", val: "+251 721 23 7318", href: "https://wa.me/251721237318" },
+                { icon: MessageCircle, label: "WhatsApp", val: "+251 721 23 7318", href: "https://wa.me/251721237318" },
                 { icon: MapPin, label: "Location", val: "Addis Ababa, Ethiopia", href: "https://maps.google.com/?q=Addis+Ababa+Ethiopia" },
               ].map((item) => (
                 <a
@@ -58,7 +58,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <div className="text-xs uppercase tracking-widest text-white/30 font-bold mb-1">{item.label}</div>
-                    <div className="text-xl font-medium text-white group-hover:text-melhek-blue transition-colors">{item.val}</div>
+                    <div className="text-base sm:text-xl font-medium text-white group-hover:text-melhek-blue transition-colors">{item.val}</div>
                   </div>
                 </a>
               ))}

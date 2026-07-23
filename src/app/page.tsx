@@ -10,6 +10,7 @@ import Ecosystem from "@/components/Ecosystem";
 import Industries from "@/components/Industries";
 import WhyTrust from "@/components/WhyTrust";
 import Portfolio from "@/components/Portfolio";
+import OfficeShowcaseSection from "@/components/OfficeShowcaseSection";
 import Vision from "@/components/Vision";
 import Testimonials from "@/components/Testimonials";
 import EnterpriseCTA from "@/components/EnterpriseCTA";
@@ -32,6 +33,7 @@ export default function Home() {
         <Industries />
         <WhyTrust />
         <Portfolio />
+        <OfficeShowcaseSection />
         <Vision />
         <Testimonials />
         <EnterpriseCTA />

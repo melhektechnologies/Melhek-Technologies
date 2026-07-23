@@ -92,10 +92,39 @@ export default function OfficeShowcaseModal({ isOpen, onClose }: OfficeShowcaseM
     }, 3000)
   }, [isPlaying])
 
+  const handlePlayPause = useCallback(() => {
+    if (!videoRef.current) return
+    if (isPlaying) {
+      videoRef.current.pause()
+      setIsPlaying(false)
+      setShowControls(true)
+    } else {
+      videoRef.current.play()
+      setIsPlaying(true)
+      resetControlsTimer()
+    }
+  }, [isPlaying, resetControlsTimer])
+
+  const toggleMute = useCallback(() => {
+    if (!videoRef.current) return
+    const newMuted = !isMuted;
+    (videoRef.current as any).muted = newMuted
+    setIsMuted(newMuted)
+  }, [isMuted])
+
+  const toggleFullscreen = useCallback(() => {
+    if (!containerRef.current) return
+    if (!document.fullscreenElement) {
+      containerRef.current.requestFullscreen()
+    } else {
+      document.exitFullscreen()
+    }
+  }, [])
+
   // Autoplay on open
   useEffect(() => {
     if (!isOpen || !videoRef.current) return
-    videoRef.current.currentTime = 0
+    videoRef.current.currentTime = 0;
     (videoRef.current as any).muted = true
     videoRef.current.play()
       .then(() => setIsPlaying(true))
@@ -152,34 +181,7 @@ export default function OfficeShowcaseModal({ isOpen, onClose }: OfficeShowcaseM
     return () => document.removeEventListener('fullscreenchange', handler)
   }, [])
 
-  const handlePlayPause = useCallback(() => {
-    if (!videoRef.current) return
-    if (isPlaying) {
-      videoRef.current.pause()
-      setIsPlaying(false)
-      setShowControls(true)
-    } else {
-      videoRef.current.play()
-      setIsPlaying(true)
-      resetControlsTimer()
-    }
-  }, [isPlaying, resetControlsTimer])
 
-  const toggleMute = useCallback(() => {
-    if (!videoRef.current) return
-    const newMuted = !isMuted
-    (videoRef.current as any).muted = newMuted
-    setIsMuted(newMuted)
-  }, [isMuted])
-
-  const toggleFullscreen = useCallback(() => {
-    if (!containerRef.current) return
-    if (!document.fullscreenElement) {
-      containerRef.current.requestFullscreen()
-    } else {
-      document.exitFullscreen()
-    }
-  }, [])
 
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!videoRef.current) return

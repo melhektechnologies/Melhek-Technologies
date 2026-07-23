@@ -56,7 +56,11 @@ export default function StatsBar() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.12, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className={`relative text-center px-6 py-2 ${i < stats.length - 1 ? 'md:border-r border-white/[0.06]' : ''}`}
+              className={`relative text-center px-6 py-2 ${
+                i < stats.length - 1 ? 'md:border-r border-white/[0.06]' : ''
+              } ${
+                i < 2 ? 'border-b md:border-b-0 pb-6 md:pb-2 border-white/[0.06]' : ''
+              }`}
             >
               <Link
                 href={stat.href}

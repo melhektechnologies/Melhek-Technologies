@@ -56,11 +56,20 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     siteName: "Melhek Technologies",
+    images: [
+      {
+        url: "/office-showcase.png",
+        width: 1200,
+        height: 630,
+        alt: "Melhek Technologies — Ethiopia's Digital Anchor",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Melhek Technologies | Ethiopia's Digital Anchor",
     description: "Website Development, AI Systems, Business Automation & Hotel Technology for Ethiopian businesses.",
+    images: ["/office-showcase.png"],
   },
   verification: {
     google: "google8aee68a660859fcc",

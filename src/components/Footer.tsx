@@ -73,7 +73,7 @@ export default function Footer() {
               <div className="relative w-12 h-12">
                 <Image
                   src="/logo-light.png"
-                  alt=""
+                  alt="Melhek Technologies"
                   fill
                   sizes="48px"
                   className="object-contain"

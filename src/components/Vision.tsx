@@ -48,7 +48,7 @@ export default function Vision() {
   const lineInView = useInView(lineRef, { once: true, margin: '-100px' })
 
   return (
-    <section id="vision" className="py-24 relative overflow-hidden">
+    <section id="vision" className="py-16 sm:py-20 lg:py-24 relative overflow-hidden">
       {/* Ambient glow */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[400px] bg-melhek-blue/4 blur-[120px] rounded-full" />
@@ -69,7 +69,7 @@ export default function Vision() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-5xl md:text-7xl font-syne font-extrabold text-white mb-6 tracking-[-0.03em]"
+            className="text-[clamp(32px,6vw,72px)] font-syne font-extrabold text-white mb-6 tracking-[-0.03em]"
           >
             Our Strategic <br />
             <span className="text-gradient">Roadmap.</span>

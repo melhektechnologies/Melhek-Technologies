@@ -12,16 +12,22 @@ export default function LoadingScreen() {
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-    if (prefersReducedMotion) {
-      const load = async () => {
-        await Promise.resolve()
-        setLoading(false)
-      }
-      load()
+    // Skip on return visits within the same browser session
+    if (sessionStorage.getItem('melhek_loaded')) {
+      setLoading(false)
       return
     }
 
-    const timer = window.setTimeout(() => setLoading(false), 3500)
+    if (prefersReducedMotion) {
+      setLoading(false)
+      sessionStorage.setItem('melhek_loaded', '1')
+      return
+    }
+
+    const timer = window.setTimeout(() => {
+      setLoading(false)
+      sessionStorage.setItem('melhek_loaded', '1')
+    }, 3500)
     return () => clearTimeout(timer)
   }, [])
 

@@ -48,7 +48,7 @@ export default function About() {
                       {pillar.icon}
                     </div>
                     <div className="text-[13px] font-syne font-bold text-white uppercase tracking-wider">{pillar.label}</div>
-                    <div className="text-[10px] text-melhek-steel/40 leading-relaxed font-medium">{pillar.desc}</div>
+                    <div className="text-[11px] text-melhek-steel/40 leading-relaxed font-medium">{pillar.desc}</div>
                   </motion.div>
                 ))}
               </div>
@@ -110,7 +110,7 @@ export default function About() {
                   </div>
                   <div>
                     <div className="text-[12px] font-syne font-bold text-white uppercase tracking-wider">{value.label}</div>
-                    <div className="text-[10px] text-melhek-steel/40 font-medium uppercase tracking-widest mt-1">{value.desc}</div>
+                    <div className="text-[11px] text-melhek-steel/40 font-medium uppercase tracking-widest mt-1">{value.desc}</div>
                   </div>
                 </motion.div>
               ))}

@@ -38,6 +38,7 @@ export default function Hero() {
       >
         <video
           src="/office-showcase.mp4"
+          poster="/office-showcase.png"
           className="w-full h-full object-cover opacity-50 blur-[0.5px] scale-100 mix-blend-screen pointer-events-none select-none"
           autoPlay
           loop

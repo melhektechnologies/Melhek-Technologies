@@ -161,6 +161,10 @@ export default function Testimonials() {
         className="relative overflow-hidden py-4"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
+        onFocus={() => setIsPaused(true)}
+        onBlur={() => setIsPaused(false)}
+        onTouchStart={() => setIsPaused(true)}
+        onTouchEnd={() => setTimeout(() => setIsPaused(false), 3000)}
       >
         {/* Left fade */}
         <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-melhek-dark to-transparent z-10 pointer-events-none" />

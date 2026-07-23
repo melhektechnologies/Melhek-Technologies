@@ -43,10 +43,10 @@ export default function EnterpriseCTA() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="relative rounded-[4rem] overflow-hidden"
+          className="relative rounded-[2rem] sm:rounded-[4rem] overflow-hidden"
         >
           {/* Animated border glow */}
-          <div className="absolute inset-0 rounded-[4rem] p-[1px] z-0">
+          <div className="absolute inset-0 rounded-[2rem] sm:rounded-[4rem] p-[1px] z-0">
             <motion.div
               animate={{ rotate: [0, 360] }}
               transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
@@ -55,14 +55,14 @@ export default function EnterpriseCTA() {
                 background: 'conic-gradient(from 0deg, transparent 60%, rgba(127,169,255,0.8) 80%, transparent 100%)',
               }}
             />
-            <div className="absolute inset-[1px] rounded-[4rem] bg-melhek-navy" />
+            <div className="absolute inset-[1px] rounded-[2rem] sm:rounded-[4rem] bg-melhek-navy" />
           </div>
 
           {/* Static border as fallback */}
-          <div className="absolute inset-0 rounded-[4rem] border border-melhek-blue/20 z-0" />
+          <div className="absolute inset-0 rounded-[2rem] sm:rounded-[4rem] border border-melhek-blue/20 z-0" />
 
           {/* Main background */}
-          <div className="relative z-10 glass rounded-[4rem] p-12 md:p-24 text-center overflow-hidden border-melhek-blue/20">
+          <div className="relative z-10 glass rounded-[2rem] sm:rounded-[4rem] p-8 sm:p-12 md:p-24 text-center overflow-hidden border-melhek-blue/20">
 
             {/* Gradient mesh background */}
             <div className="absolute inset-0 -z-10 overflow-hidden">

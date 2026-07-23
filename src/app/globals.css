@@ -42,6 +42,13 @@
     overflow-x: hidden;
   }
 
+  /* Hide native cursor when custom cursor is active (pointer:fine = mouse/trackpad) */
+  @media (pointer: fine) {
+    *, *::before, *::after {
+      cursor: none !important;
+    }
+  }
+
   h1, h2, h3, h4, .display {
     font-family: var(--font-display);
     letter-spacing: -0.03em;

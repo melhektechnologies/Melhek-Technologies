@@ -2,7 +2,6 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import StatsBar from "@/components/StatsBar";
 import LoadingScreen from "@/components/LoadingScreen";
-import CustomCursor from "@/components/CustomCursor";
 import SmoothScroll from "@/components/SmoothScroll";
 import { HashScroll } from "@/components/HashScroll";
 import About from "@/components/About";
@@ -23,7 +22,6 @@ export default function Home() {
       <HashScroll />
       <div className="grain-overlay" />
       <LoadingScreen />
-      <CustomCursor />
       <main className="relative bg-melhek-dark overflow-x-hidden">
         <Navbar />
         <Hero />

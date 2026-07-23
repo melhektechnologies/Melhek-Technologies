@@ -3,6 +3,7 @@ import { Inter, Plus_Jakarta_Sans, Syne, JetBrains_Mono } from "next/font/google
 import "./globals.css";
 import AiAssistant from "@/components/AiAssistant";
 import TerminalConsole from "@/components/TerminalConsole";
+import CustomCursor from "@/components/CustomCursor";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -87,6 +88,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${plusJakarta.variable} ${syne.variable} ${jetbrainsMono.variable} antialiased selection:bg-melhek-blue/30`}
       >
+        <CustomCursor />
         {children}
         <AiAssistant />
         <TerminalConsole />

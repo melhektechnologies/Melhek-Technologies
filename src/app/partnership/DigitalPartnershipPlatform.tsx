@@ -444,20 +444,20 @@ export default function DigitalPartnershipPlatform() {
                 onClick={() => setActiveStage('welcome')}
                 className={`px-3 py-1 rounded-full transition-all cursor-pointer ${activeStage === 'welcome' ? 'bg-melhek-blue text-melhek-navy font-bold shadow' : 'text-white/60 hover:text-white'}`}
               >
-                1. Overview & Program Details
+                1. Explore the Program
               </button>
               <button
                 onClick={() => setActiveStage('agreement')}
                 className={`px-3 py-1 rounded-full transition-all cursor-pointer ${activeStage === 'agreement' ? 'bg-melhek-blue text-melhek-navy font-bold shadow' : 'text-white/60 hover:text-white'}`}
               >
-                2. Review & Sign Agreement
+                2. Accept the Partnership
               </button>
               {isSigned && (
                 <button
                   onClick={() => setActiveStage('discovery')}
                   className={`px-3 py-1 rounded-full transition-all cursor-pointer ${activeStage === 'discovery' ? 'bg-melhek-blue text-melhek-navy font-bold shadow' : 'text-white/60 hover:text-white'}`}
                 >
-                  3. Discovery Intake
+                  3. Tell Us About Your Business
                 </button>
               )}
               {formCompleted && (
@@ -465,7 +465,7 @@ export default function DigitalPartnershipPlatform() {
                   onClick={() => setActiveStage('dashboard')}
                   className={`px-3 py-1 rounded-full transition-all cursor-pointer ${activeStage === 'dashboard' ? 'bg-emerald-400 text-melhek-navy font-bold shadow' : 'text-white/60 hover:text-white'}`}
                 >
-                  4. Partner Portal
+                  4. Your Partner Workspace
                 </button>
               )}
             </div>
@@ -611,18 +611,54 @@ export default function DigitalPartnershipPlatform() {
                         onClick={() => setActiveStage('agreement')}
                         className="btn-primary flex items-center justify-center gap-3 px-8 py-3.5 text-xs font-mono uppercase tracking-widest cursor-pointer w-full sm:w-auto text-center"
                       >
-                        Sign & Get Started <ArrowRight className="w-4 h-4" />
+                        Accept the Partnership <ArrowRight className="w-4 h-4" />
                       </button>
                       <button
                         onClick={() => scrollToSection('sponsored-package')}
                         className="btn-secondary flex items-center justify-center gap-2 px-8 py-3.5 text-xs font-mono uppercase tracking-widest cursor-pointer w-full sm:w-auto text-center"
                       >
-                        View Sponsored Package
+                        View What's Included
                       </button>
                     </div>
                   </div>
 
-                  {/* 2. FOUNDER LETTER SECTION */}
+                  {/* 2. WHY YOU WERE INVITED — FIRST EMOTIONAL HOOK */}
+                  <div id="why-selected" className="scroll-mt-28 space-y-6">
+                    <div className="p-8 sm:p-10 rounded-[2rem] bg-gradient-to-br from-melhek-blue/10 to-white/[0.01] border border-melhek-blue/20 space-y-6 relative overflow-hidden">
+                      <div className="absolute -top-10 -right-10 w-48 h-48 bg-melhek-blue/5 rounded-full blur-3xl pointer-events-none" />
+                      <div className="space-y-1">
+                        <span className="text-[10px] font-mono text-melhek-blue uppercase tracking-widest font-bold">Why You Were Invited</span>
+                        <h2 className="text-2xl sm:text-3xl font-display font-bold text-white">You were not selected by chance.</h2>
+                      </div>
+                      <p className="text-sm text-white/70 font-light leading-relaxed max-w-2xl">
+                        We are building a carefully selected network of business leaders who are helping shape Ethiopia's professional and digital ecosystem.
+                      </p>
+                      <p className="text-sm text-white/70 font-light leading-relaxed max-w-2xl">
+                        After reviewing your work, we believe your values, your audience, and your long-term vision align with the purpose of this program.
+                      </p>
+                      <p className="text-sm text-white/80 font-normal leading-relaxed max-w-2xl">
+                        Rather than offering generic sponsorships, we choose a <span className="text-melhek-blue font-semibold">limited number of partners each year</span> whose success we believe we can genuinely contribute to.
+                      </p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                        {[
+                          { title: 'Marketplace Impact', desc: 'You operate a validated business that delivers real value to real people in Ethiopia.' },
+                          { title: 'Established Reputation', desc: 'Your brand carries integrity, client trust, and a professional standard.' },
+                          { title: 'Growth Vision', desc: 'You think about digital tools as operational leverage, not surface-level presence.' },
+                          { title: 'Long-Term Thinking', desc: 'You see the value in building a lasting relationship with a dedicated technology team.' }
+                        ].map((item, i) => (
+                          <div key={i} className="flex gap-3">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
+                            <div>
+                              <h4 className="text-xs font-bold text-white">{item.title}</h4>
+                              <p className="text-[11px] text-white/50 mt-0.5 leading-relaxed">{item.desc}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 3. FOUNDER LETTER SECTION */}
                   <div id="founder-letter" className="scroll-mt-28 glass p-6 sm:p-10 rounded-[2rem] border-white/10 bg-melhek-navy/40 space-y-5 relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-32 h-32 bg-melhek-blue/5 rounded-full blur-2xl pointer-events-none" />
                     <h3 className="text-xs font-mono text-melhek-blue uppercase tracking-widest flex items-center gap-2">
@@ -631,13 +667,13 @@ export default function DigitalPartnershipPlatform() {
                     <div className="space-y-4 text-xs sm:text-sm text-white/80 font-light leading-relaxed">
                       <p className="text-white font-normal">Dear Business Owner,</p>
                       <p>
-                        Websites are no longer just digital brochures. Modern companies require digital infrastructure—operational backbones that capture customers, streamline inventories, handle bookings, and process payments automatically.
+                        Websites are no longer just digital brochures. Modern companies require digital infrastructure — operational backbones that capture customers, streamline inventories, handle bookings, and process payments automatically.
                       </p>
                       <p className="font-semibold text-white italic border-l-2 border-melhek-blue pl-4 py-1">
                         "We believe in long-term technology partnership. We invest our engineering capability into you today at zero upfront cost, establishing the trust needed to support and expand your digital systems as you scale tomorrow."
                       </p>
                       <p>
-                        We welcome you to check our program details, execute the alignment agreement, and launch your digital workflow.
+                        We welcome you to explore the program, accept the partnership agreement, and launch your digital backbone with us.
                       </p>
                     </div>
                     <div className="pt-2 font-mono text-xs">
@@ -646,45 +682,23 @@ export default function DigitalPartnershipPlatform() {
                     </div>
                   </div>
 
-                  {/* 3. PROGRAM MISSION & VISION */}
+                  {/* 4. PROGRAM MISSION & VISION */}
                   <div id="program-vision" className="scroll-mt-28 space-y-6">
                     <h3 className="text-xs font-mono text-melhek-blue uppercase tracking-widest block">01 // The Architecture Vision</h3>
-                    <h2 className="text-2xl sm:text-3xl font-display font-bold text-white">Ecosystem Design</h2>
+                    <h2 className="text-2xl sm:text-3xl font-display font-bold text-white">How We Work Together</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="glass p-6 rounded-2xl border-white/5 bg-white/[0.01] space-y-2">
-                        <h4 className="text-sm font-bold text-white">The Core Mission</h4>
+                        <h4 className="text-sm font-bold text-white">Our Commitment</h4>
                         <p className="text-xs text-white/50 leading-relaxed font-light">
-                          To empower high-impact Ethiopian businesses by provisioning robust custom-coded platforms, removing upfront capital barriers to world-class software development.
+                          We build, optimize, and deploy your custom digital system at zero upfront cost — removing the capital barrier that stops most businesses from going digital properly.
                         </p>
                       </div>
                       <div className="glass p-6 rounded-2xl border-white/5 bg-white/[0.01] space-y-2">
-                        <h4 className="text-sm font-bold text-white">The Long-Term Alignment</h4>
+                        <h4 className="text-sm font-bold text-white">Your Advantage</h4>
                         <p className="text-xs text-white/50 leading-relaxed font-light">
-                          From custom CRM integrations to AI chatbots, CBE/Telebirr checkouts, and custom branch management ledgers—all managed in one portal.
+                          A dedicated engineering team on call. Full IP ownership. A growing ecosystem of tools tailored to your specific business operations.
                         </p>
                       </div>
-                    </div>
-                  </div>
-
-                  {/* 4. WHY YOU WERE SELECTED */}
-                  <div id="why-selected" className="scroll-mt-28 space-y-6">
-                    <h3 className="text-xs font-mono text-melhek-blue uppercase tracking-widest block">02 // Exclusive Qualification</h3>
-                    <h2 className="text-2xl sm:text-3xl font-display font-bold text-white">Why Your Brand Was Invited</h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      {[
-                        { title: 'Real Marketplace Impact', desc: 'You manage a validated enterprise that provides real services or products in Ethiopia.' },
-                        { title: 'Established Reputation', desc: 'Your brand operates with high integrity, client trust, and a standard of professionalism.' },
-                        { title: 'Growth Leadership', desc: 'You see digital tools as strategic assets that optimize operations rather than simple vanity static sites.' },
-                        { title: 'Partnership Mindset', desc: 'You appreciate the value of having a dedicated development team on call to scale your tools.' }
-                      ].map((item, i) => (
-                        <div key={i} className="glass p-5 rounded-2xl border-white/5 bg-white/[0.01] flex gap-3 hover:border-white/10 transition-all">
-                          <CheckCircle2 className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
-                          <div>
-                            <h4 className="text-xs font-bold text-white">{item.title}</h4>
-                            <p className="text-[11px] text-white/50 mt-1 leading-relaxed">{item.desc}</p>
-                          </div>
-                        </div>
-                      ))}
                     </div>
                   </div>
 
@@ -885,10 +899,25 @@ export default function DigitalPartnershipPlatform() {
 
                 {/* Agreement Scroll Terms */}
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between text-[9px] font-mono text-white/40 uppercase">
-                    <span>Agreement Reference: {partnerId}</span>
-                    <span className="text-emerald-400 font-bold">SHA-256 Validated</span>
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 p-3.5 rounded-xl bg-white/[0.02] border border-white/5">
+                    <div className="space-y-0.5">
+                      <span className="text-[9px] font-mono text-white/30 uppercase block">Agreement ID</span>
+                      <span className="text-[11px] font-mono text-melhek-blue font-bold">MDP-AGR-2026-{partnerId.replace('MDP-2026-', '')}</span>
+                    </div>
+                    <div className="space-y-0.5">
+                      <span className="text-[9px] font-mono text-white/30 uppercase block">Signed On</span>
+                      <span className="text-[11px] font-mono text-white">{new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-full">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                      <span className="text-[10px] font-mono text-emerald-400 font-bold">Verification Status: Verified</span>
+                    </div>
                   </div>
+                </div>
+
+                {/* Agreement Scroll Terms */}
+                <div className="space-y-3">
+                  <div className="text-[9px] font-mono text-white/30 uppercase">Terms of Alignment</div>
                   <div className="h-44 overflow-y-auto pr-2 text-[11px] text-white/60 font-light leading-relaxed space-y-3 bg-black/40 p-4 rounded-xl border border-white/5 scrollbar-thin">
                     <p className="font-bold text-white">1. Core Platform Sponsorship</p>
                     <p>Melhek Technologies agrees to build, optimize, and deploy the core web application for the Partner at 0 ETB upfront cost. Market value is estimated at ~45,000 ETB.</p>
@@ -943,12 +972,17 @@ export default function DigitalPartnershipPlatform() {
                       />
                     </div>
                     <div>
-                      <label className="text-[9px] font-mono text-white/40 uppercase block mb-1">Signature Cryptographic ID</label>
-                      <div className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-[10px] text-melhek-blue/80 font-mono overflow-x-auto whitespace-nowrap scrollbar-none">
-                        {pseudoHash}
-                      </div>
+                      <label className="text-[9px] font-mono text-white/40 uppercase block mb-1">Company Name or Role</label>
+                      <input
+                        type="text"
+                        value={formData.businessName}
+                        onChange={(e) => handleSaveFormData({ businessName: e.target.value })}
+                        placeholder="e.g. Apex Hospitality Group"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white placeholder:text-white/20 focus:outline-none focus:border-melhek-blue font-mono"
+                      />
                     </div>
                   </div>
+
 
                   {/* Draw Signature Pad */}
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -1038,30 +1072,71 @@ export default function DigitalPartnershipPlatform() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="max-w-3xl mx-auto px-4 sm:px-6 pt-12 pb-16 text-center"
+              transition={{ duration: 0.4 }}
+              className="max-w-2xl mx-auto px-4 sm:px-6 pt-12 pb-16"
             >
-              <div className="glass rounded-[2rem] border-emerald-500/30 bg-melhek-navy/90 p-8 sm:p-12 shadow-2xl space-y-6">
-                <div className="w-14 h-14 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center mx-auto">
-                  <CheckCircle2 className="w-7 h-7" />
-                </div>
-                <div className="space-y-1.5">
-                  <span className="text-[9px] font-mono text-emerald-400 uppercase tracking-widest font-bold">Partner Agreement Validated</span>
-                  <h2 className="text-2xl sm:text-3xl font-display font-extrabold text-white">Registry Confirmed!</h2>
-                  <p className="text-xs text-white/55 max-w-sm mx-auto">
-                    Your partnership agreement is now locked in the registry. Let's start the scoping.
-                  </p>
-                </div>
-                <div className="p-4 rounded-xl bg-white/5 border border-white/10 max-w-xs mx-auto space-y-1 font-mono text-left text-[11px]">
-                  <div className="flex justify-between text-white/40"><span>ID:</span><span className="text-melhek-blue font-bold">{partnerId}</span></div>
-                  <div className="flex justify-between text-white/40"><span>Authorized:</span><span className="text-white">{partnerFullName}</span></div>
-                </div>
-                <button
-                  onClick={() => setActiveStage('discovery')}
-                  className="btn-primary !px-8 !py-3.5 text-xs font-mono uppercase tracking-widest cursor-pointer w-full sm:w-auto"
+              {/* Confirmation Banner */}
+              <div className="text-center mb-8 space-y-2">
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.15, type: 'spring', stiffness: 200 }}
+                  className="w-16 h-16 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 flex items-center justify-center mx-auto mb-4"
                 >
-                  Start Discovery Scoping Form <ArrowRight className="w-4 h-4" />
-                </button>
+                  <CheckCircle2 className="w-8 h-8" />
+                </motion.div>
+                <span className="text-[9px] font-mono text-emerald-400 uppercase tracking-widest font-bold">Partnership Accepted</span>
+                <h2 className="text-2xl sm:text-3xl font-display font-extrabold text-white">Welcome to the Program.</h2>
+                <p className="text-xs text-white/50 max-w-xs mx-auto leading-relaxed">
+                  Your submission has been received. Here is your official partner profile.
+                </p>
+              </div>
+
+              {/* Partner Profile Card */}
+              <div className="glass rounded-[2rem] border-white/10 bg-melhek-navy/90 overflow-hidden shadow-2xl">
+                {/* Card Header */}
+                <div className="bg-gradient-to-r from-melhek-blue/15 to-transparent border-b border-white/10 p-6 sm:p-8 flex items-center gap-4">
+                  <div className="w-14 h-14 rounded-2xl bg-melhek-blue/20 border border-melhek-blue/30 flex items-center justify-center flex-shrink-0">
+                    <Shield className="w-7 h-7 text-melhek-blue" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-display font-extrabold text-white">{partnerFullName}</h3>
+                    <span className="text-[10px] font-mono text-melhek-blue font-bold">Founding Digital Partner</span>
+                  </div>
+                  <div className="ml-auto">
+                    <span className="flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-[10px] font-mono font-bold px-3 py-1.5 rounded-full">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      Active
+                    </span>
+                  </div>
+                </div>
+
+                {/* Profile Details Grid */}
+                <div className="p-6 sm:p-8 grid grid-cols-2 sm:grid-cols-3 gap-5">
+                  {[
+                    { label: 'Partner ID', value: partnerId, highlight: true },
+                    { label: 'Status', value: 'Founding Digital Partner', highlight: false },
+                    { label: 'Joined', value: new Date().toLocaleDateString('en-GB', { month: 'long', year: 'numeric' }), highlight: false },
+                    { label: 'Current Project', value: 'Sponsored Website Build', highlight: false },
+                    { label: 'Relationship', value: 'Active', highlight: false },
+                    { label: 'Next Step', value: 'Business Discovery', highlight: false },
+                  ].map((item) => (
+                    <div key={item.label} className="space-y-1">
+                      <span className="text-[9px] font-mono text-white/30 uppercase block">{item.label}</span>
+                      <span className={`text-xs font-bold block ${item.highlight ? 'text-melhek-blue' : 'text-white'}`}>{item.value}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Card Footer */}
+                <div className="border-t border-white/10 p-6 sm:p-8">
+                  <button
+                    onClick={() => setActiveStage('discovery')}
+                    className="btn-primary w-full flex items-center justify-center gap-3 py-4 text-xs font-mono uppercase tracking-widest cursor-pointer"
+                  >
+                    Tell Us About Your Business <ArrowRight className="w-4 h-4" />
+                  </button>
+                </div>
               </div>
             </motion.section>
           )}
@@ -1365,65 +1440,61 @@ export default function DigitalPartnershipPlatform() {
                 {/* Workspace Panel */}
                 <div className="lg:col-span-3">
                   
-                  {/* SPRINT STATUS TAB (AGILE SPRINT KANBAN) */}
+                  {/* OVERVIEW TAB: MILESTONE TRACKER */}
                   {dashboardTab === 'overview' && (
                     <div className="space-y-6">
-                      
-                      {/* Interactive Agile Sprint Kanban */}
-                      <div className="glass p-6 rounded-2xl border-white/10 bg-melhek-navy/55 space-y-5">
-                        <div className="flex items-center justify-between border-b border-white/10 pb-3">
+
+                      {/* Human-readable Milestone Tracker */}
+                      <div className="glass p-6 sm:p-8 rounded-2xl border-white/10 bg-melhek-navy/55 space-y-5">
+                        <div className="flex items-center justify-between border-b border-white/10 pb-4">
                           <h3 className="text-xs font-mono text-white/40 uppercase flex items-center gap-2">
-                            <Layers className="w-4 h-4 text-melhek-blue" /> Live Engineering Sprint Board
+                            <Award className="w-4 h-4 text-melhek-blue" /> Your Project Milestones
                           </h3>
-                          <span className="text-[10px] font-mono text-melhek-blue">Sprint 1 (Active)</span>
+                          <span className="text-[10px] font-mono text-melhek-blue bg-melhek-blue/10 border border-melhek-blue/20 px-2.5 py-1 rounded-full">Design Phase</span>
                         </div>
 
-                        {/* Kanban columns */}
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                          
-                          {/* Column 1: Backlog */}
-                          <div className="space-y-3">
-                            <span className="text-[10px] font-mono text-white/30 uppercase block font-bold px-1">// Backlog (2)</span>
-                            <div className="p-3 bg-black/40 border border-white/5 rounded-xl space-y-2">
-                              <span className="text-[9px] font-mono text-melhek-blue font-bold block">ENG-304</span>
-                              <p className="text-xs font-bold text-white">Payment Gateway Logic</p>
-                              <p className="text-[10px] text-white/40">Integrate direct CBE Birr & Telebirr checkout APIs.</p>
-                            </div>
-                            <div className="p-3 bg-black/40 border border-white/5 rounded-xl space-y-2">
-                              <span className="text-[9px] font-mono text-melhek-blue font-bold block">ENG-305</span>
-                              <p className="text-xs font-bold text-white">Amharic Translation Hook</p>
-                              <p className="text-[10px] text-white/40">Configure locale switching triggers.</p>
-                            </div>
-                          </div>
-
-                          {/* Column 2: In Progress */}
-                          <div className="space-y-3">
-                            <span className="text-[10px] font-mono text-melhek-blue uppercase block font-bold px-1">// In Progress (1)</span>
-                            <div className="p-3 bg-melhek-blue/5 border border-melhek-blue/20 rounded-xl space-y-2 animate-pulse">
-                              <span className="text-[9px] font-mono text-melhek-blue font-bold block">DES-201</span>
-                              <p className="text-xs font-bold text-white">Interactive Figma Wireframes</p>
-                              <p className="text-[10px] text-white/60">Structuring visual page flow and typography grid.</p>
-                              <div className="w-full bg-white/10 h-1 rounded-full overflow-hidden">
-                                <div className="bg-melhek-blue h-full w-[65%]" />
+                        <div className="space-y-4">
+                          {[
+                            { label: 'Discovery Complete', sub: 'Business goals and scope captured', done: true },
+                            { label: 'Strategy Approved', sub: 'Sitemap, user flow, and technical plan confirmed', done: true },
+                            { label: 'Design in Progress', sub: 'High-fidelity Figma prototypes are being built', active: true },
+                            { label: 'Development', sub: 'Next.js build, animations, and integrations', done: false },
+                            { label: 'Review', sub: 'Beta preview with quality checks and partner feedback', done: false },
+                            { label: 'Launch', sub: 'Production deployment, domain mapping, and SSL', done: false },
+                          ].map((m, idx) => (
+                            <div key={idx} className="flex items-start gap-4">
+                              {/* Status Icon */}
+                              <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 border mt-0.5 ${
+                                m.done
+                                  ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-400'
+                                  : (m as any).active
+                                  ? 'bg-melhek-blue/20 border-melhek-blue text-melhek-blue animate-pulse'
+                                  : 'bg-white/5 border-white/10 text-white/20'
+                              }`}>
+                                {m.done ? (
+                                  <Check className="w-4 h-4" />
+                                ) : (m as any).active ? (
+                                  <Clock className="w-4 h-4" />
+                                ) : (
+                                  <span className="text-[10px] font-mono font-bold">{String(idx + 1).padStart(2, '0')}</span>
+                                )}
+                              </div>
+                              {/* Label */}
+                              <div className="flex-1 pt-1">
+                                <div className="flex items-center justify-between">
+                                  <h4 className={`text-xs font-bold ${
+                                    m.done ? 'text-white' : (m as any).active ? 'text-melhek-blue' : 'text-white/40'
+                                  }`}>
+                                    {m.label}
+                                    {m.done && <span className="ml-2 text-[9px] font-mono text-emerald-400">✓</span>}
+                                  </h4>
+                                </div>
+                                <p className={`text-[11px] mt-0.5 ${
+                                  m.done ? 'text-white/50' : (m as any).active ? 'text-white/70' : 'text-white/25'
+                                }`}>{m.sub}</p>
                               </div>
                             </div>
-                          </div>
-
-                          {/* Column 3: Completed */}
-                          <div className="space-y-3">
-                            <span className="text-[10px] font-mono text-emerald-400 uppercase block font-bold px-1">// Completed (2)</span>
-                            <div className="p-3 bg-emerald-500/5 border border-emerald-500/10 rounded-xl space-y-2 opacity-60">
-                              <span className="text-[9px] font-mono text-emerald-400 font-bold block">ENG-101</span>
-                              <p className="text-xs font-bold text-white">GitHub Codebase Set Up</p>
-                              <p className="text-[10px] text-white/40">Init repository with Tailwind v4 & fonts.</p>
-                            </div>
-                            <div className="p-3 bg-emerald-500/5 border border-emerald-500/10 rounded-xl space-y-2 opacity-60">
-                              <span className="text-[9px] font-mono text-emerald-400 font-bold block">OPS-102</span>
-                              <p className="text-xs font-bold text-white">Onboarding & Agreement</p>
-                              <p className="text-[10px] text-white/40">Digital agreement signature locked in.</p>
-                            </div>
-                          </div>
-
+                          ))}
                         </div>
                       </div>
 

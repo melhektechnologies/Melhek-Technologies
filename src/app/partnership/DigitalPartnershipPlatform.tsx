@@ -332,6 +332,26 @@ export default function DigitalPartnershipPlatform() {
     }
   }
 
+  const submitPartnershipData = async (updatedDiscovery?: DiscoveryFormData) => {
+    try {
+      await fetch('/api/partnership/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          partnerId,
+          partnerFullName: partnerFullName || localStorage.getItem('melhek_partner_name') || '',
+          signatureData,
+          dateSigned: new Date().toLocaleDateString(),
+          discoveryData: updatedDiscovery || formData,
+        }),
+      })
+    } catch (err) {
+      console.error('Error submitting partnership data:', err)
+    }
+  }
+
   const handleSignAgreement = (e: React.FormEvent) => {
     e.preventDefault()
     if (!agreeTerms || !agreeAuthenticity || !partnerFullName.trim() || !signatureData) return
@@ -339,6 +359,7 @@ export default function DigitalPartnershipPlatform() {
     localStorage.setItem('melhek_partner_signed', 'true')
     localStorage.setItem('melhek_partner_name', partnerFullName)
     setActiveStage('success')
+    submitPartnershipData()
   }
 
   const handleSaveFormData = (updated: Partial<DiscoveryFormData>) => {
@@ -352,6 +373,7 @@ export default function DigitalPartnershipPlatform() {
     setFormCompleted(true)
     localStorage.setItem('melhek_discovery_completed', 'true')
     setActiveStage('dashboard')
+    submitPartnershipData(formData)
   }
 
   const handleSendMessage = (e: React.FormEvent) => {

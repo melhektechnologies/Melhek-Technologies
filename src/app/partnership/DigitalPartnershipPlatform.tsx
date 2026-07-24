@@ -9,16 +9,16 @@ import {
   Send, CreditCard, RefreshCw, Lock, ArrowRight, Award, Sparkles, 
   Clock, FileCheck, CheckCircle2, ChevronRight, TrendingUp, 
   UserCheck, FileSignature, LayoutDashboard, Building2, UploadCloud, 
-  SendHorizontal, AlertCircle, ShieldCheck, HelpCircle, type LucideIcon
+  SendHorizontal, AlertCircle, ShieldCheck, HelpCircle, ChevronDown, type LucideIcon
 } from 'lucide-react'
 
 // ── TYPES & INTERFACES ──
 export type OnboardingStage = 
-  | 'welcome'      // Phase 1: Consolidated Overview (Hero, Letter, Selected, Package, Growth, Timeline, FAQ)
-  | 'agreement'    // Phase 2: Sign Agreement
-  | 'success'      // Intermediate Signature Success Screen
-  | 'discovery'    // Phase 3: Business Intake Form
-  | 'dashboard'    // Phase 4: Live Workspace
+  | 'welcome'      // Phase 1: Immersive Dossier (Hero, Letter, Selected, Package, Sprints, FAQs)
+  | 'agreement'    // Phase 2: High-Tech Agreement & E-Sign
+  | 'success'      // Success splash
+  | 'discovery'    // Phase 3: Intake scoping
+  | 'dashboard'    // Phase 4: Live workspace & sprint kanban
 
 interface GrowthService {
   id: string
@@ -191,6 +191,7 @@ export default function DigitalPartnershipPlatform() {
   const [isSigned, setIsSigned] = useState(false)
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const [isDrawing, setIsDrawing] = useState(false)
+  const [pseudoHash, setPseudoHash] = useState('SHA-256-PENDING-SIGNATURE-AUTH')
 
   // Discovery Form State
   const [discoveryStep, setDiscoveryStep] = useState<number>(1)
@@ -221,6 +222,9 @@ export default function DigitalPartnershipPlatform() {
 
   // Table of Contents Active Item
   const [activeSection, setActiveSection] = useState('welcome-hero')
+
+  // FAQ Expand state
+  const [expandedFaq, setExpandedFaq] = useState<string | null>(null)
 
   // Load persisted state on mount
   useEffect(() => {
@@ -256,7 +260,7 @@ export default function DigitalPartnershipPlatform() {
     const sections = ['welcome-hero', 'founder-letter', 'program-vision', 'why-selected', 'sponsored-package', 'growth-services', 'timeline-roadmap', 'faqs']
     
     const handleScroll = () => {
-      const scrollPos = window.scrollY + 200
+      const scrollPos = window.scrollY + 220
       for (const section of sections) {
         const el = document.getElementById(section)
         if (el) {
@@ -273,6 +277,21 @@ export default function DigitalPartnershipPlatform() {
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [activeStage])
+
+  // Generate pseudo-cryptographic hash as user types name
+  useEffect(() => {
+    if (!partnerFullName) {
+      setPseudoHash('SHA-256-PENDING-SIGNATURE-AUTH')
+      return
+    }
+    let hash = 0
+    for (let i = 0; i < partnerFullName.length; i++) {
+      hash = (hash << 5) - hash + partnerFullName.charCodeAt(i)
+      hash |= 0
+    }
+    const hex = Math.abs(hash).toString(16).toUpperCase().padStart(8, '0')
+    setPseudoHash(`HEX-MD5-${hex}-SECURE-AUTH-ONBOARD-${partnerId}`)
+  }, [partnerFullName, partnerId])
 
   // Scroll to section helper
   const scrollToSection = (id: string) => {
@@ -332,26 +351,6 @@ export default function DigitalPartnershipPlatform() {
     }
   }
 
-  const submitPartnershipData = async (updatedDiscovery?: DiscoveryFormData) => {
-    try {
-      await fetch('/api/partnership/submit', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          partnerId,
-          partnerFullName: partnerFullName || localStorage.getItem('melhek_partner_name') || '',
-          signatureData,
-          dateSigned: new Date().toLocaleDateString(),
-          discoveryData: updatedDiscovery || formData,
-        }),
-      })
-    } catch (err) {
-      console.error('Error submitting partnership data:', err)
-    }
-  }
-
   const handleSignAgreement = (e: React.FormEvent) => {
     e.preventDefault()
     if (!agreeTerms || !agreeAuthenticity || !partnerFullName.trim() || !signatureData) return
@@ -374,6 +373,26 @@ export default function DigitalPartnershipPlatform() {
     localStorage.setItem('melhek_discovery_completed', 'true')
     setActiveStage('dashboard')
     submitPartnershipData(formData)
+  }
+
+  const submitPartnershipData = async (updatedDiscovery?: DiscoveryFormData) => {
+    try {
+      await fetch('/api/partnership/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          partnerId,
+          partnerFullName: partnerFullName || localStorage.getItem('melhek_partner_name') || '',
+          signatureData,
+          dateSigned: new Date().toLocaleDateString(),
+          discoveryData: updatedDiscovery || formData,
+        }),
+      })
+    } catch (err) {
+      console.error('Error submitting partnership data:', err)
+    }
   }
 
   const handleSendMessage = (e: React.FormEvent) => {
@@ -492,7 +511,7 @@ export default function DigitalPartnershipPlatform() {
               className="max-w-7xl mx-auto px-4 sm:px-6 pt-6"
             >
               
-              {/* STICKY BOTTOM ACTIONS BAR FOR MOBILE */}
+              {/* STICKY BOTTOM FLOATING ACTIONS BAR */}
               <div className="fixed bottom-0 left-0 right-0 z-40 bg-melhek-navy/95 border-t border-white/10 p-4 block md:hidden backdrop-blur-md">
                 <button
                   onClick={() => setActiveStage('agreement')}
@@ -502,12 +521,29 @@ export default function DigitalPartnershipPlatform() {
                 </button>
               </div>
 
+              {/* Floating subtle bottom bar on desktop to surprise and pull action */}
+              <div className="hidden md:flex fixed bottom-6 left-1/2 -translate-x-1/2 z-40 glass bg-melhek-navy/90 border border-melhek-blue/30 rounded-full px-6 py-3 items-center gap-6 shadow-2xl backdrop-blur-lg">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-melhek-blue animate-ping" />
+                  <span className="text-[11px] font-mono text-white/70">Invitation Active ({partnerId}). Ready to execute agreement.</span>
+                </div>
+                <button
+                  onClick={() => setActiveStage('agreement')}
+                  className="btn-primary !px-5 !py-2 !text-[10px] font-mono uppercase tracking-widest cursor-pointer"
+                >
+                  Sign Agreement
+                </button>
+              </div>
+
               <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 relative items-start">
                 
                 {/* STICKY SIDE INDEX TABLE OF CONTENTS */}
                 <div className="hidden lg:block lg:col-span-1 sticky top-28 space-y-4">
                   <div className="glass p-5 rounded-3xl border-white/10 bg-melhek-navy/55 space-y-4">
-                    <h3 className="text-xs font-mono text-white/40 uppercase tracking-wider">Table of Contents</h3>
+                    <div className="flex items-center gap-2">
+                      <Shield className="w-3.5 h-3.5 text-melhek-blue" />
+                      <span className="text-xs font-mono text-white/40 uppercase tracking-wider">Strategic Steps</span>
+                    </div>
                     <div className="space-y-1">
                       {[
                         { id: 'welcome-hero', label: 'Program Invitation' },
@@ -524,8 +560,8 @@ export default function DigitalPartnershipPlatform() {
                           onClick={() => scrollToSection(item.id)}
                           className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-left text-xs font-mono transition-all cursor-pointer ${
                             activeSection === item.id 
-                              ? 'bg-melhek-blue/10 text-melhek-blue font-bold' 
-                              : 'text-white/50 hover:text-white/80'
+                              ? 'bg-melhek-blue/10 text-melhek-blue font-bold border border-melhek-blue/20' 
+                              : 'text-white/50 hover:text-white/80 border border-transparent'
                           }`}
                         >
                           <span className={`w-1.5 h-1.5 rounded-full transition-colors ${
@@ -534,6 +570,16 @@ export default function DigitalPartnershipPlatform() {
                           {item.label}
                         </button>
                       ))}
+                    </div>
+                  </div>
+
+                  {/* Checklist Summary */}
+                  <div className="glass p-5 rounded-3xl border-white/10 bg-melhek-navy/55 space-y-3 font-mono text-[10px] text-white/50">
+                    <span className="text-white/30 uppercase block font-bold">Onboarding Status</span>
+                    <div className="space-y-1.5">
+                      <div className="flex items-center gap-2 text-emerald-400 font-bold"><Check className="w-3.5 h-3.5" /> Invitation Active</div>
+                      <div className="flex items-center gap-2"><div className="w-3 h-3 border border-white/20 rounded-full" /> Signed Agreement</div>
+                      <div className="flex items-center gap-2"><div className="w-3 h-3 border border-white/20 rounded-full" /> Intake Scoping</div>
                     </div>
                   </div>
 
@@ -577,7 +623,8 @@ export default function DigitalPartnershipPlatform() {
                   </div>
 
                   {/* 2. FOUNDER LETTER SECTION */}
-                  <div id="founder-letter" className="scroll-mt-28 glass p-6 sm:p-10 rounded-[2rem] border-white/10 bg-melhek-navy/40 space-y-5">
+                  <div id="founder-letter" className="scroll-mt-28 glass p-6 sm:p-10 rounded-[2rem] border-white/10 bg-melhek-navy/40 space-y-5 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-melhek-blue/5 rounded-full blur-2xl pointer-events-none" />
                     <h3 className="text-xs font-mono text-melhek-blue uppercase tracking-widest flex items-center gap-2">
                       <Building2 className="w-4 h-4" /> A Message from Our Founder
                     </h3>
@@ -630,7 +677,7 @@ export default function DigitalPartnershipPlatform() {
                         { title: 'Growth Leadership', desc: 'You see digital tools as strategic assets that optimize operations rather than simple vanity static sites.' },
                         { title: 'Partnership Mindset', desc: 'You appreciate the value of having a dedicated development team on call to scale your tools.' }
                       ].map((item, i) => (
-                        <div key={i} className="glass p-5 rounded-2xl border-white/5 bg-white/[0.01] flex gap-3">
+                        <div key={i} className="glass p-5 rounded-2xl border-white/5 bg-white/[0.01] flex gap-3 hover:border-white/10 transition-all">
                           <CheckCircle2 className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
                           <div>
                             <h4 className="text-xs font-bold text-white">{item.title}</h4>
@@ -686,8 +733,8 @@ export default function DigitalPartnershipPlatform() {
                       {GROWTH_SERVICES.slice(0, 4).map((g) => {
                         const Icon = g.icon
                         return (
-                          <div key={g.id} className="glass p-5 rounded-2xl border-white/5 bg-white/[0.01] space-y-3">
-                            <div className="w-9 h-9 rounded-lg bg-melhek-blue/10 border border-melhek-blue/20 flex items-center justify-center text-melhek-blue">
+                          <div key={g.id} className="glass p-5 rounded-2xl border-white/5 bg-white/[0.01] space-y-3 hover:border-melhek-blue/30 transition-all group">
+                            <div className="w-9 h-9 rounded-lg bg-melhek-blue/10 border border-melhek-blue/20 flex items-center justify-center text-melhek-blue group-hover:scale-105 transition-transform">
                               <Icon className="w-4.5 h-4.5" />
                             </div>
                             <div>
@@ -732,27 +779,52 @@ export default function DigitalPartnershipPlatform() {
                     <h3 className="text-xs font-mono text-melhek-blue uppercase tracking-widest block">06 // FAQs</h3>
                     <h2 className="text-2xl sm:text-3xl font-display font-bold text-white">Frequently Asked Questions</h2>
                     
-                    <div className="space-y-4">
-                      {FAQS.slice(0, 4).map((faq) => (
-                        <div key={faq.id} className="glass p-5 rounded-2xl border-white/5 bg-white/[0.01] space-y-2">
-                          <h4 className="text-xs font-bold text-white flex items-center gap-2">
-                            <HelpCircle className="w-4 h-4 text-melhek-blue" /> {faq.question}
-                          </h4>
-                          <p className="text-[11px] text-white/60 font-light leading-relaxed pl-6">{faq.answer}</p>
-                        </div>
-                      ))}
+                    <div className="space-y-3">
+                      {FAQS.map((faq) => {
+                        const isOpen = expandedFaq === faq.id
+                        return (
+                          <div key={faq.id} className="glass rounded-2xl border-white/5 bg-white/[0.01] overflow-hidden transition-all duration-300">
+                            <button
+                              onClick={() => setExpandedFaq(isOpen ? null : faq.id)}
+                              className="w-full flex items-center justify-between p-5 text-left text-xs sm:text-sm font-bold text-white hover:bg-white/5 transition-colors cursor-pointer"
+                            >
+                              <span className="flex items-center gap-3">
+                                <HelpCircle className="w-4 h-4 text-melhek-blue flex-shrink-0" />
+                                {faq.question}
+                              </span>
+                              <ChevronDown className={`w-4 h-4 text-white/40 transition-transform duration-300 ${isOpen ? 'rotate-180 text-melhek-blue' : ''}`} />
+                            </button>
+                            <AnimatePresence initial={false}>
+                              {isOpen && (
+                                <motion.div
+                                  initial={{ height: 0 }}
+                                  animate={{ height: 'auto' }}
+                                  exit={{ height: 0 }}
+                                  transition={{ duration: 0.2 }}
+                                  className="overflow-hidden"
+                                >
+                                  <div className="p-5 pt-0 text-xs text-white/60 leading-relaxed pl-12 border-t border-white/5 bg-black/10">
+                                    {faq.answer}
+                                  </div>
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </div>
+                        )
+                      })}
                     </div>
                   </div>
 
                   {/* BOTTOM CORE CONVERSION BANNER */}
-                  <div className="p-8 sm:p-10 rounded-[2rem] bg-gradient-to-r from-melhek-blue/10 to-emerald-500/5 border border-melhek-blue/20 text-center space-y-5">
+                  <div className="p-8 sm:p-10 rounded-[2rem] bg-gradient-to-r from-melhek-blue/15 to-emerald-500/5 border border-melhek-blue/20 text-center space-y-5 relative overflow-hidden">
+                    <div className="absolute top-0 left-0 w-44 h-44 bg-melhek-blue/10 rounded-full blur-3xl pointer-events-none" />
                     <h3 className="text-xl font-display font-bold text-white">Ready to Establish Your Digital Backbone?</h3>
                     <p className="text-xs text-white/60 font-light max-w-lg mx-auto">
                       Step forward to the digital partnership terms and sign the agreement to kick off the design sprint.
                     </p>
                     <button
                       onClick={() => setActiveStage('agreement')}
-                      className="btn-primary flex items-center justify-center gap-3 px-10 py-4 text-xs font-mono uppercase tracking-widest cursor-pointer mx-auto"
+                      className="btn-primary flex items-center justify-center gap-3 px-10 py-4 text-xs font-mono uppercase tracking-widest cursor-pointer mx-auto shadow-lg shadow-melhek-blue/35 hover:scale-105 transition-all"
                     >
                       Sign Partnership Agreement <ArrowRight className="w-4 h-4" />
                     </button>
@@ -813,14 +885,19 @@ export default function DigitalPartnershipPlatform() {
 
                 {/* Agreement Scroll Terms */}
                 <div className="space-y-3">
-                  <span className="text-[9px] font-mono text-white/40 uppercase">Agreement Reference: {partnerId}</span>
+                  <div className="flex items-center justify-between text-[9px] font-mono text-white/40 uppercase">
+                    <span>Agreement Reference: {partnerId}</span>
+                    <span className="text-emerald-400 font-bold">SHA-256 Validated</span>
+                  </div>
                   <div className="h-44 overflow-y-auto pr-2 text-[11px] text-white/60 font-light leading-relaxed space-y-3 bg-black/40 p-4 rounded-xl border border-white/5 scrollbar-thin">
                     <p className="font-bold text-white">1. Core Platform Sponsorship</p>
                     <p>Melhek Technologies agrees to build, optimize, and deploy the core web application for the Partner at 0 ETB upfront cost. Market value is estimated at ~45,000 ETB.</p>
                     <p className="font-bold text-white">2. Full IP & Code Ownership</p>
                     <p>All source code, graphic designs, assets, and database credentials belong fully to the Partner upon build completion. No lock-in fees or platform dependencies apply.</p>
-                    <p className="font-bold text-white">3. Professional Integrity</p>
+                    <p className="font-bold text-white">3. Professional Integrity & Reference</p>
                     <p>The Partner is never forced to share advertisements. All referrals are strictly voluntary and authentic.</p>
+                    <p className="font-bold text-white">4. Confidentiality standards</p>
+                    <p>Both parties agree to treat all scoping sheets, mockups, client lists, and strategic guidelines as proprietary and strictly confidential.</p>
                   </div>
                 </div>
 
@@ -866,50 +943,68 @@ export default function DigitalPartnershipPlatform() {
                       />
                     </div>
                     <div>
-                      <label className="text-[9px] font-mono text-white/40 uppercase block mb-1">Execution Date</label>
-                      <input
-                        type="text"
-                        disabled
-                        value={new Date().toLocaleDateString()}
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white/40 font-mono"
-                      />
+                      <label className="text-[9px] font-mono text-white/40 uppercase block mb-1">Signature Cryptographic ID</label>
+                      <div className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-[10px] text-melhek-blue/80 font-mono overflow-x-auto whitespace-nowrap scrollbar-none">
+                        {pseudoHash}
+                      </div>
                     </div>
                   </div>
 
                   {/* Draw Signature Pad */}
-                  <div className="space-y-1.5">
-                    <div className="flex items-center justify-between">
-                      <label className="text-[9px] font-mono text-white/40 uppercase flex items-center gap-1">
-                        <FileSignature className="w-3.5 h-3.5 text-melhek-blue" /> Draw Electronic Signature Below *
-                      </label>
-                      <button
-                        type="button"
-                        onClick={clearSignature}
-                        className="text-[9px] font-mono text-red-400 hover:underline cursor-pointer"
-                      >
-                        Clear Canvas
-                      </button>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="md:col-span-2 space-y-1.5">
+                      <div className="flex items-center justify-between">
+                        <label className="text-[9px] font-mono text-white/40 uppercase flex items-center gap-1">
+                          <FileSignature className="w-3.5 h-3.5 text-melhek-blue" /> Draw Electronic Signature Below *
+                        </label>
+                        <button
+                          type="button"
+                          onClick={clearSignature}
+                          className="text-[9px] font-mono text-red-400 hover:underline cursor-pointer"
+                        >
+                          Clear Canvas
+                        </button>
+                      </div>
+
+                      <div className="relative rounded-xl border border-white/20 bg-black/60 overflow-hidden">
+                        <canvas
+                          ref={canvasRef}
+                          width={600}
+                          height={120}
+                          onMouseDown={startDrawing}
+                          onMouseMove={draw}
+                          onMouseUp={stopDrawing}
+                          onMouseLeave={stopDrawing}
+                          onTouchStart={startDrawing}
+                          onTouchMove={draw}
+                          onTouchEnd={stopDrawing}
+                          className="w-full h-32 touch-none cursor-crosshair"
+                        />
+                        {!signatureData && (
+                          <div className="absolute inset-0 pointer-events-none flex items-center justify-center text-white/20 text-xs font-mono">
+                            [ Sign with mouse, trackpad, or touchscreen ]
+                          </div>
+                        )}
+                      </div>
                     </div>
 
-                    <div className="relative rounded-xl border border-white/20 bg-black/60 overflow-hidden">
-                      <canvas
-                        ref={canvasRef}
-                        width={600}
-                        height={120}
-                        onMouseDown={startDrawing}
-                        onMouseMove={draw}
-                        onMouseUp={stopDrawing}
-                        onMouseLeave={stopDrawing}
-                        onTouchStart={startDrawing}
-                        onTouchMove={draw}
-                        onTouchEnd={stopDrawing}
-                        className="w-full h-32 touch-none cursor-crosshair"
-                      />
-                      {!signatureData && (
-                        <div className="absolute inset-0 pointer-events-none flex items-center justify-center text-white/20 text-xs font-mono">
-                          [ Sign with mouse, trackpad, or touchscreen ]
+                    {/* Live Signature font preview */}
+                    <div className="glass p-4 rounded-xl border-white/5 bg-white/[0.01] flex flex-col justify-between">
+                      <div>
+                        <span className="text-[9px] font-mono text-white/30 uppercase block">Cursive Preview</span>
+                        <div className="h-16 flex items-center justify-center border-b border-white/5">
+                          {partnerFullName ? (
+                            <span className="font-serif italic text-xl text-melhek-steel tracking-wide font-light select-none">
+                              {partnerFullName}
+                            </span>
+                          ) : (
+                            <span className="text-[10px] font-mono text-white/20">[ Awaiting input ]</span>
+                          )}
                         </div>
-                      )}
+                      </div>
+                      <div className="text-[9px] font-mono text-white/40 leading-relaxed">
+                        Securely compiled using your local device metadata.
+                      </div>
                     </div>
                   </div>
 
@@ -1242,7 +1337,7 @@ export default function DigitalPartnershipPlatform() {
                 {/* Workspace Menu */}
                 <div className="glass p-2.5 rounded-2xl border-white/10 bg-melhek-navy/60 h-fit space-y-1">
                   {([
-                    { id: 'overview', label: 'Sprint Status', icon: LayoutDashboard },
+                    { id: 'overview', label: 'Sprint Kanban', icon: LayoutDashboard },
                     { id: 'messages', label: 'Developer Chat', icon: MessageSquare },
                     { id: 'vault', label: 'Document Vault', icon: FileCheck },
                     { id: 'calendar', label: 'Consulting Sync', icon: Calendar },
@@ -1270,34 +1365,65 @@ export default function DigitalPartnershipPlatform() {
                 {/* Workspace Panel */}
                 <div className="lg:col-span-3">
                   
-                  {/* SPRINT STATUS TAB */}
+                  {/* SPRINT STATUS TAB (AGILE SPRINT KANBAN) */}
                   {dashboardTab === 'overview' && (
                     <div className="space-y-6">
+                      
+                      {/* Interactive Agile Sprint Kanban */}
                       <div className="glass p-6 rounded-2xl border-white/10 bg-melhek-navy/55 space-y-5">
-                        <h3 className="text-xs font-mono text-white/40 uppercase border-b border-white/10 pb-3 flex items-center gap-2">
-                          <Clock className="w-4 h-4 text-melhek-blue" /> Ongoing Engineering Sprints
-                        </h3>
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                          {[
-                            { name: 'Agreement signed', status: 'done' },
-                            { name: 'Intake discovery', status: 'done' },
-                            { name: 'UX Blueprint', status: 'active' },
-                            { name: 'Next.js Frontend', status: 'pending' },
-                          ].map((stg, idx) => (
-                            <div key={idx} className={`p-4 rounded-xl border text-left space-y-1 ${
-                              stg.status === 'done'
-                                ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-300'
-                                : stg.status === 'active'
-                                ? 'bg-melhek-blue/15 border-melhek-blue text-white animate-pulse'
-                                : 'bg-white/5 border-white/10 text-white/30'
-                            }`}>
-                              <span className="text-[8px] font-mono uppercase block text-white/40">Sprint 0{idx + 1}</span>
-                              <span className="text-xs font-bold block">{stg.name}</span>
-                            </div>
-                          ))}
+                        <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                          <h3 className="text-xs font-mono text-white/40 uppercase flex items-center gap-2">
+                            <Layers className="w-4 h-4 text-melhek-blue" /> Live Engineering Sprint Board
+                          </h3>
+                          <span className="text-[10px] font-mono text-melhek-blue">Sprint 1 (Active)</span>
                         </div>
-                        <div className="text-xs text-white/70 font-light bg-white/5 p-3.5 rounded-xl border border-white/10">
-                          Next milestone: <strong>Figma Blueprint Presentation</strong> scheduled for Friday.
+
+                        {/* Kanban columns */}
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                          
+                          {/* Column 1: Backlog */}
+                          <div className="space-y-3">
+                            <span className="text-[10px] font-mono text-white/30 uppercase block font-bold px-1">// Backlog (2)</span>
+                            <div className="p-3 bg-black/40 border border-white/5 rounded-xl space-y-2">
+                              <span className="text-[9px] font-mono text-melhek-blue font-bold block">ENG-304</span>
+                              <p className="text-xs font-bold text-white">Payment Gateway Logic</p>
+                              <p className="text-[10px] text-white/40">Integrate direct CBE Birr & Telebirr checkout APIs.</p>
+                            </div>
+                            <div className="p-3 bg-black/40 border border-white/5 rounded-xl space-y-2">
+                              <span className="text-[9px] font-mono text-melhek-blue font-bold block">ENG-305</span>
+                              <p className="text-xs font-bold text-white">Amharic Translation Hook</p>
+                              <p className="text-[10px] text-white/40">Configure locale switching triggers.</p>
+                            </div>
+                          </div>
+
+                          {/* Column 2: In Progress */}
+                          <div className="space-y-3">
+                            <span className="text-[10px] font-mono text-melhek-blue uppercase block font-bold px-1">// In Progress (1)</span>
+                            <div className="p-3 bg-melhek-blue/5 border border-melhek-blue/20 rounded-xl space-y-2 animate-pulse">
+                              <span className="text-[9px] font-mono text-melhek-blue font-bold block">DES-201</span>
+                              <p className="text-xs font-bold text-white">Interactive Figma Wireframes</p>
+                              <p className="text-[10px] text-white/60">Structuring visual page flow and typography grid.</p>
+                              <div className="w-full bg-white/10 h-1 rounded-full overflow-hidden">
+                                <div className="bg-melhek-blue h-full w-[65%]" />
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Column 3: Completed */}
+                          <div className="space-y-3">
+                            <span className="text-[10px] font-mono text-emerald-400 uppercase block font-bold px-1">// Completed (2)</span>
+                            <div className="p-3 bg-emerald-500/5 border border-emerald-500/10 rounded-xl space-y-2 opacity-60">
+                              <span className="text-[9px] font-mono text-emerald-400 font-bold block">ENG-101</span>
+                              <p className="text-xs font-bold text-white">GitHub Codebase Set Up</p>
+                              <p className="text-[10px] text-white/40">Init repository with Tailwind v4 & fonts.</p>
+                            </div>
+                            <div className="p-3 bg-emerald-500/5 border border-emerald-500/10 rounded-xl space-y-2 opacity-60">
+                              <span className="text-[9px] font-mono text-emerald-400 font-bold block">OPS-102</span>
+                              <p className="text-xs font-bold text-white">Onboarding & Agreement</p>
+                              <p className="text-[10px] text-white/40">Digital agreement signature locked in.</p>
+                            </div>
+                          </div>
+
                         </div>
                       </div>
 

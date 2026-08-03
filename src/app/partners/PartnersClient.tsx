@@ -178,6 +178,37 @@ export default function PartnersClient() {
                   </div>
                 </div>
 
+                {/* ── HOW IT WORKS: THE VISUAL MANUAL ── */}
+                <div className="max-w-5xl mx-auto py-12">
+                  <div className="text-center mb-12">
+                    <h2 className="text-3xl font-bold text-white mb-4">How Partnership Works</h2>
+                    <p className="text-white/60">A frictionless onboarding process. No complex manuals required.</p>
+                  </div>
+                  
+                  <div className="grid md:grid-cols-3 gap-6 relative">
+                    {/* Connecting Line */}
+                    <div className="hidden md:block absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-y-1/2 z-0" />
+                    
+                    <div className="relative z-10 bg-[#0a0a0a] p-8 rounded-3xl border border-white/10 text-center space-y-4 hover:border-melhek-brand transition-colors">
+                      <div className="w-14 h-14 mx-auto rounded-full bg-white/5 flex items-center justify-center border border-white/10 text-xl font-bold text-white">1</div>
+                      <h3 className="text-xl font-bold text-white">Calculate Margins</h3>
+                      <p className="text-sm text-white/60">Use our Profit Simulator to visualize exactly how much revenue your agency keeps.</p>
+                    </div>
+
+                    <div className="relative z-10 bg-[#0a0a0a] p-8 rounded-3xl border border-white/10 text-center space-y-4 hover:border-melhek-brand transition-colors">
+                      <div className="w-14 h-14 mx-auto rounded-full bg-melhek-brand/20 flex items-center justify-center border border-melhek-brand/30 text-xl font-bold text-melhek-brand shadow-[0_0_20px_rgba(33,150,243,0.3)]">2</div>
+                      <h3 className="text-xl font-bold text-white">Submit Application</h3>
+                      <p className="text-sm text-white/60">Fill out our sleek Intake Wizard with your agency details and tech requirements.</p>
+                    </div>
+
+                    <div className="relative z-10 bg-[#0a0a0a] p-8 rounded-3xl border border-white/10 text-center space-y-4 hover:border-melhek-brand transition-colors">
+                      <div className="w-14 h-14 mx-auto rounded-full bg-green-500/10 flex items-center justify-center border border-green-500/20 text-xl font-bold text-green-400">3</div>
+                      <h3 className="text-xl font-bold text-white">Sign NDA & Scale</h3>
+                      <p className="text-sm text-white/60">We sign a mutual NDA to protect your IP. You start selling; we start building.</p>
+                    </div>
+                  </div>
+                </div>
+
                 {/* The Two Models */}
                 <div className="grid md:grid-cols-2 gap-8">
                   {/* Model 1: White Label */}

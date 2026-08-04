@@ -26,18 +26,18 @@ export async function POST(request: Request) {
           partnerFullName,
           dateSigned,
           signatureData, // Base64 signature image
-          // Flatten discovery form fields
           businessName: discoveryData?.businessName || '',
           ownerName: discoveryData?.ownerName || '',
           email: discoveryData?.email || '',
           phone: discoveryData?.phone || '',
-          currentWebsite: discoveryData?.currentWebsite || '',
           industry: discoveryData?.industry || '',
           primaryGoal: discoveryData?.primaryGoal || '',
           targetAudience: discoveryData?.targetAudience || '',
-          keyFeatures: (discoveryData?.keyFeatures || []).join(', '),
-          brandAssetsAvailable: discoveryData?.brandAssetsAvailable || '',
-          additionalNotes: discoveryData?.additionalNotes || '',
+          pagesNeeded: discoveryData?.pagesNeeded || '',
+          inScopeFeatures: (discoveryData?.inScopeFeatures || discoveryData?.keyFeatures || []).join(', '),
+          growthInterest: (discoveryData?.growthInterest || []).join(', '),
+          brandAssetsAvailable: discoveryData?.brandAssets || discoveryData?.brandAssetsAvailable || '',
+          additionalNotes: discoveryData?.notes || discoveryData?.additionalNotes || '',
           submittedAt: new Date().toISOString()
         }),
       });

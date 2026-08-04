@@ -1,18 +1,16 @@
 import type { Metadata } from "next";
-import DigitalPartnershipPlatform from "@/app/partners/melhektechnologies/DigitalPartnershipPlatform";
+import DigitalPartnershipPlatform from "@/app/partnership/DigitalPartnershipPlatform";
 
 export const metadata: Metadata = {
-  title: "Melhek Digital Partner Program | Invitation-Only Alliance",
-  description: "Enterprise-grade digital partnership platform for selected Ethiopian business creators and digital innovators. Sponsored custom digital presence engineering by Melhek Technologies.",
-  keywords: [
-    "Melhek Digital Partner Program",
-    "Ethiopia software partnership",
-    "sponsored digital presence Ethiopia",
-    "B2B digital infrastructure Addis Ababa",
-    "Melhek Technologies partnership"
-  ],
+  title: "Melhek Digital Partner Program | Invitation-Only Strategic Partnership",
+  description:
+    "Invitation-only strategic partnership with Melhek Technologies. Sponsored digital foundation with clear scope boundaries and growth opportunities as your business expands.",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
-export default function PartnershipAliasPage() {
+export default function MelhekTechnologiesPartnershipPage() {
   return <DigitalPartnershipPlatform />;
 }

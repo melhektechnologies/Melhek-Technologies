@@ -62,67 +62,67 @@ const GROWTH_SERVICES: GrowthService[] = [
     id: 'ai_chatbot',
     title: 'Custom AI Assistant & Knowledge Base',
     icon: Cpu,
-    tagline: '24/7 Automated Customer Support & Lead Qualification',
+    tagline: 'Phase 2 Expansion: 24/7 Automated Customer Support & Lead Qualification',
     description: 'Bespoke AI chatbot trained on your company documentation, answering inquiries in Amharic and English instantly across web, WhatsApp, and Telegram.',
     impact: 'Reduces support response times by 95% and captures qualified leads automatically.',
-    category: 'Automation & AI',
+    category: 'Expansion Module (Paid Upgrade)',
     estValueETB: 35000
   },
   {
     id: 'crm_system',
     title: 'Custom CRM & Client Pipeline',
     icon: Users,
-    tagline: 'Centralized Customer Relationship Management',
+    tagline: 'Phase 2 Expansion: Centralized Customer Relationship Management',
     description: 'Track leads, client histories, quotes, and communication logs in a unified dashboard built specifically for your team workflow.',
     impact: 'Prevents lead drop-off and increases client conversion rates.',
-    category: 'Operations',
+    category: 'Expansion Module (Paid Upgrade)',
     estValueETB: 28000
   },
   {
     id: 'erp_inventory',
     title: 'Inventory & ERP Ledger Systems',
     icon: Layers,
-    tagline: 'Real-Time Stock & Multi-Branch Management',
+    tagline: 'Phase 2 Expansion: Real-Time Stock & Multi-Branch Management',
     description: 'Cloud-synced inventory tracking with barcode scanning, re-order threshold alerts, and automated purchase orders.',
     impact: 'Eliminates stock discrepancies and manual inventory counts.',
-    category: 'Operations',
+    category: 'Expansion Module (Paid Upgrade)',
     estValueETB: 42000
   },
   {
     id: 'booking_engine',
     title: 'Smart Booking & Calendar Engine',
     icon: Calendar,
-    tagline: 'Automated Scheduling & Local Payment Locks',
+    tagline: 'Phase 2 Expansion: Automated Scheduling & Local Payment Locks',
     description: 'Direct appointment and room booking system integrated with Telebirr and CBE Birr deposit confirmations.',
     impact: 'Eliminates double-bookings and collects non-refundable deposits upfront.',
-    category: 'E-Commerce',
+    category: 'Expansion Module (Paid Upgrade)',
     estValueETB: 30000
   },
   {
     id: 'workflow_automation',
     title: 'Business Process Automation',
     icon: Zap,
-    tagline: 'Zero-Manual Administrative Pipelines',
+    tagline: 'Phase 2 Expansion: Zero-Manual Administrative Pipelines',
     description: 'Connect internal spreadsheets, PDF invoicing, SMS notifications, and accounting software into automated sync loops.',
     impact: 'Saves 15+ hours per week in manual office administration.',
-    category: 'Automation',
+    category: 'Expansion Module (Paid Upgrade)',
     estValueETB: 22000
   },
   {
     id: 'analytics_engine',
     title: 'Executive Analytics & BI Dashboard',
     icon: BarChart3,
-    tagline: 'Real-Time Revenue & User Behavior Insights',
+    tagline: 'Phase 2 Expansion: Real-Time Revenue & User Behavior Insights',
     description: 'Custom metric dashboards visualizing conversion funnels, daily revenue trends, and operational bottlenecks.',
     impact: 'Empowers data-driven executive decision-making.',
-    category: 'Analytics',
+    category: 'Expansion Module (Paid Upgrade)',
     estValueETB: 25000
   },
   {
     id: 'domain_email',
     title: 'Enterprise Domain & Google Workspace',
     icon: Globe,
-    tagline: 'Custom Corporate Email & Security Setup',
+    tagline: 'Infrastructure: Custom Corporate Email & Security Setup',
     description: 'Professional domain acquisition, SPF/DKIM security configuration, and corporate email desk deployment.',
     impact: 'Establishes instant digital authority with corporate clients.',
     category: 'Infrastructure',
@@ -132,10 +132,10 @@ const GROWTH_SERVICES: GrowthService[] = [
     id: 'marketing_automation',
     title: 'Multi-Channel Marketing Engine',
     icon: Send,
-    tagline: 'Automated Telegram & Email Nurturing',
+    tagline: 'Phase 2 Expansion: Automated Telegram & Email Nurturing',
     description: 'Scheduled broadcast campaigns and lead re-engagement triggers tailored to the Ethiopian business ecosystem.',
     impact: 'Drives repeat business without manual outreach.',
-    category: 'Growth',
+    category: 'Expansion Module (Paid Upgrade)',
     estValueETB: 18000
   }
 ]
@@ -143,38 +143,32 @@ const GROWTH_SERVICES: GrowthService[] = [
 const FAQS: FAQItem[] = [
   {
     id: 'faq-1',
-    question: 'Why is Melhek sponsoring the core digital presence package at 0 ETB?',
-    answer: 'We believe long-term alignment outperforms short-term transactional web development. By investing our engineering capabilities upfront into select business leaders, we build trusted partnerships. As your business scales and requires specialized software (AI chatbots, CRMs, ERPs), Melhek becomes your trusted technology anchor.',
+    question: 'What is included in the 0 ETB Sponsored Core Package?',
+    answer: 'The sponsored core package (0 ETB) provides a clean, high-converting baseline digital presence: custom corporate landing page layout, brand styling, mobile-responsive engineering, client intake form, SSL security, and initial cloud hosting on Vercel. Advanced custom software (AI chatbots, CRMs, booking engines, Telebirr/CBE payment gates) are available as Phase 2 expansion modules under standard paid partner terms.',
     category: 'Investment'
   },
   {
     id: 'faq-2',
+    question: 'Why is Melhek sponsoring the core digital presence package at 0 ETB?',
+    answer: 'We believe long-term alignment outperforms short-term transactional web development. By building your core digital foundation upfront for free, we establish a trusted technology partnership. As your business scales and requires complex operational software, Melhek is already your trusted engineering desk.',
+    category: 'Investment'
+  },
+  {
+    id: 'faq-3',
     question: 'Who owns the intellectual property and code of built systems?',
     answer: 'You own 100% of your data, custom code, layouts, and domain assets. Melhek provides full code transfers and private cloud deployment with zero lock-in fees.',
     category: 'Legal & IP'
   },
   {
-    id: 'faq-3',
-    question: 'What are the partner responsibilities under this agreement?',
-    answer: 'Partners commit to timely feedback during discovery, providing authentic business information, and maintaining a professional relationship. There are no mandatory promotional posts or hidden charges.',
-    category: 'Process'
-  },
-  {
     id: 'faq-4',
-    question: 'How fast is the digital presence package deployed?',
-    answer: 'Once the Business Discovery Form is completed, our agile sprint delivers the initial beta deployment within 14 to 21 business days.',
+    question: 'How fast is the baseline digital presence deployed?',
+    answer: 'Once the 2-minute Business Discovery Form is completed, our agile sprint delivers the initial live baseline deployment within 14 business days.',
     category: 'Process'
   },
   {
     id: 'faq-5',
-    question: 'Are there any hidden hosting or maintenance charges later?',
-    answer: 'No. The sponsored package includes initial deployment on high-performance cloud infrastructure (Vercel/Cloudflare) with free SSL and hosting options. Advanced custom server hosting later is billed directly to your account with zero markup.',
-    category: 'Technical'
-  },
-  {
-    id: 'faq-6',
-    question: 'What happens after the core website is launched?',
-    answer: 'You transition into the active Partner Portal where you can request specialized growth modules (CRMs, AI tools, booking engines), track performance, and access priority SLA engineering support.',
+    question: 'How do paid system upgrades work later?',
+    answer: 'Once your baseline site is live, you can request custom software modules (CRMs, AI chatbots, payment gates, booking calendars) through your Partner Workspace. Each module is scoped with a clear, fixed-price agreement.',
     category: 'Process'
   }
 ]

@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import PartnersClient from "./PartnersClient";
 
 export const metadata: Metadata = {
-  title: "Scale Your Agency: B2B Partner Center | Melhek Technologies",
-  description: "Scale your agency without expanding your technical team. Partner with Melhek Technologies for white-label web development, custom operational systems, booking engines, and AI automation.",
+  title: "Agency Partner Program | Melhek Technologies",
+  description:
+    "White-label engineering and strategic referral for marketing agencies. Offer premium web, software, and AI under your brand — or refer clients and earn commission.",
   keywords: [
     "white label software development Ethiopia",
     "agency development partner Addis Ababa",
@@ -14,12 +15,5 @@ export const metadata: Metadata = {
 };
 
 export default function PartnersPage() {
-  return (
-    <>
-      <div className="grain-overlay" aria-hidden />
-      <main className="relative bg-melhek-dark overflow-x-hidden pt-32 pb-16">
-        <PartnersClient />
-      </main>
-    </>
-  );
+  return <PartnersClient />;
 }

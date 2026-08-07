@@ -30,8 +30,10 @@ export default function InteractiveBrowserMockup({ project, icon }: InteractiveB
         <div className="w-3 h-3 rounded-full bg-[#ff5f57]" aria-hidden="true" />
         <div className="w-3 h-3 rounded-full bg-[#febc2e]" aria-hidden="true" />
         <div className="w-3 h-3 rounded-full bg-[#28c840]" aria-hidden="true" />
-        <span className="ml-4 text-[10px] font-mono text-white/35 uppercase tracking-widest truncate max-w-[200px]">
-          melhek.tech / {project.slug}
+        <span className="ml-4 text-[10px] font-mono text-white/35 uppercase tracking-widest truncate max-w-[280px]">
+          {project.link
+            ? project.link.replace(/^https?:\/\//, '').replace(/\/$/, '')
+            : `melhek.tech / ${project.slug}`}
         </span>
         {project.status ? (
           <span className="ml-auto px-2 py-0.5 bg-yellow-500/10 border border-yellow-500/20 text-yellow-500 rounded text-[9px] uppercase tracking-wide font-mono">

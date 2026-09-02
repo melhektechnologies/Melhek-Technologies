@@ -72,6 +72,7 @@ interface DiscoveryData {
   industry: string
   primaryGoal: string
   targetAudience: string
+  successOutcome: string
   pagesNeeded: string
   inScopeFeatures: string[]
   growthInterest: string[]
@@ -141,6 +142,15 @@ const GROWTH_ITEMS: GrowthItem[] = [
   { id: 'portal', title: 'Customer portal', description: 'Logged-in experiences for clients, members, or partners.', icon: UserCheck },
   { id: 'auth', title: 'Authentication', description: 'Secure sign-in, roles, and account management.', icon: KeyRound },
   { id: 'custom', title: 'Custom software', description: 'Anything outside the sponsored foundation — properly scoped and priced.', icon: Server },
+]
+
+const SOFT_SELL_GROWTH_CARDS = [
+  { id: 'Professional Domain', title: 'Professional Domain', desc: '.com / .et' },
+  { id: 'Branded Email', title: 'Branded Email', desc: 'Professional business communication' },
+  { id: 'AI Assistant', title: 'AI Assistant', desc: '24/7 customer support and business information' },
+  { id: 'CRM / ERP', title: 'CRM / ERP', desc: 'Manage customers, operations and internal workflows' },
+  { id: 'Booking & Payments', title: 'Booking & Payments', desc: 'Appointments, bookings and supported payment integrations' },
+  { id: 'Automation & Maintenance', title: 'Automation & Maintenance', desc: 'Reduce repetitive work and keep your digital systems running' },
 ]
 
 const TIMELINE = [
@@ -277,15 +287,16 @@ const IN_SCOPE_FEATURES = [
   'Location / contact details',
 ]
 
-const GROWTH_INTEREST_OPTIONS = GROWTH_ITEMS.map((g) => g.title)
-
 const INDUSTRIES = [
+  'Sales & marketing',
+  'Real estate & property',
+  'Business consulting',
+  'Training & education',
+  'Creator / media brand',
+  'Professional services',
+  'Retail & e-commerce',
   'Hospitality & tourism',
   'Healthcare & clinics',
-  'Retail & e-commerce',
-  'Professional services',
-  'Education',
-  'Creator / media brand',
   'Other',
 ]
 
@@ -300,13 +311,23 @@ const PRIMARY_GOALS = [
 
 export default function DigitalPartnershipPlatform() {
   const [stage, setStage] = useState<Stage>('welcome')
-  const [partnerId, setPartnerId] = useState('MDP-2026-000')
+  const [partnerId, setPartnerId] = useState('MDP-2026-001')
   const [expandedFaq, setExpandedFaq] = useState<string | null>('f1')
-  const [agreeTerms, setAgreeTerms] = useState(false)
-  const [agreeAuth, setAgreeAuth] = useState(false)
-  const [agreeScope, setAgreeScope] = useState(false)
+
+  // Partner Info state
   const [partnerName, setPartnerName] = useState('')
-  const [businessName, setBusinessName] = useState('')
+  const [companyName, setCompanyName] = useState('')
+  const [position, setPosition] = useState('')
+  const [phone, setPhone] = useState('')
+  const [email, setEmail] = useState('')
+
+  // 5 Required Confirmations
+  const [confirmScope, setConfirmScope] = useState(false)
+  const [confirmDeliverables, setConfirmDeliverables] = useState(false)
+  const [confirmApproval, setConfirmApproval] = useState(false)
+  const [confirmFeedback, setConfirmFeedback] = useState(false)
+  const [confirmPortfolio, setConfirmPortfolio] = useState(false)
+
   const [signatureMode, setSignatureMode] = useState<'draw' | 'type'>('type')
   const [signatureData, setSignatureData] = useState<string | null>(null)
   const [isDrawing, setIsDrawing] = useState(false)
@@ -323,7 +344,8 @@ export default function DigitalPartnershipPlatform() {
     industry: INDUSTRIES[0],
     primaryGoal: PRIMARY_GOALS[0],
     targetAudience: '',
-    pagesNeeded: '3–5 pages',
+    successOutcome: '',
+    pagesNeeded: '3–5 pages — Recommended',
     inScopeFeatures: ['Contact form'],
     growthInterest: [],
     brandAssets: 'Logo available',
@@ -341,12 +363,42 @@ export default function DigitalPartnershipPlatform() {
     }
 
     const signed = localStorage.getItem('melhek_partner_signed')
-    const name = localStorage.getItem('melhek_partner_name') || ''
-    const biz = localStorage.getItem('melhek_partner_business') || ''
+    let name = localStorage.getItem('melhek_partner_name') || ''
+    let biz = localStorage.getItem('melhek_partner_company') || localStorage.getItem('melhek_partner_business') || ''
+    let pos = localStorage.getItem('melhek_partner_position') || ''
+    let ph = localStorage.getItem('melhek_partner_phone') || ''
+    let em = localStorage.getItem('melhek_partner_email') || ''
+
+    // Parse URL query parameters for pre-filled personal invitation links
+    if (typeof window !== 'undefined') {
+      const searchParams = new URLSearchParams(window.location.search)
+      const qName = searchParams.get('name') || searchParams.get('partner')
+      const qBiz = searchParams.get('company') || searchParams.get('biz')
+      const qPos = searchParams.get('position') || searchParams.get('role')
+      const qPhone = searchParams.get('phone') || searchParams.get('tel')
+      const qEmail = searchParams.get('email')
+
+      if (qName) name = qName
+      if (qBiz) biz = qBiz
+      if (qPos) pos = qPos
+      if (qPhone) ph = qPhone
+      if (qEmail) em = qEmail
+    }
+
     if (name) setPartnerName(name)
-    if (biz) {
-      setBusinessName(biz)
-      setDiscovery((d) => ({ ...d, businessName: biz }))
+    if (biz) setCompanyName(biz)
+    if (pos) setPosition(pos)
+    if (ph) setPhone(ph)
+    if (em) setEmail(em)
+
+    if (biz || name) {
+      setDiscovery((d) => ({
+        ...d,
+        businessName: biz || d.businessName,
+        ownerName: name || d.ownerName,
+        email: em || d.email,
+        phone: ph || d.phone,
+      }))
     }
 
     const savedStage = localStorage.getItem('melhek_partner_stage') as Stage | null
@@ -464,14 +516,26 @@ export default function DigitalPartnershipPlatform() {
     setSubmitError(null)
     setSubmitting(true)
     try {
+      const signedDateStr = new Date().toLocaleDateString('en-GB')
       const res = await fetch('/api/partnership/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           partnerId,
           partnerFullName: partnerName || localStorage.getItem('melhek_partner_name') || '',
+          companyName: companyName || localStorage.getItem('melhek_partner_company') || '',
+          position: position || localStorage.getItem('melhek_partner_position') || '',
+          email: email || localStorage.getItem('melhek_partner_email') || '',
+          phone: phone || localStorage.getItem('melhek_partner_phone') || '',
           signatureData: sig,
-          dateSigned: new Date().toLocaleDateString('en-GB'),
+          dateSigned: signedDateStr,
+          confirmations: {
+            confirmScope,
+            confirmDeliverables,
+            confirmApproval,
+            confirmFeedback,
+            confirmPortfolio,
+          },
           discoveryData: discoveryOverride || discovery,
         }),
       })
@@ -486,7 +550,9 @@ export default function DigitalPartnershipPlatform() {
 
   const handleSign = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!agreeTerms || !agreeAuth || !agreeScope || !partnerName.trim()) return
+
+    const allConfirmed = confirmScope && confirmDeliverables && confirmApproval && confirmFeedback && confirmPortfolio
+    if (!allConfirmed || !partnerName.trim() || !companyName.trim()) return
 
     let sig = signatureData
     if (signatureMode === 'type' || !sig) {
@@ -494,19 +560,28 @@ export default function DigitalPartnershipPlatform() {
       setSignatureData(sig)
     }
 
+    const todayStr = new Date().toLocaleDateString('en-GB')
+
     localStorage.setItem('melhek_partner_signed', 'true')
     localStorage.setItem('melhek_partner_name', partnerName.trim())
-    if (businessName.trim()) {
-      localStorage.setItem('melhek_partner_business', businessName.trim())
-      updateDiscovery({ businessName: businessName.trim(), ownerName: partnerName.trim() })
+    localStorage.setItem('melhek_partner_company', companyName.trim())
+    localStorage.setItem('melhek_partner_business', companyName.trim())
+    localStorage.setItem('melhek_partner_position', position.trim())
+    localStorage.setItem('melhek_partner_phone', phone.trim())
+    localStorage.setItem('melhek_partner_email', email.trim())
+    localStorage.setItem('melhek_partner_signed_date', todayStr)
+
+    const updatedDiscovery = {
+      ...discovery,
+      businessName: companyName.trim() || discovery.businessName,
+      ownerName: partnerName.trim() || discovery.ownerName,
+      email: email.trim() || discovery.email,
+      phone: phone.trim() || discovery.phone,
     }
+    updateDiscovery(updatedDiscovery)
 
     try {
-      await submitPartnership(sig, {
-        ...discovery,
-        businessName: businessName.trim() || discovery.businessName,
-        ownerName: partnerName.trim(),
-      })
+      await submitPartnership(sig, updatedDiscovery)
       goTo('confirmation')
     } catch {
       // error surfaced via submitError
@@ -516,7 +591,7 @@ export default function DigitalPartnershipPlatform() {
   const handleCompleteDiscovery = async () => {
     const payload = {
       ...discovery,
-      businessName: discovery.businessName || businessName,
+      businessName: discovery.businessName || companyName,
       ownerName: discovery.ownerName || partnerName,
     }
     localStorage.setItem('melhek_discovery_completed', 'true')
@@ -964,7 +1039,7 @@ export default function DigitalPartnershipPlatform() {
             </motion.section>
           )}
 
-          {/* ── ACCEPT INVITATION ── */}
+          {/* ── ACCEPT INVITATION & ENTER DETAILS ── */}
           {stage === 'accept' && (
             <motion.section
               key="accept"
@@ -975,17 +1050,17 @@ export default function DigitalPartnershipPlatform() {
               className="max-w-3xl mx-auto px-4 sm:px-6"
             >
               <SectionHeader
-                kicker="Decision"
-                title="Accept your invitation"
-                subtitle="By continuing, you confirm you understand the sponsored foundation and that growth work is scoped separately."
+                kicker="Step 01 — Commitment"
+                title="Accept your partnership invitation"
+                subtitle="Review the partnership terms and confirm your details. Takes 2–3 minutes."
               />
 
               <div className="glass rounded-[2rem] border-white/10 bg-melhek-navy/70 p-6 sm:p-10 space-y-6">
                 <ul className="space-y-3">
                   {[
-                    'I understand this is a strategic partnership invitation — not a public free-website offer.',
-                    'I understand the sponsorship includes only the listed foundation (max 5 pages, *.vercel.app hosting).',
-                    'I understand domains, email, software, payments, and maintenance are available as my business grows — as separate projects.',
+                    'Invitation-only strategic partnership with Melhek Technologies.',
+                    'Includes sponsored foundation website (max 5 pages, *.vercel.app hosting).',
+                    'Domains, email, CRM, AI chatbot, and custom software available as your business grows.',
                   ].map((line) => (
                     <li key={line} className="flex gap-3 text-sm text-white/75 leading-relaxed">
                       <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
@@ -994,25 +1069,44 @@ export default function DigitalPartnershipPlatform() {
                   ))}
                 </ul>
 
-                <div className="rounded-2xl border border-white/10 bg-black/25 p-5 space-y-3">
-                  <label className="text-[11px] font-mono text-white/40 uppercase block">Business / brand name</label>
-                  <input
-                    type="text"
-                    value={businessName}
-                    onChange={(e) => setBusinessName(e.target.value)}
-                    placeholder="Your organization or brand"
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-melhek-blue"
-                  />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-white/10 pt-6">
+                  <div>
+                    <label className="text-[11px] font-mono text-white/40 uppercase block mb-1">Company / Brand Name *</label>
+                    <input
+                      type="text"
+                      value={companyName}
+                      onChange={(e) => {
+                        setCompanyName(e.target.value)
+                        updateDiscovery({ businessName: e.target.value })
+                      }}
+                      placeholder="e.g. Acme Tech Solutions"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-melhek-blue"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-[11px] font-mono text-white/40 uppercase block mb-1">Your Full Name *</label>
+                    <input
+                      type="text"
+                      value={partnerName}
+                      onChange={(e) => {
+                        setPartnerName(e.target.value)
+                        updateDiscovery({ ownerName: e.target.value })
+                      }}
+                      placeholder="e.g. Bethlehem Tilahun"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-melhek-blue"
+                    />
+                  </div>
                 </div>
               </div>
 
               <NavBackNext
-                nextLabel="Review digital agreement"
-                disableNext={!businessName.trim()}
+                nextLabel="Proceed to Agreement"
+                disableNext={!companyName.trim() || !partnerName.trim()}
                 onNext={() => {
-                  localStorage.setItem('melhek_partner_business', businessName.trim())
-                  updateDiscovery({ businessName: businessName.trim() })
-                  goNext()
+                  localStorage.setItem('melhek_partner_company', companyName.trim())
+                  localStorage.setItem('melhek_partner_business', companyName.trim())
+                  localStorage.setItem('melhek_partner_name', partnerName.trim())
+                  goTo('agreement')
                 }}
               />
             </motion.section>
@@ -1029,138 +1123,218 @@ export default function DigitalPartnershipPlatform() {
               className="max-w-3xl mx-auto px-4 sm:px-6"
             >
               <SectionHeader
-                kicker="Legal alignment"
-                title="Digital partnership agreement"
-                subtitle="Please read the terms. This is the binding record of scope, ownership, and responsibilities for this sponsorship cycle."
+                kicker="Digital Agreement"
+                title="Partnership agreement"
+                subtitle="Simple, transparent terms. Takes 2–3 minutes to review and sign."
               />
 
               <div className="glass rounded-[2rem] border-white/10 bg-melhek-navy/80 p-5 sm:p-8 space-y-6">
                 <div className="flex flex-wrap gap-3 text-[11px] font-mono text-white/50">
                   <span className="px-3 py-1.5 rounded-lg border border-white/10 bg-black/30">
-                    Agreement <span className="text-melhek-blue font-bold">MDP-AGR-{partnerId.replace('MDP-2026-', '')}</span>
+                    Ref <span className="text-melhek-blue font-bold">{partnerId}</span>
                   </span>
                   <span className="px-3 py-1.5 rounded-lg border border-white/10 bg-black/30">
-                    {new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
-                  </span>
-                  <span className="px-3 py-1.5 rounded-lg border border-white/10 bg-black/30">
-                    Partner: <span className="text-white">{businessName || '—'}</span>
+                    Date: <span className="text-white">{new Date().toLocaleDateString('en-GB')}</span>
                   </span>
                 </div>
 
-                <div className="h-72 overflow-y-auto rounded-2xl border border-white/10 bg-black/40 p-5 space-y-5 text-sm text-white/70 font-light leading-relaxed">
-                  {AGREEMENT_SECTIONS.map((section) => (
-                    <div key={section.title} className="space-y-2">
-                      <h4 className="text-white font-bold text-sm">{section.title}</h4>
-                      <p>{section.body}</p>
+                {/* Partner Information Inputs */}
+                <div className="space-y-4 border-b border-white/10 pb-6">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                    <UserCheck className="w-4 h-4 text-melhek-blue" /> Partner Information
+                  </h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-[11px] font-mono text-white/40 uppercase block mb-1">Name *</label>
+                      <input
+                        type="text"
+                        required
+                        value={partnerName}
+                        onChange={(e) => setPartnerName(e.target.value)}
+                        placeholder="Full Name"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-melhek-blue"
+                      />
                     </div>
-                  ))}
+                    <div>
+                      <label className="text-[11px] font-mono text-white/40 uppercase block mb-1">Company / Organization *</label>
+                      <input
+                        type="text"
+                        required
+                        value={companyName}
+                        onChange={(e) => setCompanyName(e.target.value)}
+                        placeholder="Company Name"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-melhek-blue"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-[11px] font-mono text-white/40 uppercase block mb-1">Position / Role</label>
+                      <input
+                        type="text"
+                        value={position}
+                        onChange={(e) => setPosition(e.target.value)}
+                        placeholder="e.g. Founder / CEO / Director"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-melhek-blue"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-[11px] font-mono text-white/40 uppercase block mb-1">Phone / Telegram *</label>
+                      <input
+                        type="text"
+                        required
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        placeholder="+251 9... or @username"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-melhek-blue"
+                      />
+                    </div>
+                    <div className="sm:col-span-2">
+                      <label className="text-[11px] font-mono text-white/40 uppercase block mb-1">Email Address *</label>
+                      <input
+                        type="email"
+                        required
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="you@company.com"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-melhek-blue"
+                      />
+                    </div>
+                  </div>
                 </div>
 
+                {/* Agreement Terms Scrollable Box */}
+                <div className="space-y-2">
+                  <span className="text-[11px] font-mono text-white/40 uppercase block">Agreement Terms</span>
+                  <div className="h-60 overflow-y-auto rounded-2xl border border-white/10 bg-black/40 p-5 space-y-4 text-xs text-white/70 font-light leading-relaxed">
+                    {AGREEMENT_SECTIONS.map((section) => (
+                      <div key={section.title} className="space-y-1">
+                        <h4 className="text-white font-bold text-xs">{section.title}</h4>
+                        <p>{section.body}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Required Confirmations (5 Required Checkboxes) */}
                 <form onSubmit={handleSign} className="space-y-5 pt-2 border-t border-white/10">
-                  <label className="flex items-start gap-3 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={agreeScope}
-                      onChange={(e) => setAgreeScope(e.target.checked)}
-                      className="mt-1 w-4 h-4 rounded border-white/20 bg-white/5 text-melhek-blue"
-                    />
-                    <span className="text-sm text-white/80">
-                      I understand the sponsored scope is limited to the foundation package (max 5 pages, *.vercel.app hosting) and that growth items are separate projects.
-                    </span>
-                  </label>
-                  <label className="flex items-start gap-3 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={agreeTerms}
-                      onChange={(e) => setAgreeTerms(e.target.checked)}
-                      className="mt-1 w-4 h-4 rounded border-white/20 bg-white/5 text-melhek-blue"
-                    />
-                    <span className="text-sm text-white/80">I have read and accept this digital partnership agreement.</span>
-                  </label>
-                  <label className="flex items-start gap-3 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={agreeAuth}
-                      onChange={(e) => setAgreeAuth(e.target.checked)}
-                      className="mt-1 w-4 h-4 rounded border-white/20 bg-white/5 text-melhek-blue"
-                    />
-                    <span className="text-sm text-white/80">I am authorized to accept this invitation on behalf of the business named above.</span>
-                  </label>
+                  <div className="space-y-3">
+                    <span className="text-[11px] font-mono text-white/40 uppercase block mb-1">Required Confirmations</span>
 
-                  <div>
-                    <label className="text-[11px] font-mono text-white/40 uppercase block mb-1.5">Full legal name *</label>
-                    <input
-                      type="text"
-                      required
-                      value={partnerName}
-                      onChange={(e) => setPartnerName(e.target.value)}
-                      placeholder="Authorized representative"
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-melhek-blue"
-                    />
+                    <label className="flex items-start gap-3 cursor-pointer p-2.5 rounded-xl hover:bg-white/[0.02] transition-colors">
+                      <input
+                        type="checkbox"
+                        checked={confirmScope}
+                        onChange={(e) => setConfirmScope(e.target.checked)}
+                        className="mt-0.5 w-4 h-4 rounded border-white/20 bg-white/5 text-melhek-blue focus:ring-melhek-blue"
+                      />
+                      <span className="text-xs text-white/85">I have reviewed the partnership scope.</span>
+                    </label>
+
+                    <label className="flex items-start gap-3 cursor-pointer p-2.5 rounded-xl hover:bg-white/[0.02] transition-colors">
+                      <input
+                        type="checkbox"
+                        checked={confirmDeliverables}
+                        onChange={(e) => setConfirmDeliverables(e.target.checked)}
+                        className="mt-0.5 w-4 h-4 rounded border-white/20 bg-white/5 text-melhek-blue focus:ring-melhek-blue"
+                      />
+                      <span className="text-xs text-white/85">I understand the sponsored package is limited to the stated deliverables.</span>
+                    </label>
+
+                    <label className="flex items-start gap-3 cursor-pointer p-2.5 rounded-xl hover:bg-white/[0.02] transition-colors">
+                      <input
+                        type="checkbox"
+                        checked={confirmApproval}
+                        onChange={(e) => setConfirmApproval(e.target.checked)}
+                        className="mt-0.5 w-4 h-4 rounded border-white/20 bg-white/5 text-melhek-blue focus:ring-melhek-blue"
+                      />
+                      <span className="text-xs text-white/85">I understand additional services and third-party costs require separate approval.</span>
+                    </label>
+
+                    <label className="flex items-start gap-3 cursor-pointer p-2.5 rounded-xl hover:bg-white/[0.02] transition-colors">
+                      <input
+                        type="checkbox"
+                        checked={confirmFeedback}
+                        onChange={(e) => setConfirmFeedback(e.target.checked)}
+                        className="mt-0.5 w-4 h-4 rounded border-white/20 bg-white/5 text-melhek-blue focus:ring-melhek-blue"
+                      />
+                      <span className="text-xs text-white/85">I agree to provide necessary content/assets and timely feedback.</span>
+                    </label>
+
+                    <label className="flex items-start gap-3 cursor-pointer p-2.5 rounded-xl hover:bg-white/[0.02] transition-colors">
+                      <input
+                        type="checkbox"
+                        checked={confirmPortfolio}
+                        onChange={(e) => setConfirmPortfolio(e.target.checked)}
+                        className="mt-0.5 w-4 h-4 rounded border-white/20 bg-white/5 text-melhek-blue focus:ring-melhek-blue"
+                      />
+                      <span className="text-xs text-white/85">I understand Melhek may showcase the completed work in its portfolio.</span>
+                    </label>
                   </div>
 
-                  <div className="flex items-center justify-between gap-3 flex-wrap">
-                    <span className="text-[11px] font-mono text-white/40 uppercase inline-flex items-center gap-1.5">
-                      <FileSignature className="w-3.5 h-3.5 text-melhek-blue" /> Signature
-                    </span>
-                    <div className="flex gap-1 p-1 rounded-xl bg-white/5 border border-white/10 text-xs font-mono">
-                      <button
-                        type="button"
-                        onClick={() => setSignatureMode('type')}
-                        className={`px-3 py-1.5 rounded-lg ${signatureMode === 'type' ? 'bg-melhek-blue text-melhek-navy font-bold' : 'text-white/60'}`}
-                      >
-                        Type
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setSignatureMode('draw')
-                          clearSignature()
-                        }}
-                        className={`px-3 py-1.5 rounded-lg ${signatureMode === 'draw' ? 'bg-melhek-blue text-melhek-navy font-bold' : 'text-white/60'}`}
-                      >
-                        Draw
-                      </button>
-                    </div>
-                  </div>
-
-                  {signatureMode === 'type' ? (
-                    <div className="rounded-2xl border border-white/10 bg-black/40 p-8 text-center">
-                      {partnerName.trim() ? (
-                        <span className="font-serif italic text-3xl text-melhek-blue">{partnerName}</span>
-                      ) : (
-                        <span className="text-xs font-mono text-white/30">Enter your name to preview signature</span>
-                      )}
-                    </div>
-                  ) : (
-                    <div className="space-y-2">
-                      <div className="flex justify-end">
-                        <button type="button" onClick={clearSignature} className="text-[11px] font-mono text-red-400 hover:underline">
-                          Clear
+                  {/* Signature Mode */}
+                  <div className="space-y-3 pt-2">
+                    <div className="flex items-center justify-between gap-3 flex-wrap">
+                      <span className="text-[11px] font-mono text-white/40 uppercase inline-flex items-center gap-1.5">
+                        <FileSignature className="w-3.5 h-3.5 text-melhek-blue" /> Signature
+                      </span>
+                      <div className="flex gap-1 p-1 rounded-xl bg-white/5 border border-white/10 text-xs font-mono">
+                        <button
+                          type="button"
+                          onClick={() => setSignatureMode('type')}
+                          className={`px-3 py-1.5 rounded-lg ${signatureMode === 'type' ? 'bg-melhek-blue text-melhek-navy font-bold' : 'text-white/60'}`}
+                        >
+                          Type Name
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSignatureMode('draw')
+                            clearSignature()
+                          }}
+                          className={`px-3 py-1.5 rounded-lg ${signatureMode === 'draw' ? 'bg-melhek-blue text-melhek-navy font-bold' : 'text-white/60'}`}
+                        >
+                          Optional Drawn
                         </button>
                       </div>
-                      <div className="relative rounded-2xl border border-white/15 bg-black/50 overflow-hidden">
-                        <canvas
-                          ref={canvasRef}
-                          width={600}
-                          height={140}
-                          onMouseDown={startDrawing}
-                          onMouseMove={draw}
-                          onMouseUp={stopDrawing}
-                          onMouseLeave={stopDrawing}
-                          onTouchStart={startDrawing}
-                          onTouchMove={draw}
-                          onTouchEnd={stopDrawing}
-                          className="w-full h-36 touch-none cursor-crosshair"
-                        />
-                        {!signatureData && (
-                          <div className="absolute inset-0 pointer-events-none flex items-center justify-center text-white/25 text-xs font-mono">
-                            Sign here
-                          </div>
+                    </div>
+
+                    {signatureMode === 'type' ? (
+                      <div className="rounded-2xl border border-white/10 bg-black/40 p-6 text-center">
+                        {partnerName.trim() ? (
+                          <span className="font-serif italic text-2xl text-melhek-blue">{partnerName}</span>
+                        ) : (
+                          <span className="text-xs font-mono text-white/30">Enter your name above to generate signature preview</span>
                         )}
                       </div>
-                    </div>
-                  )}
+                    ) : (
+                      <div className="space-y-2">
+                        <div className="flex justify-end">
+                          <button type="button" onClick={clearSignature} className="text-[11px] font-mono text-red-400 hover:underline">
+                            Clear canvas
+                          </button>
+                        </div>
+                        <div className="relative rounded-2xl border border-white/15 bg-black/50 overflow-hidden">
+                          <canvas
+                            ref={canvasRef}
+                            width={600}
+                            height={120}
+                            onMouseDown={startDrawing}
+                            onMouseMove={draw}
+                            onMouseUp={stopDrawing}
+                            onMouseLeave={stopDrawing}
+                            onTouchStart={startDrawing}
+                            onTouchMove={draw}
+                            onTouchEnd={stopDrawing}
+                            className="w-full h-32 touch-none cursor-crosshair"
+                          />
+                          {!signatureData && (
+                            <div className="absolute inset-0 pointer-events-none flex items-center justify-center text-white/25 text-xs font-mono">
+                              Draw signature here
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </div>
 
                   {submitError && (
                     <p className="text-sm text-red-400 flex items-center gap-2">
@@ -1168,7 +1342,7 @@ export default function DigitalPartnershipPlatform() {
                     </p>
                   )}
 
-                  <div className="flex items-center justify-between gap-4 pt-2">
+                  <div className="flex items-center justify-between gap-4 pt-4">
                     <button type="button" onClick={goBack} className="btn-secondary !px-5 !py-3 text-xs font-mono uppercase tracking-wider">
                       Back
                     </button>
@@ -1176,16 +1350,19 @@ export default function DigitalPartnershipPlatform() {
                       type="submit"
                       disabled={
                         submitting ||
-                        !agreeTerms ||
-                        !agreeAuth ||
-                        !agreeScope ||
+                        !confirmScope ||
+                        !confirmDeliverables ||
+                        !confirmApproval ||
+                        !confirmFeedback ||
+                        !confirmPortfolio ||
                         !partnerName.trim() ||
+                        !companyName.trim() ||
                         (signatureMode === 'draw' && !signatureData)
                       }
-                      className="btn-primary !px-6 !py-3.5 text-xs font-mono uppercase tracking-wider inline-flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
+                      className="btn-primary !px-8 !py-3.5 text-xs font-mono uppercase tracking-widest inline-flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
                     >
-                      {submitting ? 'Recording…' : 'Sign & continue'}
-                      <ArrowRight className="w-4 h-4" />
+                      {submitting ? 'Registering…' : 'Accept Partnership'}
+                      <Check className="w-4 h-4" />
                     </button>
                   </div>
                 </form>
@@ -1193,7 +1370,7 @@ export default function DigitalPartnershipPlatform() {
             </motion.section>
           )}
 
-          {/* ── CONFIRMATION ── */}
+          {/* ── CONFIRMATION / WELCOME POST-ACCEPTANCE ── */}
           {stage === 'confirmation' && (
             <motion.section
               key="confirmation"
@@ -1207,44 +1384,60 @@ export default function DigitalPartnershipPlatform() {
                 <div className="w-16 h-16 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-emerald-400 flex items-center justify-center mx-auto">
                   <CheckCircle2 className="w-8 h-8" />
                 </div>
-                <span className="text-[11px] font-mono text-emerald-400 uppercase tracking-[0.2em] font-bold">Agreement recorded</span>
-                <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-white">Welcome to the program</h2>
-                <p className="text-sm text-white/60 font-light max-w-md mx-auto leading-relaxed">
-                  Your partnership agreement is on file. Next, complete a short business discovery so we can plan your foundation site.
+                <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-white">
+                  Welcome to the Melhek Digital Partner Program
+                </h2>
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-xl border border-melhek-blue/30 bg-melhek-blue/10 text-melhek-blue font-mono font-bold text-sm">
+                  Partner ID: {partnerId}
+                </div>
+                <p className="text-sm text-white/70 font-light max-w-md mx-auto leading-relaxed pt-1">
+                  Your partnership has been successfully registered.
                 </p>
+                <div className="p-3 rounded-xl bg-white/[0.03] border border-white/10 max-w-md mx-auto">
+                  <span className="text-xs text-emerald-400 font-bold font-mono">Next step: Complete your Business Discovery.</span>
+                </div>
               </div>
 
               <div className="glass rounded-[2rem] border-white/10 bg-melhek-navy/80 overflow-hidden">
                 <div className="p-6 sm:p-8 border-b border-white/10 flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-melhek-blue/15 border border-melhek-blue/35 flex items-center justify-center text-melhek-blue">
+                  <div className="w-12 h-12 rounded-2xl bg-melhek-blue/15 border border-melhek-blue/35 flex items-center justify-center text-melhek-blue shrink-0">
                     <Shield className="w-6 h-6" />
                   </div>
                   <div className="text-left">
-                    <h3 className="text-lg font-display font-bold text-white">{partnerName}</h3>
-                    <p className="text-xs font-mono text-melhek-blue">{businessName}</p>
+                    <h3 className="text-lg font-display font-bold text-white">{companyName || discovery.businessName}</h3>
+                    <p className="text-xs text-white/60">Representative: {partnerName}</p>
                   </div>
                 </div>
-                <div className="p-6 sm:p-8 grid grid-cols-2 gap-5 text-left">
-                  {[
-                    { label: 'Partner ID', value: partnerId },
-                    { label: 'Status', value: 'Invitation accepted' },
-                    { label: 'Date', value: new Date().toLocaleDateString('en-GB') },
-                    { label: 'Next', value: 'Business discovery' },
-                  ].map((row) => (
-                    <div key={row.label}>
-                      <span className="text-[10px] font-mono text-white/40 uppercase block">{row.label}</span>
-                      <span className="text-sm font-bold text-white">{row.value}</span>
+
+                <div className="p-6 sm:p-8 space-y-4">
+                  <div className="grid grid-cols-2 gap-4 text-left">
+                    <div>
+                      <span className="text-[10px] font-mono text-white/40 uppercase block">Partner ID</span>
+                      <span className="text-sm font-mono font-bold text-melhek-blue">{partnerId}</span>
                     </div>
-                  ))}
-                </div>
-                <div className="p-6 sm:p-8 border-t border-white/10">
-                  <button
-                    type="button"
-                    onClick={() => goTo('discovery')}
-                    className="btn-primary w-full justify-center py-3.5 text-xs font-mono uppercase tracking-widest inline-flex items-center gap-2"
-                  >
-                    Continue to discovery <ArrowRight className="w-4 h-4" />
-                  </button>
+                    <div>
+                      <span className="text-[10px] font-mono text-white/40 uppercase block">Partnership Status</span>
+                      <span className="text-xs font-mono text-emerald-400 font-bold inline-flex items-center gap-1">
+                        <CheckCircle2 className="w-3.5 h-3.5" /> Accepted
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="pt-4 border-t border-white/10 flex flex-col sm:flex-row gap-3">
+                    <button
+                      type="button"
+                      onClick={() => goTo('discovery')}
+                      className="btn-primary flex-1 justify-center py-3.5 text-xs font-mono uppercase tracking-widest inline-flex items-center gap-2"
+                    >
+                      Complete Business Discovery <ArrowRight className="w-4 h-4" />
+                    </button>
+                    <Link
+                      href={`/partner/${partnerId}`}
+                      className="btn-secondary flex-1 justify-center py-3.5 text-xs font-mono uppercase tracking-wider inline-flex items-center gap-2 text-center"
+                    >
+                      View Partner Dashboard
+                    </Link>
+                  </div>
                 </div>
               </div>
             </motion.section>
@@ -1284,9 +1477,9 @@ export default function DigitalPartnershipPlatform() {
                         <label className="text-[11px] font-mono text-white/40 uppercase block mb-1">Business name *</label>
                         <input
                           type="text"
-                          value={discovery.businessName || businessName}
+                          value={discovery.businessName || companyName}
                           onChange={(e) => {
-                            setBusinessName(e.target.value)
+                            setCompanyName(e.target.value)
                             updateDiscovery({ businessName: e.target.value })
                           }}
                           className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-melhek-blue"
@@ -1308,8 +1501,11 @@ export default function DigitalPartnershipPlatform() {
                         <label className="text-[11px] font-mono text-white/40 uppercase block mb-1">Email *</label>
                         <input
                           type="email"
-                          value={discovery.email}
-                          onChange={(e) => updateDiscovery({ email: e.target.value })}
+                          value={discovery.email || email}
+                          onChange={(e) => {
+                            setEmail(e.target.value)
+                            updateDiscovery({ email: e.target.value })
+                          }}
                           className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-melhek-blue"
                         />
                       </div>
@@ -1317,8 +1513,11 @@ export default function DigitalPartnershipPlatform() {
                         <label className="text-[11px] font-mono text-white/40 uppercase block mb-1">Phone / Telegram *</label>
                         <input
                           type="text"
-                          value={discovery.phone}
-                          onChange={(e) => updateDiscovery({ phone: e.target.value })}
+                          value={discovery.phone || phone}
+                          onChange={(e) => {
+                            setPhone(e.target.value)
+                            updateDiscovery({ phone: e.target.value })
+                          }}
                           className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-melhek-blue"
                         />
                       </div>
@@ -1362,7 +1561,7 @@ export default function DigitalPartnershipPlatform() {
                     <div>
                       <label className="text-[11px] font-mono text-white/40 uppercase block mb-1">Who is this site for?</label>
                       <textarea
-                        rows={3}
+                        rows={2}
                         value={discovery.targetAudience}
                         onChange={(e) => updateDiscovery({ targetAudience: e.target.value })}
                         placeholder="Customers, partners, visitors…"
@@ -1370,17 +1569,19 @@ export default function DigitalPartnershipPlatform() {
                       />
                     </div>
                     <div>
-                      <label className="text-[11px] font-mono text-white/40 uppercase block mb-1">Page count (max 5)</label>
+                      <label className="text-[11px] font-mono text-white/40 uppercase block mb-1">Page Count Scope</label>
                       <select
                         value={discovery.pagesNeeded}
                         onChange={(e) => updateDiscovery({ pagesNeeded: e.target.value })}
                         className="w-full bg-melhek-navy border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-melhek-blue"
                       >
-                        {['1–2 pages', '3–5 pages', 'Need more than 5 (growth project)'].map((opt) => (
-                          <option key={opt} value={opt}>
-                            {opt}
-                          </option>
-                        ))}
+                        <optgroup label="Sponsored Website">
+                          <option value="1–2 pages">1–2 pages</option>
+                          <option value="3–5 pages — Recommended">3–5 pages — Recommended</option>
+                        </optgroup>
+                        <optgroup label="Beyond Sponsorship">
+                          <option value="More than 5 pages — Separate project">More than 5 pages — Separate project</option>
+                        </optgroup>
                       </select>
                     </div>
                   </div>
@@ -1411,37 +1612,40 @@ export default function DigitalPartnershipPlatform() {
                               }`}
                             >
                               {ft}
-                              {selected && <Check className="w-3.5 h-3.5" />}
+                              {selected && <Check className="w-3.5 h-3.5 text-melhek-blue" />}
                             </button>
                           )
                         })}
                       </div>
                     </div>
 
-                    <div>
-                      <h3 className="text-sm font-bold text-white mb-1">Growth interest (not sponsored)</h3>
-                      <p className="text-xs text-white/45 mb-3">Optional. We will not treat these as included in the sponsorship.</p>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-56 overflow-y-auto pr-1">
-                        {GROWTH_INTEREST_OPTIONS.map((ft) => {
-                          const selected = discovery.growthInterest.includes(ft)
+                    <div className="border-t border-white/10 pt-4">
+                      <h3 className="text-sm font-bold text-white mb-0.5">Where Could Your Business Grow Next?</h3>
+                      <p className="text-xs text-white/45 mb-3">Optional — these are not included in the sponsored website.</p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-60 overflow-y-auto pr-1">
+                        {SOFT_SELL_GROWTH_CARDS.map((card) => {
+                          const selected = discovery.growthInterest.includes(card.title)
                           return (
                             <button
-                              key={ft}
+                              key={card.id}
                               type="button"
                               onClick={() => {
                                 const next = selected
-                                  ? discovery.growthInterest.filter((x) => x !== ft)
-                                  : [...discovery.growthInterest, ft]
+                                  ? discovery.growthInterest.filter((x) => x !== card.title)
+                                  : [...discovery.growthInterest, card.title]
                                 updateDiscovery({ growthInterest: next })
                               }}
-                              className={`p-3 rounded-xl border text-left text-xs flex items-center justify-between ${
+                              className={`p-3.5 rounded-xl border text-left flex flex-col justify-between transition-all ${
                                 selected
-                                  ? 'bg-white/10 border-white/30 text-white'
-                                  : 'bg-white/[0.03] border-white/8 text-white/55'
+                                  ? 'bg-melhek-blue/15 border-melhek-blue text-white'
+                                  : 'bg-white/[0.03] border-white/8 text-white/65 hover:border-white/20'
                               }`}
                             >
-                              {ft}
-                              {selected && <span className="text-[9px] font-mono text-melhek-blue">Later</span>}
+                              <div className="flex items-center justify-between gap-2">
+                                <span className="text-xs font-bold text-white">{card.title}</span>
+                                {selected && <span className="text-[9px] font-mono text-melhek-blue font-bold uppercase">Later</span>}
+                              </div>
+                              <span className="text-[11px] text-white/50 font-light mt-1 leading-snug">{card.desc}</span>
                             </button>
                           )
                         })}
@@ -1452,9 +1656,26 @@ export default function DigitalPartnershipPlatform() {
 
                 {discoveryStep === 4 && (
                   <div className="space-y-4">
-                    <h3 className="text-sm font-bold text-white border-b border-white/10 pb-3">Assets & notes</h3>
+                    <h3 className="text-sm font-bold text-white border-b border-white/10 pb-3">Strategic Vision & Assets</h3>
+
                     <div>
-                      <label className="text-[11px] font-mono text-white/40 uppercase block mb-1">Brand assets</label>
+                      <label className="text-xs font-bold text-white block mb-1">
+                        What would make this website a success for you?
+                      </label>
+                      <span className="text-[11px] text-white/45 block mb-1.5 font-light">
+                        What is the one outcome you would most like this website to achieve?
+                      </span>
+                      <textarea
+                        rows={2}
+                        value={discovery.successOutcome}
+                        onChange={(e) => updateDiscovery({ successOutcome: e.target.value })}
+                        placeholder="e.g. Generate 15 direct inbound Telegram leads per month from enterprise clients…"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-melhek-blue"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-[11px] font-mono text-white/40 uppercase block mb-1">Brand Assets Status</label>
                       <select
                         value={discovery.brandAssets}
                         onChange={(e) => updateDiscovery({ brandAssets: e.target.value })}
@@ -1472,13 +1693,14 @@ export default function DigitalPartnershipPlatform() {
                         ))}
                       </select>
                     </div>
+
                     <div>
                       <label className="text-[11px] font-mono text-white/40 uppercase block mb-1">Anything else we should know?</label>
                       <textarea
-                        rows={4}
+                        rows={3}
                         value={discovery.notes}
                         onChange={(e) => updateDiscovery({ notes: e.target.value })}
-                        placeholder="Reference sites, tone, must-have pages…"
+                        placeholder="Reference sites, tone, specific page ideas…"
                         className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-melhek-blue"
                       />
                     </div>
@@ -1506,7 +1728,7 @@ export default function DigitalPartnershipPlatform() {
                       onClick={() => setDiscoveryStep((s) => s + 1)}
                       disabled={
                         discoveryStep === 1 &&
-                        !(discovery.businessName || businessName) &&
+                        !(discovery.businessName || companyName) &&
                         !(discovery.ownerName || partnerName)
                       }
                       className="btn-primary !px-5 !py-2.5 text-xs font-mono uppercase tracking-wider inline-flex items-center gap-1 disabled:opacity-40"
@@ -1570,16 +1792,19 @@ export default function DigitalPartnershipPlatform() {
                   <span>
                     Ref <span className="text-melhek-blue font-bold">{partnerId}</span>
                   </span>
-                  <span>{businessName || discovery.businessName}</span>
+                  <span>{companyName || discovery.businessName}</span>
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                  <Link href="/" className="btn-secondary flex-1 justify-center py-3 text-xs font-mono uppercase tracking-wider text-center">
-                    Back to Melhek
+                  <Link
+                    href={`/partner/${partnerId}`}
+                    className="btn-primary flex-1 justify-center py-3 text-xs font-mono uppercase tracking-wider inline-flex items-center gap-2 text-center"
+                  >
+                    View Partner Dashboard
                   </Link>
                   <a
                     href="mailto:melhektechnologies@gmail.com"
-                    className="btn-primary flex-1 justify-center py-3 text-xs font-mono uppercase tracking-wider inline-flex items-center gap-2"
+                    className="btn-secondary flex-1 justify-center py-3 text-xs font-mono uppercase tracking-wider inline-flex items-center gap-2"
                   >
                     <MessageSquare className="w-4 h-4" /> Contact Melhek
                   </a>
@@ -1596,7 +1821,7 @@ export default function DigitalPartnershipPlatform() {
           <button
             type="button"
             onClick={goNext}
-            disabled={stage === 'accept' && !businessName.trim()}
+            disabled={stage === 'accept' && (!companyName.trim() || !partnerName.trim())}
             className="btn-primary w-full justify-center py-3.5 text-xs font-mono uppercase tracking-widest inline-flex items-center gap-2 disabled:opacity-40"
           >
             Continue <ArrowRight className="w-4 h-4" />
@@ -1606,3 +1831,4 @@ export default function DigitalPartnershipPlatform() {
     </div>
   )
 }
+

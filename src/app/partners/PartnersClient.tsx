@@ -98,7 +98,7 @@ const CONTACT = {
   email: 'melhektechnologies@gmail.com',
   phoneDisplay: '+251 972 23 7318',
   phoneHref: 'tel:+251972237318',
-  whatsapp: 'https://wa.me/251721237318',
+  whatsapp: 'https://wa.me/251972237318',
   telegram: 'https://t.me/melhektechnologies',
 }
 
@@ -474,10 +474,11 @@ export default function PartnersClient() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-3 gap-3 max-w-xl mx-auto pt-2">
+                <div className="grid grid-cols-4 gap-3 max-w-2xl mx-auto pt-2">
                   {[
                     { v: '50+', l: 'Projects' },
                     { v: '9', l: 'Industries' },
+                    { v: '14 days', l: 'Avg delivery' },
                     { v: '10%', l: 'Referral' },
                   ].map((s) => (
                     <div
@@ -492,6 +493,34 @@ export default function PartnersClient() {
                       </div>
                     </div>
                   ))}
+                </div>
+
+                {/* Comparison table */}
+                <div className="w-full max-w-3xl mx-auto mt-2">
+                  <p className="text-[11px] font-mono uppercase tracking-[0.2em] text-white/40 mb-3">Why agencies partner with Melhek</p>
+                  <div className="glass rounded-2xl border-white/10 bg-melhek-navy/60 overflow-hidden">
+                    <div className="grid grid-cols-4 text-[10px] font-mono uppercase tracking-wider border-b border-white/10">
+                      <div className="px-4 py-3 text-white/30 col-span-1" />
+                      <div className="px-3 py-3 text-melhek-blue font-bold text-center">Melhek</div>
+                      <div className="px-3 py-3 text-white/40 text-center">In-house dev</div>
+                      <div className="px-3 py-3 text-white/40 text-center">Local freelancer</div>
+                    </div>
+                    {[
+                      { label: 'Fixed wholesale price', melhek: '✓', inhouse: '✗', freelancer: '~' },
+                      { label: 'NDA + IP transfer', melhek: '✓', inhouse: '~', freelancer: '✗' },
+                      { label: '30-day hyper-care', melhek: '✓', inhouse: '✗', freelancer: '✗' },
+                      { label: 'No Melhek branding', melhek: '✓', inhouse: '✓', freelancer: '~' },
+                      { label: 'Response SLA 4 hrs', melhek: '✓', inhouse: '~', freelancer: '✗' },
+                      { label: 'Scale without hiring', melhek: '✓', inhouse: '✗', freelancer: '✗' },
+                    ].map((row, i) => (
+                      <div key={row.label} className={`grid grid-cols-4 text-sm border-b border-white/5 last:border-0 ${i % 2 === 0 ? '' : 'bg-white/[0.02]'}`}>
+                        <div className="px-4 py-3 text-xs text-white/65 font-light col-span-1">{row.label}</div>
+                        <div className={`px-3 py-3 text-center font-bold text-sm ${row.melhek === '✓' ? 'text-emerald-400' : row.melhek === '~' ? 'text-yellow-400/70' : 'text-red-400/60'}`}>{row.melhek}</div>
+                        <div className={`px-3 py-3 text-center font-bold text-sm ${row.inhouse === '✓' ? 'text-emerald-400/70' : row.inhouse === '~' ? 'text-yellow-400/60' : 'text-red-400/60'}`}>{row.inhouse}</div>
+                        <div className={`px-3 py-3 text-center font-bold text-sm ${row.freelancer === '✓' ? 'text-emerald-400/70' : row.freelancer === '~' ? 'text-yellow-400/60' : 'text-red-400/60'}`}>{row.freelancer}</div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
                 <button
@@ -728,6 +757,28 @@ export default function PartnersClient() {
                 </p>
               </div>
 
+              {/* Social proof for agencies */}
+              <div className="mt-6 space-y-3">
+                <p className="text-[11px] font-mono uppercase tracking-[0.2em] text-white/35 text-center">What partner agencies say</p>
+                <div className="grid sm:grid-cols-2 gap-3">
+                  {[
+                    {
+                      quote: 'We presented the booking engine to our client as ours. Zero questions. Melhek delivered in 12 days with clean code we could hand off.',
+                      role: 'Digital marketing agency · Addis Ababa',
+                    },
+                    {
+                      quote: 'The NDA and IP transfer were signed before a single line of code. That\'s the only way we work with backend partners now.',
+                      role: 'Brand & creative agency · Addis Ababa',
+                    },
+                  ].map((t, i) => (
+                    <div key={i} className="glass rounded-2xl border-white/10 bg-melhek-navy/50 p-5 space-y-3">
+                      <p className="text-sm text-white/70 font-light leading-relaxed italic">&ldquo;{t.quote}&rdquo;</p>
+                      <p className="text-[11px] font-mono text-melhek-blue uppercase tracking-wider">{t.role}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
               <NavBackNext nextLabel="Estimate margins" onNext={() => goTo('calculator')} />
             </motion.section>
           )}
@@ -934,6 +985,32 @@ export default function PartnersClient() {
                 title="Agency partner intake"
                 subtitle="Short form. Draft saves in your browser. We respond within one business day."
               />
+
+              {/* Direct contact shortcut for agencies who prefer to talk first */}
+              <div className="glass rounded-2xl border-melhek-blue/20 bg-melhek-blue/5 p-4 mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <div className="space-y-0.5">
+                  <p className="text-sm font-semibold text-white">Prefer to talk first?</p>
+                  <p className="text-xs text-white/55 font-light">Book a 15-min call or message us directly before applying.</p>
+                </div>
+                <div className="flex items-center gap-2 shrink-0">
+                  <a
+                    href={CONTACT.whatsapp}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#25D366]/15 border border-[#25D366]/30 text-[#25D366] text-[11px] font-mono uppercase tracking-wider hover:bg-[#25D366]/25 transition-colors"
+                  >
+                    <MessageCircle className="w-3.5 h-3.5" /> WhatsApp
+                  </a>
+                  <a
+                    href={CONTACT.telegram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-melhek-blue/10 border border-melhek-blue/25 text-melhek-blue text-[11px] font-mono uppercase tracking-wider hover:bg-melhek-blue/20 transition-colors"
+                  >
+                    Telegram
+                  </a>
+                </div>
+              </div>
 
               <div className="glass rounded-[2rem] border-white/10 bg-melhek-navy/70 p-6 sm:p-10 relative overflow-hidden">
                 <div className="absolute -top-20 -right-20 w-64 h-64 bg-melhek-blue/15 blur-[100px] rounded-full pointer-events-none" />

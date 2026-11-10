@@ -4,6 +4,7 @@ import { createHash, createHmac, timingSafeEqual } from "node:crypto";
 import { cookies } from "next/headers";
 
 export const PRICING_SESSION_COOKIE = "melhek_pricing_session";
+export const COMMERCIAL_DOCS_SESSION_COOKIE = "melhek_commercial_docs_session";
 const SESSION_TTL_SECONDS = 60 * 60 * 8;
 
 export function isPricingAuthConfigured(): boolean {
@@ -27,6 +28,19 @@ function safeStringEqual(left: string, right: string): boolean {
 export function isValidPricingAccessKey(candidate: string): boolean {
   const configuredKey = process.env.PRICING_ACCESS_KEY;
   if (!isPricingAuthConfigured() || !configuredKey) return false;
+  return safeStringEqual(candidate, configuredKey);
+}
+
+export function isCommercialDocsAuthConfigured(): boolean {
+  const accessKey = process.env.COMMERCIAL_DOCS_ACCESS_KEY;
+  const sessionSecret = process.env.PRICING_SESSION_SECRET;
+
+  return Boolean(accessKey && accessKey.length >= 16 && sessionSecret && sessionSecret.length >= 32);
+}
+
+export function isValidCommercialDocsAccessKey(candidate: string): boolean {
+  const configuredKey = process.env.COMMERCIAL_DOCS_ACCESS_KEY;
+  if (!isCommercialDocsAuthConfigured() || !configuredKey || candidate.length > 256) return false;
   return safeStringEqual(candidate, configuredKey);
 }
 
@@ -58,6 +72,41 @@ export function isValidPricingSession(value?: string | null): boolean {
   return safeStringEqual(providedSignature, signatureFor(expiry, secret));
 }
 
+function commercialDocsSignatureFor(expiry: string, secret: string, accessKey: string): string {
+  const keyVersion = createHash("sha256").update(accessKey).digest("base64url");
+  return createHmac("sha256", secret)
+    .update(`commercial-documents:${expiry}:${keyVersion}`)
+    .digest("base64url");
+}
+
+export function createCommercialDocsSession(): { value: string; maxAge: number } | null {
+  if (!isCommercialDocsAuthConfigured()) return null;
+  const secret = process.env.PRICING_SESSION_SECRET;
+  const accessKey = process.env.COMMERCIAL_DOCS_ACCESS_KEY;
+  if (!secret || !accessKey) return null;
+
+  const expiry = String(Math.floor(Date.now() / 1000) + SESSION_TTL_SECONDS);
+  return {
+    value: `${expiry}.${commercialDocsSignatureFor(expiry, secret, accessKey)}`,
+    maxAge: SESSION_TTL_SECONDS,
+  };
+}
+
+export function isValidCommercialDocsSession(value?: string | null): boolean {
+  if (!isCommercialDocsAuthConfigured() || !value || value.length > 256) return false;
+  const secret = process.env.PRICING_SESSION_SECRET;
+  const accessKey = process.env.COMMERCIAL_DOCS_ACCESS_KEY;
+  if (!secret || !accessKey) return false;
+
+  const [expiry, providedSignature, extra] = value.split(".");
+  if (!expiry || !providedSignature || extra !== undefined) return false;
+
+  const expirySeconds = Number(expiry);
+  if (!Number.isSafeInteger(expirySeconds) || expirySeconds <= Math.floor(Date.now() / 1000)) return false;
+
+  return safeStringEqual(providedSignature, commercialDocsSignatureFor(expiry, secret, accessKey));
+}
+
 export function hasPricingSessionInCookieHeader(cookieHeader?: string | null): boolean {
   const session = cookieHeader
     ?.split(";")
@@ -76,6 +125,11 @@ export function hasPricingSessionInCookieHeader(cookieHeader?: string | null): b
 export async function hasPricingAccess(): Promise<boolean> {
   const cookieStore = await cookies();
   return isValidPricingSession(cookieStore.get(PRICING_SESSION_COOKIE)?.value);
+}
+
+export async function hasCommercialDocsAccess(): Promise<boolean> {
+  const cookieStore = await cookies();
+  return isValidCommercialDocsSession(cookieStore.get(COMMERCIAL_DOCS_SESSION_COOKIE)?.value);
 }
 
 export const PRIVATE_RESPONSE_HEADERS = {

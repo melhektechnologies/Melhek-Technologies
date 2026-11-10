@@ -1,6 +1,4 @@
 import { NextResponse } from 'next/server'
-import fs from 'fs/promises'
-import path from 'path'
 
 type PartnerPayload = {
   agencyName?: string
@@ -14,22 +12,33 @@ type PartnerPayload = {
   monthlyClients?: string
 }
 
-async function persistSubmission(submission: Record<string, unknown>) {
-  const filePath = path.join(process.cwd(), 'submissions.json')
-  let current: unknown[] = []
+/**
+ * Persist submission to filesystem only when running locally (not Vercel).
+ * On Vercel (serverless), the filesystem is read-only — this is silently skipped.
+ */
+async function tryPersistLocally(submission: Record<string, unknown>) {
+  if (process.env.VERCEL || process.env.NODE_ENV === 'production') return
   try {
-    const fileContent = await fs.readFile(filePath, 'utf-8')
-    current = JSON.parse(fileContent)
-  } catch {
-    // start fresh
+    const fs = await import('fs/promises')
+    const path = await import('path')
+    const filePath = path.join(process.cwd(), 'submissions.json')
+    let current: unknown[] = []
+    try {
+      const raw = await fs.readFile(filePath, 'utf-8')
+      current = JSON.parse(raw)
+    } catch {
+      // file may not exist yet — that's fine
+    }
+    current.push(submission)
+    await fs.writeFile(filePath, JSON.stringify(current, null, 2), 'utf-8')
+  } catch (err) {
+    console.warn('Local persistence skipped:', err)
   }
-  current.push(submission)
-  await fs.writeFile(filePath, JSON.stringify(current, null, 2), 'utf-8')
 }
 
 async function notifyDiscord(submission: Record<string, unknown>) {
   const webhookUrl = process.env.CONTACT_WEBHOOK_URL
-  if (!webhookUrl) return
+  if (!webhookUrl || webhookUrl.includes('1234567890')) return
 
   const fields = Object.entries(submission)
     .filter(([key]) => !['id', 'timestamp', 'type'].includes(key))
@@ -39,21 +48,26 @@ async function notifyDiscord(submission: Record<string, unknown>) {
       inline: true,
     }))
 
-  await fetch(webhookUrl, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      username: 'Melhek Partner Notifier',
-      embeds: [
-        {
-          title: 'New Agency Partner Application',
-          color: 8366591,
-          fields,
-          timestamp: submission.timestamp,
-        },
-      ],
-    }),
-  })
+  try {
+    await fetch(webhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        username: 'Melhek Partner Notifier',
+        embeds: [
+          {
+            title: '🤝 New Agency Partner Application',
+            color: 0x7fa9ff,
+            fields,
+            timestamp: submission.timestamp,
+            footer: { text: 'Melhek Agency Partner Program' },
+          },
+        ],
+      }),
+    })
+  } catch (err) {
+    console.error('Discord partner webhook failed:', err)
+  }
 }
 
 async function notifySheet(submission: Record<string, unknown>) {
@@ -61,14 +75,17 @@ async function notifySheet(submission: Record<string, unknown>) {
     process.env.PARTNERS_SHEET_WEBHOOK || process.env.PARTNERSHIP_SHEET_WEBHOOK
   if (!webhookUrl) return
 
-  const response = await fetch(webhookUrl, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(submission),
-  })
-
-  if (!response.ok) {
-    throw new Error(`Sheet webhook responded with status: ${response.status}`)
+  try {
+    const response = await fetch(webhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(submission),
+    })
+    if (!response.ok) {
+      console.error(`Sheet webhook responded with status: ${response.status}`)
+    }
+  } catch (err) {
+    console.error('Sheet webhook failed:', err)
   }
 }
 
@@ -87,6 +104,7 @@ export async function POST(request: Request) {
       monthlyClients,
     } = body
 
+    // Validation
     if (!agencyName?.trim() || !contactName?.trim() || !email?.trim() || !partnershipModel) {
       return NextResponse.json(
         { success: false, error: 'Missing required fields.' },
@@ -119,19 +137,12 @@ export async function POST(request: Request) {
     console.log('--- NEW AGENCY PARTNER APPLICATION ---')
     console.log(JSON.stringify(submission, null, 2))
 
-    await persistSubmission(submission)
-
-    try {
-      await notifyDiscord(submission)
-    } catch (err) {
-      console.error('Discord partner webhook failed:', err)
-    }
-
-    try {
-      await notifySheet(submission)
-    } catch (err) {
-      console.error('Sheet partner webhook failed:', err)
-    }
+    // Run all persistence in parallel — failures don't block the response
+    await Promise.allSettled([
+      tryPersistLocally(submission),
+      notifyDiscord(submission),
+      notifySheet(submission),
+    ])
 
     return NextResponse.json({
       success: true,

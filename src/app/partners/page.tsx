@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     title: "Agency Partner Program | Melhek Technologies",
     description:
       "Sell premium web, software, and AI under your brand — or refer clients and earn commission.",
-    url: "https://melhek.tech/partners",
+    url: "https://www.melhek.com.et/partners",
     type: "website",
   },
 };

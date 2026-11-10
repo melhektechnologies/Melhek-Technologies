@@ -9,7 +9,8 @@ export const QUOTE_STEPS = [
   { id: 4, label: 'Complexity', icon: Cpu, desc: 'Technical Scale' },
   { id: 5, label: 'Commercials', icon: DollarSign, desc: 'Value & Margins' },
   { id: 6, label: 'Recurring', icon: RefreshCw, desc: 'SLA & Support' },
-  { id: 7, label: 'Payment', icon: CreditCard, desc: 'Milestones & Terms' }
+  { id: 7, label: 'Payment', icon: CreditCard, desc: 'Milestones & Terms' },
+  { id: 8, label: 'Review', icon: Check, desc: 'Final Check & Proposal' },
 ];
 
 interface QuoteStepNavigationProps {

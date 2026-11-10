@@ -1,91 +1,125 @@
 'use client';
 
-import { useState } from 'react';
-import { ShieldCheck, Lock, ArrowRight, Sparkles } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { AlertCircle, ArrowRight, Lock, ShieldCheck } from 'lucide-react';
 
-interface AuthGateProps {
-  onAuthenticate: () => void;
-}
+export default function AuthGate({ configured }: { configured: boolean }) {
+  const router = useRouter();
+  const [accessKey, setAccessKey] = useState('');
+  const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-export default function AuthGate({ onAuthenticate }: AuthGateProps) {
-  const [passcode, setPasscode] = useState('');
-  const [error, setError] = useState(false);
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Simple founder key check; defaults to "melhek2026" or any non-empty demo key
-    if (passcode.trim() === 'melhek2026' || passcode.trim() === 'admin' || passcode.trim() === 'melhek') {
-      sessionStorage.setItem('melhek_pricing_auth', 'true');
-      onAuthenticate();
-    } else {
-      setError(true);
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!configured || isSubmitting) return;
+
+    setIsSubmitting(true);
+    setError('');
+
+    try {
+      const response = await fetch('/api/pricing/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ accessKey }),
+      });
+
+      if (!response.ok) {
+        const payload = await response.json().catch(() => ({}));
+        setError(
+          response.status === 429
+            ? 'Too many attempts. Try again in 15 minutes.'
+            : payload.error || 'Access key not accepted. Check it and try again.',
+        );
+        setAccessKey('');
+        return;
+      }
+
+      router.refresh();
+    } catch {
+      setError('Could not reach the access service. Check your connection and try again.');
+    } finally {
+      setIsSubmitting(false);
     }
-  };
-
-  const handleQuickBypass = () => {
-    sessionStorage.setItem('melhek_pricing_auth', 'true');
-    onAuthenticate();
-  };
+  }
 
   return (
-    <div className="min-h-[75vh] flex items-center justify-center p-4">
-      <div className="w-full max-w-md glass rounded-3xl p-8 border border-white/10 shadow-2xl relative overflow-hidden text-center">
-        <div className="absolute top-0 right-0 w-48 h-48 bg-melhek-blue/10 rounded-full blur-3xl pointer-events-none" />
+    <div className="flex min-h-[75vh] items-center justify-center p-4">
+      <div className="relative w-full max-w-md overflow-hidden rounded-3xl border border-white/10 p-8 text-center shadow-2xl glass">
+        <div className="pointer-events-none absolute left-1/2 top-0 h-32 w-64 -translate-x-1/2 rounded-full bg-melhek-blue/8 blur-3xl" />
 
-        <div className="w-14 h-14 rounded-2xl bg-melhek-blue/10 border border-melhek-blue/20 flex items-center justify-center mx-auto mb-6 text-melhek-blue">
-          <ShieldCheck className="w-7 h-7" />
+        <div className="relative z-10 mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl border border-melhek-blue/20 bg-melhek-blue/10 text-melhek-blue">
+          <ShieldCheck className="h-8 w-8" aria-hidden="true" />
         </div>
 
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-melhek-blue text-[10px] font-mono uppercase tracking-widest font-bold mb-3">
-          <Sparkles className="w-3 h-3" />
-          <span>Internal Commercial Desk</span>
+        <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] font-mono font-bold uppercase tracking-widest text-melhek-blue">
+          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-melhek-blue" />
+          Internal Commercial Desk
         </div>
 
-        <h2 className="text-2xl font-syne font-extrabold text-white mb-2">
-          Melhek Technologies
-        </h2>
-        <p className="text-xs text-white/50 mb-8 leading-relaxed">
-          This route is restricted for internal quotation calculations. Enter your founder access key to continue.
+        <h1 className="mb-1.5 text-2xl font-syne font-extrabold text-white">Melhek Technologies</h1>
+        <p className="mx-auto mb-8 max-w-xs text-xs leading-relaxed text-white/40">
+          This private workspace is restricted. Enter your access key to continue.
         </p>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="relative">
-            <input
-              type="password"
-              placeholder="Enter Access Key..."
-              value={passcode}
-              onChange={(e) => {
-                setPasscode(e.target.value);
-                setError(false);
-              }}
-              className={`w-full bg-navy/90 border ${
-                error ? 'border-red-500/50 text-red-300' : 'border-white/15 focus:border-melhek-blue'
-              } rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/30 outline-none transition-all font-mono`}
-            />
-            <Lock className="w-4 h-4 text-white/30 absolute right-4 top-1/2 -translate-y-1/2" />
+        {configured ? (
+          <form onSubmit={handleSubmit} className="space-y-3">
+            <div className="relative">
+              <label className="sr-only" htmlFor="pricing-access-key">Access key</label>
+              <input
+                ref={inputRef}
+                id="pricing-access-key"
+                name="accessKey"
+                type="password"
+                placeholder="Enter access key"
+                value={accessKey}
+                autoComplete="current-password"
+                autoCapitalize="none"
+                spellCheck={false}
+                required
+                disabled={isSubmitting}
+                onChange={(event) => {
+                  setAccessKey(event.target.value);
+                  setError('');
+                }}
+                className={`w-full rounded-xl border bg-melhek-navy/90 px-4 py-3.5 pr-11 text-sm font-mono text-white outline-none transition-all placeholder:text-white/30 disabled:opacity-60 ${
+                  error ? 'border-red-500/50' : 'border-white/15 focus:border-melhek-blue'
+                }`}
+              />
+              <Lock className="absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-white/20" aria-hidden="true" />
+            </div>
+
+            {error && (
+              <div role="alert" className="flex items-center gap-2 px-1 text-left text-xs font-mono text-red-400">
+                <AlertCircle className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                {error}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={isSubmitting || !accessKey}
+              className="btn-primary w-full justify-center !py-3.5 text-sm uppercase tracking-wider disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {isSubmitting ? 'Checking access…' : 'Unlock Commercial Desk'}
+              <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
+            </button>
+          </form>
+        ) : (
+          <div role="status" className="rounded-2xl border border-amber-400/20 bg-amber-400/5 p-4 text-left text-xs leading-relaxed text-amber-100/80">
+            Private access is not configured on this deployment. Set server-only <code>PRICING_ACCESS_KEY</code> and <code>PRICING_SESSION_SECRET</code> environment variables to enable it.
           </div>
+        )}
 
-          {error && (
-            <p className="text-xs text-red-400 font-mono text-left">
-              Invalid access key. Use default <code className="text-melhek-blue">melhek2026</code>.
-            </p>
-          )}
-
-          <button
-            type="submit"
-            className="w-full btn-primary justify-center !py-3.5 text-sm uppercase font-mono tracking-wider"
-          >
-            Unlock Commercial Desk <ArrowRight className="w-4 h-4 ml-1" />
-          </button>
-        </form>
-
-        <div className="mt-6 pt-6 border-t border-white/5">
-          <button
-            onClick={handleQuickBypass}
-            className="text-[11px] font-mono text-white/40 hover:text-melhek-blue transition-colors underline"
-          >
-            Founder Fast Access → (Unlock Session)
-          </button>
+        <div className="mt-8 border-t border-white/5 pt-5">
+          <p className="text-[10px] font-mono text-white/20">
+            Melhek Technologies © {new Date().getFullYear()} · Internal Access Only
+          </p>
         </div>
       </div>
     </div>

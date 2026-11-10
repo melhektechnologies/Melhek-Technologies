@@ -84,16 +84,18 @@ export function calculateQuoteFinancials(quote: Partial<Quote>): FinancialBreakd
   // Base raw calculated price before commercial adjustment
   const subtotalBeforeMultipliers = (basePriceETB + totalScopeETB + complexityModifierETB + integrationModifierETB) * tierMultiplier;
   
-  // Complexity score multiplier: higher operational complexity elevates the base value
-  const complexityScaleMultiplier = 1 + (operationalComplexityScore * 0.025);
+  // Complexity score multiplier: 1.2% per score point (max ~36% at score 30)
+  // Intentionally conservative to prevent runaway prices
+  const complexityScaleMultiplier = 1 + (operationalComplexityScore * 0.012);
+
+  // Apply user scale, design multiplier and complexity scale
+  const afterComplexityUser = subtotalBeforeMultipliers * complexityScaleMultiplier * userMod.multiplier * designMod.multiplier;
   
-  const strategicValueUpliftETB = Math.round(subtotalBeforeMultipliers * (stratMod.multiplier - 1));
-  const riskFactorETB = Math.round(subtotalBeforeMultipliers * (urgencyMod.multiplier - 1));
+  const strategicValueUpliftETB = Math.round(afterComplexityUser * (stratMod.multiplier - 1));
+  const riskFactorETB = Math.round(afterComplexityUser * (urgencyMod.multiplier - 1));
 
   // Calculated Recommended Price
-  const rawRecommendedPrice = Math.round(
-    subtotalBeforeMultipliers * complexityScaleMultiplier * userMod.multiplier * designMod.multiplier
-  ) + strategicValueUpliftETB + riskFactorETB;
+  const rawRecommendedPrice = Math.round(afterComplexityUser) + strategicValueUpliftETB + riskFactorETB;
 
   // Strategic relationship adjustment
   const relationshipAdjustmentETB = Math.round(rawRecommendedPrice * relMod.modifierPct);
@@ -131,9 +133,10 @@ export function calculateQuoteFinancials(quote: Partial<Quote>): FinancialBreakd
   const totalInternalCostETB = Math.round(laborCostETB + directThirdPartyCostETB);
 
   // Minimum Safe Price = 1.4x internal cost OR 70% of recommended price (whichever is higher)
+  // Also never go below the category base price
   const minimumMarginFloor = Math.round(totalInternalCostETB * 1.4);
-  const minimumRecommendedFloor = Math.round(recommendedPriceETB * 0.75);
-  const minimumSafePriceETB = Math.max(minimumMarginFloor, minimumRecommendedFloor);
+  const minimumRecommendedFloor = Math.round(recommendedPriceETB * 0.70);
+  const minimumSafePriceETB = Math.max(minimumMarginFloor, minimumRecommendedFloor, category.basePriceETB);
 
   // Premium Opportunity Price = Recommended + 25% uplift
   const premiumOpportunityPriceETB = Math.round(recommendedPriceETB * 1.25);
@@ -153,20 +156,20 @@ export function calculateQuoteFinancials(quote: Partial<Quote>): FinancialBreakd
 
   // Guardrails
   const isBelowMinimumSafe = finalNegotiatedPriceETB < minimumSafePriceETB;
-  const isSubstantiallyBelowRecommended = finalNegotiatedPriceETB < Math.round(recommendedPriceETB * 0.85);
-  const isPremiumPositioned = finalNegotiatedPriceETB > Math.round(recommendedPriceETB * 1.15);
+  const isSubstantiallyBelowRecommended = !isBelowMinimumSafe && finalNegotiatedPriceETB < Math.round(recommendedPriceETB * 0.82);
+  const isPremiumPositioned = finalNegotiatedPriceETB > Math.round(recommendedPriceETB * 1.12);
 
   let guardrailWarningMessage: string | undefined;
   let guardrailSuccessMessage: string | undefined;
 
   if (isBelowMinimumSafe) {
-    guardrailWarningMessage = `⚠ WARNING: Final price (${finalNegotiatedPriceETB.toLocaleString()} ETB) is below Melhek's minimum safe floor (${minimumSafePriceETB.toLocaleString()} ETB). Estimated gross margin is ${estimatedGrossMarginPct}%. Review project scope or commercial terms.`;
+    guardrailWarningMessage = `⚠ MARGIN ALERT: Final price (${finalNegotiatedPriceETB.toLocaleString()} ETB) is below Melhek's minimum safe floor (${minimumSafePriceETB.toLocaleString()} ETB). Gross margin: ${estimatedGrossMarginPct}%.`;
   } else if (isSubstantiallyBelowRecommended) {
-    guardrailWarningMessage = `Notice: Discount applied puts price (${finalNegotiatedPriceETB.toLocaleString()} ETB) below standard recommendation (${recommendedPriceETB.toLocaleString()} ETB). Ensure strategic justification exists.`;
+    guardrailWarningMessage = `Discount puts price (${finalNegotiatedPriceETB.toLocaleString()} ETB) substantially below recommendation (${recommendedPriceETB.toLocaleString()} ETB). Ensure commercial justification is documented.`;
   } else if (isPremiumPositioned) {
-    guardrailSuccessMessage = `Premium Positioning Active: Final investment (${finalNegotiatedPriceETB.toLocaleString()} ETB) reflects high value delivery and strategic scope.`;
+    guardrailSuccessMessage = `Premium positioning active — ${finalNegotiatedPriceETB.toLocaleString()} ETB reflects exceptional delivery scope and strategic value.`;
   } else {
-    guardrailSuccessMessage = `Commercial Guardrail Passed: Healthy projected margin of ${estimatedGrossMarginPct}%.`;
+    guardrailSuccessMessage = `Healthy margin of ${estimatedGrossMarginPct}% — commercial guardrail passed.`;
   }
 
   return {
@@ -206,93 +209,174 @@ export function getRecommendedFeatures(selectedScopeIds: string[], categoryId: s
   if (!category) return [];
 
   const recommendations: ScopeItem[] = [];
+  const seen = new Set<string>();
 
-  // Check dependencies
+  // Dependency-based recommendations
   category.defaultScope.forEach(item => {
-    if (!selectedScopeIds.includes(item.id)) {
+    if (!selectedScopeIds.includes(item.id) && !seen.has(item.id)) {
       if (item.dependsOn && item.dependsOn.some(depId => selectedScopeIds.includes(depId))) {
+        seen.add(item.id);
         recommendations.push({
           ...item,
           isRecommended: true,
-          recommendedReason: `Recommended addition for selected prerequisite features.`
+          recommendedReason: 'Recommended based on your selected prerequisite features.'
         });
       }
     }
   });
 
-  // Category specific intelligent suggestions
+  // Smart context-driven suggestions
   if (selectedScopeIds.some(id => id.includes('booking') || id.includes('res'))) {
-    const calendarItem = category.defaultScope.find(i => i.id.includes('calendar'));
-    if (calendarItem && !selectedScopeIds.includes(calendarItem.id) && !recommendations.some(r => r.id === calendarItem.id)) {
-      recommendations.push({
-        ...calendarItem,
-        isRecommended: true,
-        recommendedReason: `Online booking workflow works best with visual reservation calendars.`
-      });
+    const cal = category.defaultScope.find(i => i.id.includes('calendar'));
+    if (cal && !selectedScopeIds.includes(cal.id) && !seen.has(cal.id)) {
+      seen.add(cal.id);
+      recommendations.push({ ...cal, isRecommended: true, recommendedReason: 'Online booking works best with a visual reservation calendar.' });
     }
   }
 
-  if (selectedScopeIds.some(id => id.includes('multi-branch'))) {
-    const auditItem = category.defaultScope.find(i => i.id.includes('audit'));
-    if (auditItem && !selectedScopeIds.includes(auditItem.id) && !recommendations.some(r => r.id === auditItem.id)) {
-      recommendations.push({
-        ...auditItem,
-        isRecommended: true,
-        recommendedReason: `Multi-branch implementations strongly require activity audit logs.`
-      });
+  if (selectedScopeIds.some(id => id.includes('multi-branch') || id.includes('branch'))) {
+    const audit = category.defaultScope.find(i => i.id.includes('audit'));
+    if (audit && !selectedScopeIds.includes(audit.id) && !seen.has(audit.id)) {
+      seen.add(audit.id);
+      recommendations.push({ ...audit, isRecommended: true, recommendedReason: 'Multi-branch operations strongly require tamper-proof audit logging.' });
     }
   }
 
-  return recommendations;
+  if (selectedScopeIds.some(id => id.includes('pos') || id.includes('checkout'))) {
+    const barcode = category.defaultScope.find(i => i.id.includes('barcode'));
+    if (barcode && !selectedScopeIds.includes(barcode.id) && !seen.has(barcode.id)) {
+      seen.add(barcode.id);
+      recommendations.push({ ...barcode, isRecommended: true, recommendedReason: 'POS systems are significantly more efficient with barcode scanning.' });
+    }
+  }
+
+  if (selectedScopeIds.some(id => id.includes('inventory') || id.includes('stock'))) {
+    const supplier = category.defaultScope.find(i => i.id.includes('supplier') || i.id.includes('purchase'));
+    if (supplier && !selectedScopeIds.includes(supplier.id) && !seen.has(supplier.id)) {
+      seen.add(supplier.id);
+      recommendations.push({ ...supplier, isRecommended: true, recommendedReason: 'Inventory management pairs well with supplier and purchase order tracking.' });
+    }
+  }
+
+  return recommendations.slice(0, 4);
 }
 
 /**
- * Generates deterministic insights for the internal quote review.
+ * Generates deterministic, data-driven insights for the internal quote review panel.
+ * Every insight is based on actual quote data — no AI hallucinations.
  */
 export function generateQuoteInsights(quote: Partial<Quote>, financials: FinancialBreakdown): QuoteInsight[] {
   const insights: QuoteInsight[] = [];
+  const scopeCount = quote.selectedScopeIds?.length ?? 0;
+  const customCount = quote.customScopeItems?.length ?? 0;
 
-  if (financials.operationalComplexityScore >= 12) {
+  // High complexity warning
+  if (financials.operationalComplexityScore >= 15) {
     insights.push({
       type: 'warning',
-      title: 'High Operational Complexity',
-      description: `Complexity score is ${financials.operationalComplexityScore}. Ensure multi-phase delivery, staging reviews, and thorough integration testing.`
+      title: 'Very High Operational Complexity',
+      description: `Score ${financials.operationalComplexityScore}/30. Recommend phased delivery, staging reviews, and comprehensive integration testing to de-risk this engagement.`
+    });
+  } else if (financials.operationalComplexityScore >= 9) {
+    insights.push({
+      type: 'info',
+      title: 'Moderate-to-High Complexity Scope',
+      description: `Complexity score is ${financials.operationalComplexityScore}/30. Budget adequate time for discovery, architecture planning, and QA cycles.`
     });
   }
 
-  if (quote.tier === 'ENTERPRISE' || quote.tier === 'ADVANCED') {
+  // Tier vs scope mismatch
+  if (scopeCount >= 7 && (quote.tier === 'FOUNDATION' || quote.tier === 'PROFESSIONAL')) {
+    insights.push({
+      type: 'warning',
+      title: 'Tier May Underrepresent Scope',
+      description: `${scopeCount} modules at ${quote.tier} tier. Consider ADVANCED or ENTERPRISE for a more accurate commercial representation.`
+    });
+  }
+
+  // Recurring revenue opportunity
+  if (quote.tier === 'ENTERPRISE' || quote.tier === 'ADVANCED' || scopeCount >= 6) {
     insights.push({
       type: 'opportunity',
-      title: 'Strong Recurring Service Potential',
-      description: `This ${quote.tier} implementation contains business-critical infrastructure. Pitch a monthly Managed Maintenance & SLA package.`
+      title: 'Strong Recurring Revenue Potential',
+      description: `This ${quote.tier} system has business-critical infrastructure. Pitch a Managed Maintenance + Priority SLA package in Step 6 to establish recurring revenue.`
     });
   }
 
+  // Margin alert
   if (financials.isBelowMinimumSafe) {
     insights.push({
       type: 'warning',
       title: 'Margin Protection Alert',
-      description: `Final price of ${financials.finalNegotiatedPriceETB.toLocaleString()} ETB provides only ${financials.estimatedGrossMarginPct}% gross margin, which is below Melhek's target 35%+ minimum.`
+      description: `Final price of ${financials.finalNegotiatedPriceETB.toLocaleString()} ETB yields only ${financials.estimatedGrossMarginPct}% gross margin — below Melhek's 35% target. Reduce scope, increase final price, or document the justification.`
+    });
+  } else if (financials.estimatedGrossMarginPct >= 50) {
+    insights.push({
+      type: 'success',
+      title: 'Excellent Gross Margin',
+      description: `${financials.estimatedGrossMarginPct}% gross margin. This quote strongly protects Melhek's engineering investment.`
     });
   }
 
-  if (quote.client?.primaryValue === 'Cost Reduction' || quote.client?.primaryValue === 'Operational Efficiency') {
+  // Value framing based on client's primary driver
+  const primaryVal = quote.client?.primaryValue;
+  if (primaryVal === 'Cost Reduction' || primaryVal === 'Operational Efficiency') {
     insights.push({
       type: 'info',
-      title: 'Value Framing Focus',
-      description: `Client prioritizes ${quote.client.primaryValue}. Frame the proposal around annual labor savings and reduced manual error risk rather than technical code hours.`
+      title: 'ROI-Driven Proposal Framing',
+      description: `Client prioritizes ${primaryVal}. Frame the proposal around annual labor savings, error reduction, and automation ROI — not technical implementation hours.`
     });
-  }
-
-  if (quote.selectedScopeIds && quote.selectedScopeIds.length >= 8) {
+  } else if (primaryVal === 'Revenue Growth') {
     insights.push({
       type: 'info',
-      title: 'Broad Scope Execution',
-      description: `${quote.selectedScopeIds.length} scope modules selected. Recommend a 2-phase rollout plan to deliver early value.`
+      title: 'Revenue Impact Framing',
+      description: 'Frame the proposal around customer acquisition improvements, booking conversion, and lead generation capability rather than code features.'
+    });
+  } else if (primaryVal === 'Management Visibility') {
+    insights.push({
+      type: 'info',
+      title: 'Executive Decision Support Framing',
+      description: 'Emphasize real-time analytics, management dashboards, and consolidated business intelligence as the core deliverable value.'
     });
   }
 
-  return insights;
+  // Large scope phasing
+  if (scopeCount + customCount >= 9) {
+    insights.push({
+      type: 'info',
+      title: 'Phased Delivery Recommended',
+      description: `${scopeCount + customCount} scope modules selected. Propose a 2-phase delivery structure to reduce client risk and deliver early value.`
+    });
+  }
+
+  // Strategic account upsell
+  if (quote.commercial?.strategicValue === 'Strategic' || quote.commercial?.strategicValue === 'High') {
+    insights.push({
+      type: 'opportunity',
+      title: 'Strategic Account Relationship',
+      description: 'High-value client. Consider proposing a Preferred Technology Partner agreement with an annual retainer, priority support, and dedicated engineering capacity.'
+    });
+  }
+
+  // Urgency flag
+  if (quote.commercial?.urgency === 'Urgent') {
+    insights.push({
+      type: 'warning',
+      title: 'Urgent Timeline — Validate Capacity',
+      description: 'Urgent delivery selected. Confirm Melhek has available engineering capacity before committing. Urgency pricing premium (+40%) has been applied.'
+    });
+  }
+
+  // AI API cost reminder
+  if (quote.categoryId === 'ai-solution' || quote.selectedScopeIds?.some(id => id.includes('ai') || id.includes('chatbot'))) {
+    insights.push({
+      type: 'info',
+      title: 'AI API Recurring Cost',
+      description: 'This quote includes AI features. Ensure ongoing AI/API gateway costs are included in recurring services (Step 6) so Melhek is not absorbing token costs post-launch.'
+    });
+  }
+
+  return insights.slice(0, 6);
 }
 
 /**

@@ -2,6 +2,7 @@
 
 @theme {
   --color-melhek-navy: #010B3D;
+  --color-navy: #010B3D;
   --color-melhek-blue: #7FA9FF;
   --color-melhek-ice: #F4F7FF;
   --color-melhek-steel: #AFC8FF;
@@ -60,6 +61,21 @@
 }
 
 @layer components {
+  /* Custom scrollbar for internal desk panels */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(127, 169, 255, 0.2);
+    border-radius: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(127, 169, 255, 0.4);
+  }
+
   .glass {
     background: var(--surface);
     backdrop-filter: blur(24px);
@@ -131,4 +147,28 @@
 @keyframes shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
+}
+
+/* ─── PRINT STYLES — Proposal PDF Output ─────────────────────────── */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #0a0f2e !important;
+  }
+
+  /* Hide everything that is not the proposal */
+  body > *:not(#__NEXT_DATA__) {
+    visibility: hidden;
+  }
+
+  /* Custom-cursor overlay breaks print */
+  [class*="cursor"],
+  [class*="Cursor"] {
+    display: none !important;
+  }
+
+  @page {
+    margin: 1.5cm;
+    size: A4 portrait;
+  }
 }

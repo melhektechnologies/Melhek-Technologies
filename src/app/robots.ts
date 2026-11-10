@@ -6,7 +6,15 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/pharmacy", "/pharmacy/", "/verification-demo"],
+        disallow: [
+          "/pharmacy",
+          "/pharmacy/",
+          "/verification-demo",
+          "/pricing/desk",
+          "/pricing/desk/",
+          "/pricecalculator",
+          "/pricecalculator/",
+        ],
       },
     ],
     sitemap: "https://melhek.tech/sitemap.xml",

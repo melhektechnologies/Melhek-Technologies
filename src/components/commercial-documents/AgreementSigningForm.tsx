@@ -111,7 +111,6 @@ export default function AgreementSigningForm() {
       document.body.appendChild(downloadLink);
       downloadLink.click();
       downloadLink.remove();
-      window.setTimeout(() => URL.revokeObjectURL(objectUrl), 30_000);
       setComplete(true);
     } catch (submitError) {
       setError(submitError instanceof Error ? submitError.message : "We could not prepare your signed copy. Please try again.");
@@ -128,10 +127,10 @@ export default function AgreementSigningForm() {
     return (
       <section aria-live="polite" className="mx-auto mt-8 max-w-5xl rounded-3xl border border-emerald-300/25 bg-emerald-300/[0.08] p-6 sm:p-8">
         <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-emerald-200">Party B signed copy</p>
-        <h2 className="mt-2 font-display text-2xl font-bold text-white">Your signed copy is ready.</h2>
-        <p className="mt-3 max-w-3xl text-sm leading-6 text-white/70">{telegramStatus === "sent" ? "The signed PDF was sent to Melhek on Telegram. The Agreement takes effect after both Parties sign." : "Your signed PDF is ready. The Agreement takes effect after both Parties sign."}</p>
-        {completedPdfUrl && <a href={completedPdfUrl} download="Kenenet-Referral-Partnership-Agreement-signed.pdf" className="mt-5 inline-flex min-h-11 items-center justify-center rounded-full bg-blue-300 px-5 py-2.5 text-sm font-bold text-slate-950 transition hover:bg-blue-200">Download signed copy</a>}
-        <p className="mt-3 text-xs leading-5 text-white/45">{telegramStatus === "sent" ? "Melhek has received the signed PDF through its Telegram notification." : "Automatic Telegram delivery could not be confirmed. Please save the signed PDF and send it to Melhek."} This page does not retain a copy. This signing method is not certificate-based.</p>
+        <h2 className="mt-2 font-display text-2xl font-bold text-white">Agreement signed successfully—congratulations!</h2>
+        <p className="mt-3 max-w-3xl text-sm leading-6 text-white/70">{telegramStatus === "sent" ? "Your signed PDF download has started, and a copy was sent to Melhek on Telegram. The Agreement takes effect after both Parties sign." : "Your signed PDF download has started. Automatic Telegram delivery could not be confirmed, so please send the downloaded copy to Melhek for countersignature."}</p>
+        {completedPdfUrl && <p className="mt-4 text-sm text-white/65">If the automatic download did not start, <a href={completedPdfUrl} download="Kenenet-Referral-Partnership-Agreement-signed.pdf" className="font-semibold text-blue-200 underline underline-offset-4 hover:text-white">download your signed copy here</a>.</p>}
+        <p className="mt-3 text-xs leading-5 text-white/45">The Agreement takes effect after both Parties sign. This page does not retain your signed PDF, and this signing method is not certificate-based.</p>
       </section>
     );
   }

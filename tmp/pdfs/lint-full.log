@@ -1,0 +1,1082 @@
+
+> melhek-tech@0.1.0 lint
+> eslint
+
+
+C:\Projects\Melhek\capture_targeted.mjs
+  106:9  warning  'SUPABASE_URL' is assigned a value but never used       @typescript-eslint/no-unused-vars
+  107:9  warning  'SUPABASE_ANON_KEY' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Projects\Melhek\optimize-logos.mjs
+  11:10  warning  'readFileSync' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Projects\Melhek\scripts\capture-portfolio-thumbs.js
+  1:19  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  2:14  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  3:12  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+C:\Projects\Melhek\src\app\actions\contact.ts
+  51:14  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Projects\Melhek\src\app\actions\leads.ts
+   77:14  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+  152:14  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Projects\Melhek\src\app\actions\partners.ts
+  38:46  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  45:12  warning  'err' is defined but never used           @typescript-eslint/no-unused-vars
+
+C:\Projects\Melhek\src\app\api\partnership\submit\route.ts
+  76:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Projects\Melhek\src\app\ecosystem\[slug]\page.tsx
+  26:7  warning  'ICON_SM' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Projects\Melhek\src\app\partner\[id]\page.tsx
+   9:3   warning  'ChevronRight' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       @typescript-eslint/no-unused-vars
+  11:3   warning  'Building2' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+  12:3   warning  'UserCheck' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+  13:3   warning  'Mail' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               @typescript-eslint/no-unused-vars
+  14:3   warning  'Phone' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              @typescript-eslint/no-unused-vars
+  20:3   warning  'Briefcase' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+  38:19  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       @typescript-eslint/no-explicit-any
+  78:5   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Projects\Melhek\src\app\partner\[id]\page.tsx:78:5
+  76 |     }
+  77 |
+> 78 |     setPartner({
+     |     ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  79 |       partnerId: partnerId || localId,
+  80 |       name: localName,
+  81 |       company: localCompany,  react-hooks/set-state-in-effect
+
+C:\Projects\Melhek\src\app\partners\PartnersClient.tsx
+  229:52  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Projects\Melhek\src\app\partners\PartnersClient.tsx:229:52
+  227 |
+  228 |   useEffect(() => {
+> 229 |     if (isStage(stepParam) && stepParam !== stage) setStage(stepParam)
+      |                                                    ^^^^^^^^ Avoid calling setState() directly within an effect
+  230 |     if (!stepParam && stage !== 'welcome' && stage !== 'success') {
+  231 |       // keep current stage when clearing happens via goTo
+  232 |     }                react-hooks/set-state-in-effect
+  240:31  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Projects\Melhek\src\app\partners\PartnersClient.tsx:240:31
+  238 |       if (raw) {
+  239 |         const parsed = JSON.parse(raw)
+> 240 |         if (parsed?.formData) setFormData((prev) => ({ ...prev, ...parsed.formData }))
+      |                               ^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  241 |       }
+  242 |     } catch {
+  243 |       // ignore corrupt draft                                                               react-hooks/set-state-in-effect
+  539:16  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+C:\Projects\Melhek\src\app\partners\PartnersClient.tsx:539:16
+  537 |           {stage === 'models' && (
+  538 |             <motion.section key="models" {...stageMotion} className="max-w-5xl mx-auto px-4 sm:px-6">
+> 539 |               <SectionHeader
+      |                ^^^^^^^^^^^^^ This component is created during render
+  540 |                 kicker="Partnership models"
+  541 |                 title="Choose how you work with Melhek"
+  542 |                 subtitle="Client ownership, pricing, and communication are explicit before you apply."
+
+C:\Projects\Melhek\src\app\partners\PartnersClient.tsx:305:25
+  303 |   }
+  304 |
+> 305 |   const SectionHeader = ({
+      |                         ^^
+> 306 |     kicker,
+      | ^^^^^^^^^^^
+> 307 |     title,
+      …
+      | ^^^^^^^^^^^
+> 324 |     </div>
+      | ^^^^^^^^^^^
+> 325 |   )
+      | ^^^^ The component is created during render here
+  326 |
+  327 |   const NavBackNext = ({
+  328 |     nextLabel,                      react-hooks/static-components
+  615:16  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+C:\Projects\Melhek\src\app\partners\PartnersClient.tsx:615:16
+  613 |               </div>
+  614 |
+> 615 |               <NavBackNext nextLabel="See proof" onNext={() => goTo('proof')} />
+      |                ^^^^^^^^^^^ This component is created during render
+  616 |             </motion.section>
+  617 |           )}
+  618 |
+
+C:\Projects\Melhek\src\app\partners\PartnersClient.tsx:327:23
+  325 |   )
+  326 |
+> 327 |   const NavBackNext = ({
+      |                       ^^
+> 328 |     nextLabel,
+      | ^^^^^^^^^^^^^^
+> 329 |     onNext,
+      …
+      | ^^^^^^^^^^^^^^
+> 368 |     )
+      | ^^^^^^^^^^^^^^
+> 369 |   }
+      | ^^^^ The component is created during render here
+  370 |
+  371 |   return (
+  372 |     <div className="min-h-screen bg-melhek-dark text-white selection:bg-melhek-blue selection:text-melhek-navy font-sans relative overflow-x-hidden">                                                                                                                           react-hooks/static-components
+  621:16  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+C:\Projects\Melhek\src\app\partners\PartnersClient.tsx:621:16
+  619 |           {stage === 'proof' && (
+  620 |             <motion.section key="proof" {...stageMotion} className="max-w-5xl mx-auto px-4 sm:px-6">
+> 621 |               <SectionHeader
+      |                ^^^^^^^^^^^^^ This component is created during render
+  622 |                 kicker="Proof"
+  623 |                 title="Work agencies can put in front of clients"
+  624 |                 subtitle="Real systems and sites Melhek has shipped. Review before you trust us with yours."
+
+C:\Projects\Melhek\src\app\partners\PartnersClient.tsx:305:25
+  303 |   }
+  304 |
+> 305 |   const SectionHeader = ({
+      |                         ^^
+> 306 |     kicker,
+      | ^^^^^^^^^^^
+> 307 |     title,
+      …
+      | ^^^^^^^^^^^
+> 324 |     </div>
+      | ^^^^^^^^^^^
+> 325 |   )
+      | ^^^^ The component is created during render here
+  326 |
+  327 |   const NavBackNext = ({
+  328 |     nextLabel,                     react-hooks/static-components
+  707:16  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+C:\Projects\Melhek\src\app\partners\PartnersClient.tsx:707:16
+  705 |               </div>
+  706 |
+> 707 |               <NavBackNext nextLabel="Operating terms" onNext={() => goTo('operating')} />
+      |                ^^^^^^^^^^^ This component is created during render
+  708 |             </motion.section>
+  709 |           )}
+  710 |
+
+C:\Projects\Melhek\src\app\partners\PartnersClient.tsx:327:23
+  325 |   )
+  326 |
+> 327 |   const NavBackNext = ({
+      |                       ^^
+> 328 |     nextLabel,
+      | ^^^^^^^^^^^^^^
+> 329 |     onNext,
+      …
+      | ^^^^^^^^^^^^^^
+> 368 |     )
+      | ^^^^^^^^^^^^^^
+> 369 |   }
+      | ^^^^ The component is created during render here
+  370 |
+  371 |   return (
+  372 |     <div className="min-h-screen bg-melhek-dark text-white selection:bg-melhek-blue selection:text-melhek-navy font-sans relative overflow-x-hidden">                                                                                                                 react-hooks/static-components
+  713:16  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+C:\Projects\Melhek\src\app\partners\PartnersClient.tsx:713:16
+  711 |           {stage === 'operating' && (
+  712 |             <motion.section key="operating" {...stageMotion} className="max-w-5xl mx-auto px-4 sm:px-6">
+> 713 |               <SectionHeader
+      |                ^^^^^^^^^^^^^ This component is created during render
+  714 |                 kicker="Operating terms"
+  715 |                 title="How risk, communication, and delivery work"
+  716 |                 subtitle="The questions agency owners ask before introducing Melhek to a client."
+
+C:\Projects\Melhek\src\app\partners\PartnersClient.tsx:305:25
+  303 |   }
+  304 |
+> 305 |   const SectionHeader = ({
+      |                         ^^
+> 306 |     kicker,
+      | ^^^^^^^^^^^
+> 307 |     title,
+      …
+      | ^^^^^^^^^^^
+> 324 |     </div>
+      | ^^^^^^^^^^^
+> 325 |   )
+      | ^^^^ The component is created during render here
+  326 |
+  327 |   const NavBackNext = ({
+  328 |     nextLabel,             react-hooks/static-components
+  782:16  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+C:\Projects\Melhek\src\app\partners\PartnersClient.tsx:782:16
+  780 |               </div>
+  781 |
+> 782 |               <NavBackNext nextLabel="Estimate margins" onNext={() => goTo('calculator')} />
+      |                ^^^^^^^^^^^ This component is created during render
+  783 |             </motion.section>
+  784 |           )}
+  785 |
+
+C:\Projects\Melhek\src\app\partners\PartnersClient.tsx:327:23
+  325 |   )
+  326 |
+> 327 |   const NavBackNext = ({
+      |                       ^^
+> 328 |     nextLabel,
+      | ^^^^^^^^^^^^^^
+> 329 |     onNext,
+      …
+      | ^^^^^^^^^^^^^^
+> 368 |     )
+      | ^^^^^^^^^^^^^^
+> 369 |   }
+      | ^^^^ The component is created during render here
+  370 |
+  371 |   return (
+  372 |     <div className="min-h-screen bg-melhek-dark text-white selection:bg-melhek-blue selection:text-melhek-navy font-sans relative overflow-x-hidden">                                                                                                               react-hooks/static-components
+  788:16  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+C:\Projects\Melhek\src\app\partners\PartnersClient.tsx:788:16
+  786 |           {stage === 'calculator' && (
+  787 |             <motion.section key="calculator" {...stageMotion} className="max-w-5xl mx-auto px-4 sm:px-6">
+> 788 |               <SectionHeader
+      |                ^^^^^^^^^^^^^ This component is created during render
+  789 |                 kicker="Revenue calculator"
+  790 |                 title="Estimate white-label margins"
+  791 |                 subtitle="Illustrative wholesale floors in ETB. Final quotes are scoped per project after alignment."
+
+C:\Projects\Melhek\src\app\partners\PartnersClient.tsx:305:25
+  303 |   }
+  304 |
+> 305 |   const SectionHeader = ({
+      |                         ^^
+> 306 |     kicker,
+      | ^^^^^^^^^^^
+> 307 |     title,
+      …
+      | ^^^^^^^^^^^
+> 324 |     </div>
+      | ^^^^^^^^^^^
+> 325 |   )
+      | ^^^^ The component is created during render here
+  326 |
+  327 |   const NavBackNext = ({
+  328 |     nextLabel,  react-hooks/static-components
+  924:16  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+C:\Projects\Melhek\src\app\partners\PartnersClient.tsx:924:16
+  922 |               </div>
+  923 |
+> 924 |               <NavBackNext nextLabel="Read FAQ" onNext={() => goTo('faq')} />
+      |                ^^^^^^^^^^^ This component is created during render
+  925 |             </motion.section>
+  926 |           )}
+  927 |
+
+C:\Projects\Melhek\src\app\partners\PartnersClient.tsx:327:23
+  325 |   )
+  326 |
+> 327 |   const NavBackNext = ({
+      |                       ^^
+> 328 |     nextLabel,
+      | ^^^^^^^^^^^^^^
+> 329 |     onNext,
+      …
+      | ^^^^^^^^^^^^^^
+> 368 |     )
+      | ^^^^^^^^^^^^^^
+> 369 |   }
+      | ^^^^ The component is created during render here
+  370 |
+  371 |   return (
+  372 |     <div className="min-h-screen bg-melhek-dark text-white selection:bg-melhek-blue selection:text-melhek-navy font-sans relative overflow-x-hidden">                                                                                                                              react-hooks/static-components
+  930:16  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+C:\Projects\Melhek\src\app\partners\PartnersClient.tsx:930:16
+  928 |           {stage === 'faq' && (
+  929 |             <motion.section key="faq" {...stageMotion} className="max-w-3xl mx-auto px-4 sm:px-6">
+> 930 |               <SectionHeader
+      |                ^^^^^^^^^^^^^ This component is created during render
+  931 |                 kicker="FAQ"
+  932 |                 title="Agency questions, answered"
+  933 |                 subtitle="Ownership, markup, deadlines, stack, and what happens after you apply."
+
+C:\Projects\Melhek\src\app\partners\PartnersClient.tsx:305:25
+  303 |   }
+  304 |
+> 305 |   const SectionHeader = ({
+      |                         ^^
+> 306 |     kicker,
+      | ^^^^^^^^^^^
+> 307 |     title,
+      …
+      | ^^^^^^^^^^^
+> 324 |     </div>
+      | ^^^^^^^^^^^
+> 325 |   )
+      | ^^^^ The component is created during render here
+  326 |
+  327 |   const NavBackNext = ({
+  328 |     nextLabel,                                                     react-hooks/static-components
+  977:16  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+C:\Projects\Melhek\src\app\partners\PartnersClient.tsx:977:16
+  975 |                 })}
+  976 |               </div>
+> 977 |               <NavBackNext nextLabel="Apply now" onNext={() => goTo('apply')} />
+      |                ^^^^^^^^^^^ This component is created during render
+  978 |             </motion.section>
+  979 |           )}
+  980 |
+
+C:\Projects\Melhek\src\app\partners\PartnersClient.tsx:327:23
+  325 |   )
+  326 |
+> 327 |   const NavBackNext = ({
+      |                       ^^
+> 328 |     nextLabel,
+      | ^^^^^^^^^^^^^^
+> 329 |     onNext,
+      …
+      | ^^^^^^^^^^^^^^
+> 368 |     )
+      | ^^^^^^^^^^^^^^
+> 369 |   }
+      | ^^^^ The component is created during render here
+  370 |
+  371 |   return (
+  372 |     <div className="min-h-screen bg-melhek-dark text-white selection:bg-melhek-blue selection:text-melhek-navy font-sans relative overflow-x-hidden">                                                                                                       react-hooks/static-components
+  983:16  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+C:\Projects\Melhek\src\app\partners\PartnersClient.tsx:983:16
+  981 |           {stage === 'apply' && (
+  982 |             <motion.section key="apply" {...stageMotion} className="max-w-3xl mx-auto px-4 sm:px-6">
+> 983 |               <SectionHeader
+      |                ^^^^^^^^^^^^^ This component is created during render
+  984 |                 kicker="Application"
+  985 |                 title="Agency partner intake"
+  986 |                 subtitle="Short form. Draft saves in your browser. We respond within one business day."
+
+C:\Projects\Melhek\src\app\partners\PartnersClient.tsx:305:25
+  303 |   }
+  304 |
+> 305 |   const SectionHeader = ({
+      |                         ^^
+> 306 |     kicker,
+      | ^^^^^^^^^^^
+> 307 |     title,
+      …
+      | ^^^^^^^^^^^
+> 324 |     </div>
+      | ^^^^^^^^^^^
+> 325 |   )
+      | ^^^^ The component is created during render here
+  326 |
+  327 |   const NavBackNext = ({
+  328 |     nextLabel,                                        react-hooks/static-components
+
+C:\Projects\Melhek\src\app\partnership\DigitalPartnershipPlatform.tsx
+   358:7   error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Projects\Melhek\src\app\partnership\DigitalPartnershipPlatform.tsx:358:7
+  356 |     const existing = localStorage.getItem('melhek_partner_id')
+  357 |     if (existing) {
+> 358 |       setPartnerId(existing)
+      |       ^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  359 |     } else {
+  360 |       const id = `MDP-2026-${Math.floor(100 + Math.random() * 900)}`
+  361 |       setPartnerId(id)                                                                                                                                                                                             react-hooks/set-state-in-effect
+   768:16  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+C:\Projects\Melhek\src\app\partnership\DigitalPartnershipPlatform.tsx:768:16
+  766 |               className="max-w-5xl mx-auto px-4 sm:px-6"
+  767 |             >
+> 768 |               <SectionHeader
+      |                ^^^^^^^^^^^^^ This component is created during render
+  769 |                 kicker="The program"
+  770 |                 title="A strategic partnership — not a transaction"
+  771 |                 subtitle="Melhek Technologies builds long-term technology relationships with selected Ethiopian businesses and creators. We replace PDF proposals with a clear, guided onboarding experience."
+
+C:\Projects\Melhek\src\app\partnership\DigitalPartnershipPlatform.tsx:635:25
+  633 |   )
+  634 |
+> 635 |   const SectionHeader = ({
+      |                         ^^
+> 636 |     kicker,
+      | ^^^^^^^^^^^
+> 637 |     title,
+      …
+      | ^^^^^^^^^^^
+> 650 |     </div>
+      | ^^^^^^^^^^^
+> 651 |   )
+      | ^^^^ The component is created during render here
+  652 |
+  653 |   // Progress for education stages (welcome → accept)
+  654 |   const educationStages = STAGES.slice(0, STAGES.indexOf('accept') + 1)  react-hooks/static-components
+   805:16  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+C:\Projects\Melhek\src\app\partnership\DigitalPartnershipPlatform.tsx:805:16
+  803 |               </div>
+  804 |
+> 805 |               <NavBackNext nextLabel="Why you were invited" />
+      |                ^^^^^^^^^^^ This component is created during render
+  806 |             </motion.section>
+  807 |           )}
+  808 |
+
+C:\Projects\Melhek\src\app\partnership\DigitalPartnershipPlatform.tsx:607:23
+  605 |   }
+  606 |
+> 607 |   const NavBackNext = ({
+      |                       ^^
+> 608 |     nextLabel,
+      | ^^^^^^^^^^^^^^
+> 609 |     onNext,
+      …
+      | ^^^^^^^^^^^^^^
+> 632 |     </div>
+      | ^^^^^^^^^^^^^^
+> 633 |   )
+      | ^^^^ The component is created during render here
+  634 |
+  635 |   const SectionHeader = ({
+  636 |     kicker,                                                                                                                                                                                                                                                                                                                                                                               react-hooks/static-components
+   819:16  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+C:\Projects\Melhek\src\app\partnership\DigitalPartnershipPlatform.tsx:819:16
+  817 |               className="max-w-4xl mx-auto px-4 sm:px-6"
+  818 |             >
+> 819 |               <SectionHeader
+      |                ^^^^^^^^^^^^^ This component is created during render
+  820 |                 kicker="Selection"
+  821 |                 title="You were not invited by chance"
+  822 |                 subtitle="We choose a limited cohort each year — partners whose reputation, impact, and long-term ambition align with how Melhek builds software."
+
+C:\Projects\Melhek\src\app\partnership\DigitalPartnershipPlatform.tsx:635:25
+  633 |   )
+  634 |
+> 635 |   const SectionHeader = ({
+      |                         ^^
+> 636 |     kicker,
+      | ^^^^^^^^^^^
+> 637 |     title,
+      …
+      | ^^^^^^^^^^^
+> 650 |     </div>
+      | ^^^^^^^^^^^
+> 651 |   )
+      | ^^^^ The component is created during render here
+  652 |
+  653 |   // Progress for education stages (welcome → accept)
+  654 |   const educationStages = STAGES.slice(0, STAGES.indexOf('accept') + 1)                                                             react-hooks/static-components
+   847:16  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+C:\Projects\Melhek\src\app\partnership\DigitalPartnershipPlatform.tsx:847:16
+  845 |               </div>
+  846 |
+> 847 |               <NavBackNext nextLabel="Sponsored package" />
+      |                ^^^^^^^^^^^ This component is created during render
+  848 |             </motion.section>
+  849 |           )}
+  850 |
+
+C:\Projects\Melhek\src\app\partnership\DigitalPartnershipPlatform.tsx:607:23
+  605 |   }
+  606 |
+> 607 |   const NavBackNext = ({
+      |                       ^^
+> 608 |     nextLabel,
+      | ^^^^^^^^^^^^^^
+> 609 |     onNext,
+      …
+      | ^^^^^^^^^^^^^^
+> 632 |     </div>
+      | ^^^^^^^^^^^^^^
+> 633 |   )
+      | ^^^^ The component is created during render here
+  634 |
+  635 |   const SectionHeader = ({
+  636 |     kicker,                                                                                                                                                                                                                                                                                                                                                                                  react-hooks/static-components
+   861:16  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+C:\Projects\Melhek\src\app\partnership\DigitalPartnershipPlatform.tsx:861:16
+  859 |               className="max-w-5xl mx-auto px-4 sm:px-6"
+  860 |             >
+> 861 |               <SectionHeader
+      |                ^^^^^^^^^^^^^ This component is created during render
+  862 |                 kicker="Sponsored foundation"
+  863 |                 title="What Melhek sponsors — exactly"
+  864 |                 subtitle="This list is the complete sponsorship. If it is not listed here, it is not included."
+
+C:\Projects\Melhek\src\app\partnership\DigitalPartnershipPlatform.tsx:635:25
+  633 |   )
+  634 |
+> 635 |   const SectionHeader = ({
+      |                         ^^
+> 636 |     kicker,
+      | ^^^^^^^^^^^
+> 637 |     title,
+      …
+      | ^^^^^^^^^^^
+> 650 |     </div>
+      | ^^^^^^^^^^^
+> 651 |   )
+      | ^^^^ The component is created during render here
+  652 |
+  653 |   // Progress for education stages (welcome → accept)
+  654 |   const educationStages = STAGES.slice(0, STAGES.indexOf('accept') + 1)                                                                                                     react-hooks/static-components
+   900:16  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+C:\Projects\Melhek\src\app\partnership\DigitalPartnershipPlatform.tsx:900:16
+  898 |               </div>
+  899 |
+> 900 |               <NavBackNext nextLabel="Growth opportunities" />
+      |                ^^^^^^^^^^^ This component is created during render
+  901 |             </motion.section>
+  902 |           )}
+  903 |
+
+C:\Projects\Melhek\src\app\partnership\DigitalPartnershipPlatform.tsx:607:23
+  605 |   }
+  606 |
+> 607 |   const NavBackNext = ({
+      |                       ^^
+> 608 |     nextLabel,
+      | ^^^^^^^^^^^^^^
+> 609 |     onNext,
+      …
+      | ^^^^^^^^^^^^^^
+> 632 |     </div>
+      | ^^^^^^^^^^^^^^
+> 633 |   )
+      | ^^^^ The component is created during render here
+  634 |
+  635 |   const SectionHeader = ({
+  636 |     kicker,                                                                                                                                                                                                                                                                                                                                                                               react-hooks/static-components
+   914:16  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+C:\Projects\Melhek\src\app\partnership\DigitalPartnershipPlatform.tsx:914:16
+  912 |               className="max-w-6xl mx-auto px-4 sm:px-6"
+  913 |             >
+> 914 |               <SectionHeader
+      |                ^^^^^^^^^^^^^ This component is created during render
+  915 |                 kicker="As you scale"
+  916 |                 title="Available as your business grows"
+  917 |                 subtitle="The sponsorship creates the digital foundation. Everything below becomes a properly scoped project when you need it — with clear timeline and investment."
+
+C:\Projects\Melhek\src\app\partnership\DigitalPartnershipPlatform.tsx:635:25
+  633 |   )
+  634 |
+> 635 |   const SectionHeader = ({
+      |                         ^^
+> 636 |     kicker,
+      | ^^^^^^^^^^^
+> 637 |     title,
+      …
+      | ^^^^^^^^^^^
+> 650 |     </div>
+      | ^^^^^^^^^^^
+> 651 |   )
+      | ^^^^ The component is created during render here
+  652 |
+  653 |   // Progress for education stages (welcome → accept)
+  654 |   const educationStages = STAGES.slice(0, STAGES.indexOf('accept') + 1)                                      react-hooks/static-components
+   942:16  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+C:\Projects\Melhek\src\app\partnership\DigitalPartnershipPlatform.tsx:942:16
+  940 |               </p>
+  941 |
+> 942 |               <NavBackNext nextLabel="Timeline" />
+      |                ^^^^^^^^^^^ This component is created during render
+  943 |             </motion.section>
+  944 |           )}
+  945 |
+
+C:\Projects\Melhek\src\app\partnership\DigitalPartnershipPlatform.tsx:607:23
+  605 |   }
+  606 |
+> 607 |   const NavBackNext = ({
+      |                       ^^
+> 608 |     nextLabel,
+      | ^^^^^^^^^^^^^^
+> 609 |     onNext,
+      …
+      | ^^^^^^^^^^^^^^
+> 632 |     </div>
+      | ^^^^^^^^^^^^^^
+> 633 |   )
+      | ^^^^ The component is created during render here
+  634 |
+  635 |   const SectionHeader = ({
+  636 |     kicker,                                                                                                                                                                                                                                                                                                                                                                                             react-hooks/static-components
+   956:16  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+C:\Projects\Melhek\src\app\partnership\DigitalPartnershipPlatform.tsx:956:16
+  954 |               className="max-w-3xl mx-auto px-4 sm:px-6"
+  955 |             >
+> 956 |               <SectionHeader
+      |                ^^^^^^^^^^^^^ This component is created during render
+  957 |                 kicker="Execution"
+  958 |                 title="How onboarding works"
+  959 |                 subtitle="A clear path from invitation to launch — then optional growth projects when you are ready."
+
+C:\Projects\Melhek\src\app\partnership\DigitalPartnershipPlatform.tsx:635:25
+  633 |   )
+  634 |
+> 635 |   const SectionHeader = ({
+      |                         ^^
+> 636 |     kicker,
+      | ^^^^^^^^^^^
+> 637 |     title,
+      …
+      | ^^^^^^^^^^^
+> 650 |     </div>
+      | ^^^^^^^^^^^
+> 651 |   )
+      | ^^^^ The component is created during render here
+  652 |
+  653 |   // Progress for education stages (welcome → accept)
+  654 |   const educationStages = STAGES.slice(0, STAGES.indexOf('accept') + 1)                                                                                                                    react-hooks/static-components
+   982:16  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+C:\Projects\Melhek\src\app\partnership\DigitalPartnershipPlatform.tsx:982:16
+  980 |               </div>
+  981 |
+> 982 |               <NavBackNext nextLabel="FAQ" />
+      |                ^^^^^^^^^^^ This component is created during render
+  983 |             </motion.section>
+  984 |           )}
+  985 |
+
+C:\Projects\Melhek\src\app\partnership\DigitalPartnershipPlatform.tsx:607:23
+  605 |   }
+  606 |
+> 607 |   const NavBackNext = ({
+      |                       ^^
+> 608 |     nextLabel,
+      | ^^^^^^^^^^^^^^
+> 609 |     onNext,
+      …
+      | ^^^^^^^^^^^^^^
+> 632 |     </div>
+      | ^^^^^^^^^^^^^^
+> 633 |   )
+      | ^^^^ The component is created during render here
+  634 |
+  635 |   const SectionHeader = ({
+  636 |     kicker,                                                                                                                                                                                                                                                                                                                                                                                                react-hooks/static-components
+   996:16  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+C:\Projects\Melhek\src\app\partnership\DigitalPartnershipPlatform.tsx:996:16
+  994 |               className="max-w-3xl mx-auto px-4 sm:px-6"
+  995 |             >
+> 996 |               <SectionHeader
+      |                ^^^^^^^^^^^^^ This component is created during render
+  997 |                 kicker="Clarity"
+  998 |                 title="Questions worth answering now"
+  999 |                 subtitle="Read these before you accept. We would rather over-explain scope than under-deliver trust."
+
+C:\Projects\Melhek\src\app\partnership\DigitalPartnershipPlatform.tsx:635:25
+  633 |   )
+  634 |
+> 635 |   const SectionHeader = ({
+      |                         ^^
+> 636 |     kicker,
+      | ^^^^^^^^^^^
+> 637 |     title,
+      …
+      | ^^^^^^^^^^^
+> 650 |     </div>
+      | ^^^^^^^^^^^
+> 651 |   )
+      | ^^^^ The component is created during render here
+  652 |
+  653 |   // Progress for education stages (welcome → accept)
+  654 |   const educationStages = STAGES.slice(0, STAGES.indexOf('accept') + 1)                                                                                                             react-hooks/static-components
+  1038:16  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+C:\Projects\Melhek\src\app\partnership\DigitalPartnershipPlatform.tsx:1038:16
+  1036 |               </div>
+  1037 |
+> 1038 |               <NavBackNext nextLabel="Accept invitation" />
+       |                ^^^^^^^^^^^ This component is created during render
+  1039 |             </motion.section>
+  1040 |           )}
+  1041 |
+
+C:\Projects\Melhek\src\app\partnership\DigitalPartnershipPlatform.tsx:607:23
+  605 |   }
+  606 |
+> 607 |   const NavBackNext = ({
+      |                       ^^
+> 608 |     nextLabel,
+      | ^^^^^^^^^^^^^^
+> 609 |     onNext,
+      …
+      | ^^^^^^^^^^^^^^
+> 632 |     </div>
+      | ^^^^^^^^^^^^^^
+> 633 |   )
+      | ^^^^ The component is created during render here
+  634 |
+  635 |   const SectionHeader = ({
+  636 |     kicker,                                                                                                                                                                                                                                                                                                                                                                          react-hooks/static-components
+  1052:16  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+C:\Projects\Melhek\src\app\partnership\DigitalPartnershipPlatform.tsx:1052:16
+  1050 |               className="max-w-3xl mx-auto px-4 sm:px-6"
+  1051 |             >
+> 1052 |               <SectionHeader
+       |                ^^^^^^^^^^^^^ This component is created during render
+  1053 |                 kicker="Step 01 — Commitment"
+  1054 |                 title="Accept your partnership invitation"
+  1055 |                 subtitle="Review the partnership terms and confirm your details. Takes 2–3 minutes."
+
+C:\Projects\Melhek\src\app\partnership\DigitalPartnershipPlatform.tsx:635:25
+  633 |   )
+  634 |
+> 635 |   const SectionHeader = ({
+      |                         ^^
+> 636 |     kicker,
+      | ^^^^^^^^^^^
+> 637 |     title,
+      …
+      | ^^^^^^^^^^^
+> 650 |     </div>
+      | ^^^^^^^^^^^
+> 651 |   )
+      | ^^^^ The component is created during render here
+  652 |
+  653 |   // Progress for education stages (welcome → accept)
+  654 |   const educationStages = STAGES.slice(0, STAGES.indexOf('accept') + 1)                                                                                                    react-hooks/static-components
+  1102:16  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+C:\Projects\Melhek\src\app\partnership\DigitalPartnershipPlatform.tsx:1102:16
+  1100 |               </div>
+  1101 |
+> 1102 |               <NavBackNext
+       |                ^^^^^^^^^^^ This component is created during render
+  1103 |                 nextLabel="Proceed to Agreement"
+  1104 |                 disableNext={!companyName.trim() || !partnerName.trim()}
+  1105 |                 onNext={() => {
+
+C:\Projects\Melhek\src\app\partnership\DigitalPartnershipPlatform.tsx:607:23
+  605 |   }
+  606 |
+> 607 |   const NavBackNext = ({
+      |                       ^^
+> 608 |     nextLabel,
+      | ^^^^^^^^^^^^^^
+> 609 |     onNext,
+      …
+      | ^^^^^^^^^^^^^^
+> 632 |     </div>
+      | ^^^^^^^^^^^^^^
+> 633 |   )
+      | ^^^^ The component is created during render here
+  634 |
+  635 |   const SectionHeader = ({
+  636 |     kicker,                                                                                                                                                                                                                                                                                            react-hooks/static-components
+  1125:16  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+C:\Projects\Melhek\src\app\partnership\DigitalPartnershipPlatform.tsx:1125:16
+  1123 |               className="max-w-3xl mx-auto px-4 sm:px-6"
+  1124 |             >
+> 1125 |               <SectionHeader
+       |                ^^^^^^^^^^^^^ This component is created during render
+  1126 |                 kicker="Digital Agreement"
+  1127 |                 title="Partnership agreement"
+  1128 |                 subtitle="Simple, transparent terms. Takes 2–3 minutes to review and sign."
+
+C:\Projects\Melhek\src\app\partnership\DigitalPartnershipPlatform.tsx:635:25
+  633 |   )
+  634 |
+> 635 |   const SectionHeader = ({
+      |                         ^^
+> 636 |     kicker,
+      | ^^^^^^^^^^^
+> 637 |     title,
+      …
+      | ^^^^^^^^^^^
+> 650 |     </div>
+      | ^^^^^^^^^^^
+> 651 |   )
+      | ^^^^ The component is created during render here
+  652 |
+  653 |   // Progress for education stages (welcome → accept)
+  654 |   const educationStages = STAGES.slice(0, STAGES.indexOf('accept') + 1)                                                                                                                             react-hooks/static-components
+  1456:16  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+C:\Projects\Melhek\src\app\partnership\DigitalPartnershipPlatform.tsx:1456:16
+  1454 |               className="max-w-2xl mx-auto px-4 sm:px-6"
+  1455 |             >
+> 1456 |               <SectionHeader
+       |                ^^^^^^^^^^^^^ This component is created during render
+  1457 |                 kicker="Intake"
+  1458 |                 title="Business discovery"
+  1459 |                 subtitle="Help us design your foundation site. Features outside the sponsored scope are marked as growth interest only."
+
+C:\Projects\Melhek\src\app\partnership\DigitalPartnershipPlatform.tsx:635:25
+  633 |   )
+  634 |
+> 635 |   const SectionHeader = ({
+      |                         ^^
+> 636 |     kicker,
+      | ^^^^^^^^^^^
+> 637 |     title,
+      …
+      | ^^^^^^^^^^^
+> 650 |     </div>
+      | ^^^^^^^^^^^
+> 651 |   )
+      | ^^^^ The component is created during render here
+  652 |
+  653 |   // Progress for education stages (welcome → accept)
+  654 |   const educationStages = STAGES.slice(0, STAGES.indexOf('accept') + 1)                                                                                              react-hooks/static-components
+
+C:\Projects\Melhek\src\app\pricing\PricingClient.tsx
+  113:20  warning  'setCurrency' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Projects\Melhek\src\app\pricing\components\StepClient.tsx
+  63:60  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Projects\Melhek\src\app\pricing\components\StepComplexity.tsx
+  13:10  warning  'COMPLEXITY_MODIFIERS' is defined but never used  @typescript-eslint/no-unused-vars
+  27:61  error    Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+
+C:\Projects\Melhek\src\app\pricing\components\StepPayment.tsx
+  4:33  warning  'CheckCircle2' is defined but never used  @typescript-eslint/no-unused-vars
+  4:47  warning  'Shield' is defined but never used        @typescript-eslint/no-unused-vars
+
+C:\Projects\Melhek\src\app\pricing\components\StepProject.tsx
+  17:7  warning  'DIVISIONS' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  25:3  warning  'division' is defined but never used            @typescript-eslint/no-unused-vars
+
+C:\Projects\Melhek\src\app\pricing\components\StepRecurring.tsx
+  4:21  warning  'CheckCircle2' is defined but never used  @typescript-eslint/no-unused-vars
+  4:35  warning  'ShieldCheck' is defined but never used   @typescript-eslint/no-unused-vars
+  4:48  warning  'Zap' is defined but never used           @typescript-eslint/no-unused-vars
+
+C:\Projects\Melhek\src\app\pricing\components\StepScope.tsx
+  4:29  warning  'ScopeItem' is defined but never used    @typescript-eslint/no-unused-vars
+  7:55  warning  'AlertCircle' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Projects\Melhek\src\app\privacy\page.tsx
+  2:8  warning  'Link' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Projects\Melhek\src\app\terms\page.tsx
+  2:8  warning  'Link' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Projects\Melhek\src\components\AiAssistant.tsx
+  6:24  warning  'Sparkles' is defined but never used        @typescript-eslint/no-unused-vars
+  6:34  warning  'User' is defined but never used            @typescript-eslint/no-unused-vars
+  6:40  warning  'ArrowRight' is defined but never used      @typescript-eslint/no-unused-vars
+  6:52  warning  'Check' is defined but never used           @typescript-eslint/no-unused-vars
+  6:59  warning  'CornerDownLeft' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Projects\Melhek\src\components\Contact.tsx
+  21:9  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Projects\Melhek\src\components\Contact.tsx:21:9
+  19 |       const division = params.get('division')
+  20 |       if (division) {
+> 21 |         setSelectedDivision(division)
+     |         ^^^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  22 |       }
+  23 |     }
+  24 |   }, [])  react-hooks/set-state-in-effect
+
+C:\Projects\Melhek\src\components\EnterpriseCTA.tsx
+  27:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Projects\Melhek\src\components\EnterpriseCTA.tsx:27:5
+  25 |
+  26 |   useEffect(() => {
+> 27 |     setParticles(
+     |     ^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  28 |       Array.from({ length: 30 }, (_, i) => ({
+  29 |         id: i,
+  30 |         x: Math.random() * 100,  react-hooks/set-state-in-effect
+
+C:\Projects\Melhek\src\components\FaqSection.tsx
+  15:9  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Projects\Melhek\src\components\Hero.tsx
+  5:8  warning  'Image' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Projects\Melhek\src\components\LoadingScreen.tsx
+  17:7  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Projects\Melhek\src\components\LoadingScreen.tsx:17:7
+  15 |     // Skip on return visits within the same browser session
+  16 |     if (sessionStorage.getItem('melhek_loaded')) {
+> 17 |       setLoading(false)
+     |       ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  18 |       return
+  19 |     }
+  20 |  react-hooks/set-state-in-effect
+
+C:\Projects\Melhek\src\components\OfficeShowcaseModal.tsx
+   21:9   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  111:26  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  128:26  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Projects\Melhek\src\components\OfficeShowcaseSection.tsx
+   16:9   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  105:27  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  146:27  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Projects\Melhek\src\components\ProjectEstimator.tsx
+   11:9  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         @typescript-eslint/no-explicit-any
+  235:9  warning  'formatPrice' is assigned a value but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 @typescript-eslint/no-unused-vars
+  254:7  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Projects\Melhek\src\components\ProjectEstimator.tsx:254:7
+  252 |
+  253 |     if (category.isCustom) {
+> 254 |       setEstimate({
+      |       ^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  255 |         minPrice: 0,
+  256 |         maxPrice: 0,
+  257 |         minTimeline: 0,  react-hooks/set-state-in-effect
+  310:9  warning  'getMinDisplayPrice' is assigned a value but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+  317:9  warning  'getMaxDisplayPrice' is assigned a value but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+
+C:\Projects\Melhek\src\components\SandboxDemo.tsx
+  6:3   warning  'Calendar' is defined but never used     @typescript-eslint/no-unused-vars
+  6:32  warning  'Play' is defined but never used         @typescript-eslint/no-unused-vars
+  7:3   warning  'Tag' is defined but never used          @typescript-eslint/no-unused-vars
+  8:11  warning  'ShieldAlert' is defined but never used  @typescript-eslint/no-unused-vars
+  8:24  warning  'Key' is defined but never used          @typescript-eslint/no-unused-vars
+
+C:\Projects\Melhek\src\components\StatsBar.tsx
+  4:45  warning  'useTransform' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Projects\Melhek\src\components\Vision.tsx
+    6:10  warning  'CheckCircle2' is defined but never used   @typescript-eslint/no-unused-vars
+  100:21  warning  'Icon' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Projects\Melhek\src\lib\ai-assistant-engine.ts
+  131:15  warning  '_' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Projects\Melhek\src\lib\pricing\pricingEngine.ts
+  392:7  error  'designHours' is never reassigned. Use 'const' instead   prefer-const
+  394:7  error  'testingHours' is never reassigned. Use 'const' instead  prefer-const
+  395:7  error  'deployHours' is never reassigned. Use 'const' instead   prefer-const
+  396:7  error  'pmHours' is never reassigned. Use 'const' instead       prefer-const
+
+C:\Projects\Melhek\src\lib\pricing\quoteStore.ts
+  6:7  warning  'SETTINGS_KEY' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+✖ 101 problems (55 errors, 46 warnings)
+  4 errors and 0 warnings potentially fixable with the `--fix` option.
+

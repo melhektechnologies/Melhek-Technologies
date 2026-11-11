@@ -23,8 +23,7 @@ const signRequestSchema = z.object({
   agreementId: z.literal(AGREEMENT_ID),
   version: z.literal(AGREEMENT_VERSION),
   signerName: z.string().trim().min(3).max(100),
-  signatureMode: z.enum(["typed", "drawn"]),
-  signatureData: z.string().max(140_000).optional().default(""),
+  signatureData: z.string().min(1).max(140_000),
   confirmations: z.object({
     readTerms: z.literal(true),
     authority: z.literal(true),
@@ -78,8 +77,7 @@ export async function POST(request: Request) {
   const normalizedSigner = form.signerName.replace(/\s+/g, " ").toLocaleLowerCase("en-US");
   const expectedSigner = partyDetails[1].representative.replace(/\s+/g, " ").toLocaleLowerCase("en-US");
   if (normalizedSigner !== expectedSigner) return replyError("Enter the named Kenenét representative’s full name to continue.", 400);
-  if (form.signatureMode === "drawn" && !validSignatureImage(form.signatureData)) return replyError("Add a clear drawn signature, or choose Type name.", 400);
-  if (form.signatureMode === "typed" && form.signatureData) return replyError("The typed signature data is invalid.", 400);
+  if (!validSignatureImage(form.signatureData)) return replyError("Draw your signature in the signing area, then try again.", 400);
 
   const snapshot = createInitialAgreementSnapshot();
   const termsHash = createHash("sha256").update(JSON.stringify({
@@ -93,14 +91,36 @@ export async function POST(request: Request) {
   const execution: AgreementExecutionRecord = {
     signerName: form.signerName.replace(/\s+/g, " ").trim(),
     signerTitle: partyDetails[1].position,
-    signatureMode: form.signatureMode,
-    signatureData: form.signatureMode === "drawn" ? form.signatureData : undefined,
+    signatureData: form.signatureData,
     signedAt: new Date().toISOString(),
     termsHash,
   };
 
   try {
     const pdf = await renderToBuffer(createElement(AgreementSignaturePDF, { snapshot, execution }) as unknown as ReactElement<DocumentProps>);
+    let telegramStatus: "sent" | "failed" | "not-configured" = "not-configured";
+    const botToken = process.env.TELEGRAM_BOT_TOKEN?.trim();
+    const chatId = process.env.TELEGRAM_CHAT_ID?.trim();
+
+    if (botToken && chatId) {
+      try {
+        const telegramForm = new FormData();
+        telegramForm.set("chat_id", chatId);
+        telegramForm.set("caption", `Referral Partnership Agreement signed by ${execution.signerName} for Kenenét Consultancy. Signed at ${execution.signedAt} UTC. The PDF is attached for Melhek's countersignature.`);
+        telegramForm.set("document", new Blob([new Uint8Array(pdf)], { type: "application/pdf" }), "Kenenet-Referral-Partnership-Agreement-signed.pdf");
+        const telegramResponse = await fetch(`https://api.telegram.org/bot${botToken}/sendDocument`, {
+          method: "POST",
+          body: telegramForm,
+          signal: AbortSignal.timeout(8_000),
+          cache: "no-store",
+        });
+        const telegramResult = await telegramResponse.json().catch(() => null) as { ok?: boolean } | null;
+        telegramStatus = telegramResponse.ok && telegramResult?.ok ? "sent" : "failed";
+      } catch {
+        telegramStatus = "failed";
+      }
+    }
+
     return new Response(new Uint8Array(pdf), {
       status: 200,
       headers: {
@@ -108,9 +128,11 @@ export async function POST(request: Request) {
         "Content-Type": "application/pdf",
         "Content-Disposition": 'attachment; filename="Kenenet-Referral-Partnership-Agreement-signed.pdf"',
         "Content-Length": String(pdf.byteLength),
+        "X-Telegram-Notification": telegramStatus,
       },
     });
-  } catch {
+  } catch (error) {
+    console.error("Kenenét agreement PDF generation failed:", error instanceof Error ? error.message : "unknown error");
     return replyError("The signed agreement copy could not be prepared. Please try again.", 500);
   }
 }

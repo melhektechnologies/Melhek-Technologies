@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState, type FormEvent, type PointerEvent } from "react";
 import { AGREEMENT_ID, AGREEMENT_VERSION } from "@/lib/commercial-documents/agreement";
 
-type SignatureMode = "typed" | "drawn";
 type Confirmations = { readTerms: boolean; authority: boolean; intention: boolean };
 
 function pointOnCanvas(canvas: HTMLCanvasElement, event: PointerEvent<HTMLCanvasElement>) {
@@ -16,12 +15,12 @@ function pointOnCanvas(canvas: HTMLCanvasElement, event: PointerEvent<HTMLCanvas
 
 export default function AgreementSigningForm() {
   const [signerName, setSignerName] = useState("");
-  const [mode, setMode] = useState<SignatureMode>("typed");
   const [confirmations, setConfirmations] = useState<Confirmations>({ readTerms: false, authority: false, intention: false });
   const [hasDrawn, setHasDrawn] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [complete, setComplete] = useState(false);
+  const [telegramStatus, setTelegramStatus] = useState<"sent" | "unavailable">("unavailable");
   const [completedPdfUrl, setCompletedPdfUrl] = useState("");
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const drawingRef = useRef(false);
@@ -31,7 +30,7 @@ export default function AgreementSigningForm() {
   }, [completedPdfUrl]);
 
   const allConfirmed = confirmations.readTerms && confirmations.authority && confirmations.intention;
-  const signatureReady = signerName.trim().length >= 3 && (mode === "typed" || hasDrawn);
+  const signatureReady = signerName.trim().length >= 3 && hasDrawn;
 
   function beginDrawing(event: PointerEvent<HTMLCanvasElement>) {
     event.preventDefault();
@@ -84,7 +83,7 @@ export default function AgreementSigningForm() {
     setError("");
 
     try {
-      const signatureData = mode === "drawn" ? canvasRef.current?.toDataURL("image/png") ?? "" : "";
+      const signatureData = canvasRef.current?.toDataURL("image/png") ?? "";
       const response = await fetch("/api/agreements/kenenet-consultancy/sign", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -92,7 +91,6 @@ export default function AgreementSigningForm() {
           agreementId: AGREEMENT_ID,
           version: AGREEMENT_VERSION,
           signerName: signerName.trim(),
-          signatureMode: mode,
           signatureData,
           confirmations,
         }),
@@ -104,6 +102,7 @@ export default function AgreementSigningForm() {
       }
 
       const signedPdf = await response.blob();
+      setTelegramStatus(response.headers.get("X-Telegram-Notification") === "sent" ? "sent" : "unavailable");
       const objectUrl = URL.createObjectURL(signedPdf);
       setCompletedPdfUrl(objectUrl);
       const downloadLink = document.createElement("a");
@@ -130,9 +129,9 @@ export default function AgreementSigningForm() {
       <section aria-live="polite" className="mx-auto mt-8 max-w-5xl rounded-3xl border border-emerald-300/25 bg-emerald-300/[0.08] p-6 sm:p-8">
         <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-emerald-200">Party B signed copy</p>
         <h2 className="mt-2 font-display text-2xl font-bold text-white">Your signed copy is ready.</h2>
-        <p className="mt-3 max-w-3xl text-sm leading-6 text-white/70">Please save the signed PDF and send it to Melhek for countersignature. The Agreement takes effect after both Parties sign.</p>
+        <p className="mt-3 max-w-3xl text-sm leading-6 text-white/70">{telegramStatus === "sent" ? "The signed PDF was sent to Melhek on Telegram. The Agreement takes effect after both Parties sign." : "Your signed PDF is ready. The Agreement takes effect after both Parties sign."}</p>
         {completedPdfUrl && <a href={completedPdfUrl} download="Kenenet-Referral-Partnership-Agreement-signed.pdf" className="mt-5 inline-flex min-h-11 items-center justify-center rounded-full bg-blue-300 px-5 py-2.5 text-sm font-bold text-slate-950 transition hover:bg-blue-200">Download signed copy</a>}
-        <p className="mt-3 text-xs leading-5 text-white/45">The signed copy is prepared for this session and is not retained by this page. This signing method is not certificate-based.</p>
+        <p className="mt-3 text-xs leading-5 text-white/45">{telegramStatus === "sent" ? "Melhek has received the signed PDF through its Telegram notification." : "Automatic Telegram delivery could not be confirmed. Please save the signed PDF and send it to Melhek."} This page does not retain a copy. This signing method is not certificate-based.</p>
       </section>
     );
   }
@@ -168,29 +167,19 @@ export default function AgreementSigningForm() {
           </div>
 
           <fieldset>
-            <legend className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-white/45">Signature</legend>
-            <div className="mb-3 inline-flex rounded-xl border border-white/10 bg-slate-950/35 p-1" role="group" aria-label="Signature method">
-              <button type="button" onClick={() => setMode("typed")} aria-pressed={mode === "typed"} className={`rounded-lg px-4 py-2 text-xs font-semibold transition ${mode === "typed" ? "bg-blue-300 text-slate-950" : "text-white/55 hover:text-white"}`}>Type name</button>
-              <button type="button" onClick={() => setMode("drawn")} aria-pressed={mode === "drawn"} className={`rounded-lg px-4 py-2 text-xs font-semibold transition ${mode === "drawn" ? "bg-blue-300 text-slate-950" : "text-white/55 hover:text-white"}`}>Draw signature</button>
+            <legend className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-white/45">Draw your signature</legend>
+            <div className="overflow-hidden rounded-2xl border border-white/10 bg-white">
+              <canvas ref={canvasRef} width={680} height={160} aria-label="Draw your signature in this area" className="block h-28 w-full touch-none cursor-crosshair" onPointerDown={beginDrawing} onPointerMove={continueDrawing} onPointerUp={endDrawing} onPointerCancel={endDrawing} />
+              <div className="flex items-center justify-between border-t border-slate-200 px-3 py-2">
+                <span className="text-[10px] text-slate-500">Use your finger, mouse, or stylus. Your full name above identifies the signer.</span>
+                <button type="button" onClick={clearDrawing} className="text-[10px] font-semibold text-blue-800 underline underline-offset-2">Clear</button>
+              </div>
             </div>
-            {mode === "typed" ? (
-              <div aria-label={`Typed signature: ${signerName || "empty"}`} className="flex min-h-[92px] items-center justify-center rounded-2xl border border-white/10 bg-slate-950/45 px-4 text-center font-serif text-3xl italic text-blue-200">
-                {signerName.trim() || <span className="text-lg not-italic text-white/25">Enter your full name</span>}
-              </div>
-            ) : (
-              <div className="overflow-hidden rounded-2xl border border-white/10 bg-white">
-                <canvas ref={canvasRef} width={680} height={160} aria-label="Draw your signature in this area" className="block h-28 w-full touch-none cursor-crosshair" onPointerDown={beginDrawing} onPointerMove={continueDrawing} onPointerUp={endDrawing} onPointerCancel={endDrawing} />
-                <div className="flex items-center justify-between border-t border-slate-200 px-3 py-2">
-                  <span className="text-[10px] text-slate-500">Sign using your finger, mouse, or stylus.</span>
-                  <button type="button" onClick={clearDrawing} className="text-[10px] font-semibold text-blue-800 underline underline-offset-2">Clear</button>
-                </div>
-              </div>
-            )}
           </fieldset>
         </div>
 
         <div className="rounded-xl border border-white/10 bg-white/[0.025] px-4 py-3 text-xs leading-5 text-white/45">
-          Your signature is added to the PDF generated for this session; this page does not retain a copy. Save the signed PDF and return it to Melhek for countersignature. This is not a certificate-based signature.
+          Your drawn signature will be included in the PDF, sent to Melhek by Telegram when delivery is available, and downloaded to your device. This page does not retain a copy. This is not a certificate-based signature.
         </div>
 
         {error && <p role="alert" className="rounded-xl border border-rose-300/25 bg-rose-300/[0.08] px-4 py-3 text-sm text-rose-100">{error}</p>}

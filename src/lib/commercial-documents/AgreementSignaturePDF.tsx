@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
   signatureText: { marginBottom: 3, fontSize: 7.8, color: "#334155" },
   signLine: { height: 21, marginTop: 10, borderBottomWidth: 0.8, borderBottomColor: "#64748b" },
   signLabel: { marginTop: 3, fontSize: 7.2, color: "#64748b" },
-  signedName: { height: 21, marginTop: 10, fontSize: 15, fontStyle: "italic", color: "#315ad3" },
   signatureImage: { width: 130, height: 28, marginTop: 7, objectFit: "contain" },
   signatureMeta: { marginTop: 2, fontSize: 7, color: "#475569" },
   hash: { marginTop: 5, fontSize: 5.8, color: "#64748b" },
@@ -58,8 +57,7 @@ const styles = StyleSheet.create({
 export type AgreementExecutionRecord = {
   signerName: string;
   signerTitle: string;
-  signatureMode: "typed" | "drawn";
-  signatureData?: string;
+  signatureData: string;
   signedAt: string;
   termsHash: string;
 };
@@ -107,10 +105,8 @@ function Signatures({ snapshot, execution }: { snapshot: AgreementSnapshot; exec
             <Text style={styles.signatureText}>Title: {party.label === "Party B" && execution ? execution.signerTitle : party.position}</Text>
             {party.label === "Party B" && execution ? (
               <>
-                {execution.signatureMode === "drawn" && execution.signatureData
-                  ? <Image src={execution.signatureData} style={styles.signatureImage} />
-                  : <Text style={styles.signedName}>{execution.signerName}</Text>}
-                <Text style={styles.signLabel}>Electronic signature · {execution.signatureMode}</Text>
+                <Image src={execution.signatureData} style={styles.signatureImage} />
+                <Text style={styles.signLabel}>Hand-drawn electronic signature</Text>
                 <Text style={styles.signatureMeta}>{execution.signedAt} UTC</Text>
               </>
             ) : (

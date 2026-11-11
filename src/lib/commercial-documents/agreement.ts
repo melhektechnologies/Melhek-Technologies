@@ -173,7 +173,7 @@ export const agreementClauses: AgreementClause[] = [
   },
   {
     id: "electronic-execution", number: 19, title: "Counterparts and electronic execution", blocks: [
-      { type: "paragraph", text: "The Parties may sign a paper copy, PDF counterparts, or use an electronic method mutually agreed for this transaction. If Party B uses the designated agreement page, the signer will confirm authority and intent to sign and provide a typed or drawn signature. The generated PDF will record the signer's name, signature method, UTC date and time, and a hash of the agreed terms. The Parties may exchange signed copies through a communication channel they mutually agree to use." },
+      { type: "paragraph", text: "The Parties may sign a paper copy, PDF counterparts, or use an electronic method mutually agreed for this transaction. If Party B uses the designated agreement page, the signer will confirm authority and intent to sign, enter their full name for identification, and provide a hand-drawn signature. The generated PDF will record the signer's name, drawn signature, UTC date and time, and a hash of the agreed terms. The Parties may exchange signed copies through a communication channel they mutually agree to use." },
       { type: "paragraph", text: "The agreement page records an electronic signing event but does not represent it as a certificate-based or qualified digital signature. Both Parties must sign, and the Effective Date is the date of the last signature. Each Party will keep a copy of the signed Agreement." },
     ],
   },

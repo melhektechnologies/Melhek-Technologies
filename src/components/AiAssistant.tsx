@@ -1,8 +1,9 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
+import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Bot, X, Send, Sparkles, User, ArrowRight, Check, CornerDownLeft } from 'lucide-react'
+import { Bot, X, Send } from 'lucide-react'
 import { getAiResponse, AiResponse } from '@/lib/ai-assistant-engine'
 import { submitAssistantLead } from '@/app/actions/leads'
 
@@ -17,6 +18,7 @@ interface Message {
 type IntakeState = 'idle' | 'waiting_name' | 'waiting_email' | 'waiting_description' | 'submitting' | 'completed'
 
 export default function AiAssistant() {
+  const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -51,7 +53,7 @@ export default function AiAssistant() {
 
   const addMessage = (sender: 'user' | 'assistant', text: string, isSystem = false) => {
     const newMessage: Message = {
-      id: Math.random().toString(),
+      id: crypto.randomUUID(),
       sender,
       text,
       timestamp: new Date(),
@@ -186,6 +188,8 @@ export default function AiAssistant() {
       handleSendMessage(suggestion)
     }
   }
+
+  if (pathname?.startsWith('/internal/commercial-documents') || pathname?.startsWith('/agreements/kenenet-consultancy')) return null
 
   return (
     <div className="fixed bottom-6 right-6 z-[9999] font-sans">

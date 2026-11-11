@@ -1,9 +1,11 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { motion, useMotionValue, useSpring } from 'framer-motion'
 
 export default function CustomCursor() {
+  const pathname = usePathname()
   const [enabled, setEnabled] = useState(false)
   const [isHovering, setIsHovering] = useState(false)
 
@@ -14,6 +16,11 @@ export default function CustomCursor() {
   const cursorY = useSpring(mouseY, springConfig)
 
   useEffect(() => {
+    if (pathname?.startsWith('/internal/commercial-documents') || pathname?.startsWith('/agreements/kenenet-consultancy')) {
+      setEnabled(false)
+      return
+    }
+
     const isFinePointer = window.matchMedia('(pointer: fine)').matches
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (!isFinePointer || prefersReducedMotion) return
@@ -51,9 +58,9 @@ export default function CustomCursor() {
       window.removeEventListener('mousemove', handleMouseMove)
       window.removeEventListener('mouseover', handleMouseOver)
     }
-  }, [cursorX, cursorY, mouseX, mouseY])
+  }, [cursorX, cursorY, mouseX, mouseY, pathname])
 
-  if (!enabled) return null
+  if (!enabled || pathname?.startsWith('/internal/commercial-documents') || pathname?.startsWith('/agreements/kenenet-consultancy')) return null
 
   return (
     <>

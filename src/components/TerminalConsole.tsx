@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef } from 'react'
+import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Terminal, X, ChevronRight, Minimize2, Maximize2 } from 'lucide-react'
 
@@ -10,6 +11,7 @@ interface TerminalLine {
 }
 
 export default function TerminalConsole() {
+  const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
   const [isMaximized, setIsMaximized] = useState(false)
   const [history, setHistory] = useState<string[]>([])
@@ -134,6 +136,8 @@ export default function TerminalConsole() {
       }
     }
   }
+
+  if (pathname?.startsWith('/internal/commercial-documents') || pathname?.startsWith('/agreements/kenenet-consultancy')) return null
 
   return (
     <>

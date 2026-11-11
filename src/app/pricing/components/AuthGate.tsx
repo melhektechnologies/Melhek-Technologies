@@ -69,7 +69,7 @@ export default function AuthGate({ configured, scope = "pricing" }: AuthGateProp
 
         <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] font-mono font-bold uppercase tracking-widest text-melhek-blue">
           <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-melhek-blue" />
-          {isCommercialDocuments ? 'Private Agreement Review' : 'Internal Commercial Desk'}
+          {isCommercialDocuments ? 'Private Signature Desk' : 'Internal Commercial Desk'}
         </div>
 
         <h1 className="mb-1.5 text-2xl font-syne font-extrabold text-white">Melhek Technologies</h1>
@@ -121,7 +121,7 @@ export default function AuthGate({ configured, scope = "pricing" }: AuthGateProp
               {isSubmitting
                 ? 'Checking access…'
                 : isCommercialDocuments
-                  ? 'Unlock Agreement Review'
+                  ? 'Unlock Signature Desk'
                   : 'Unlock Commercial Desk'}
               <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
             </button>

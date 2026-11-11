@@ -2,6 +2,10 @@ import type { NextConfig } from "next";
 import { join } from "path";
 import { statSync, writeFileSync } from "fs";
 
+function errorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : String(error);
+}
+
 // Automatically optimize oversized logo files on startup/build
 (async () => {
   try {
@@ -46,22 +50,27 @@ import { statSync, writeFileSync } from "fs";
           const webpBuffer = await pipeline.clone().webp({ quality: 85 }).toBuffer();
           writeFileSync(webpPath, webpBuffer);
         }
-      } catch (err: any) {
-        console.warn(`[Melhek Optimizer] Skipped ${file.input}: ${err.message}`);
+      } catch (err: unknown) {
+        console.warn(`[Melhek Optimizer] Skipped ${file.input}: ${errorMessage(err)}`);
       }
     }
-  } catch (err: any) {
-    console.warn(`[Melhek Optimizer] Sharp load status: ${err.message}`);
+  } catch (err: unknown) {
+    console.warn(`[Melhek Optimizer] Sharp load status: ${errorMessage(err)}`);
   }
 })();
 
 const nextConfig: NextConfig = {
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  // @ts-ignore
-  eslint: {
-    ignoreDuringBuilds: true,
+  outputFileTracingIncludes: {
+    "/api/internal/commercial-documents/signature-copy": [
+      "./src/lib/commercial-documents/fonts/Inter-Regular.woff",
+      "./src/lib/commercial-documents/fonts/Inter-Bold.woff",
+      "./public/logo-light.png",
+    ],
+    "/api/agreements/kenenet-consultancy/sign": [
+      "./src/lib/commercial-documents/fonts/Inter-Regular.woff",
+      "./src/lib/commercial-documents/fonts/Inter-Bold.woff",
+      "./public/logo-light.png",
+    ],
   },
   async headers() {
     return [

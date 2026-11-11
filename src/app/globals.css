@@ -1,5 +1,19 @@
 @import "tailwindcss";
 
+@keyframes agreement-confirmation-shake {
+  0%, 100% { transform: translateX(0); }
+  18%, 54%, 90% { transform: translateX(-5px); }
+  36%, 72% { transform: translateX(5px); }
+}
+
+.animate-confirmation-shake {
+  animation: agreement-confirmation-shake 0.42s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-confirmation-shake { animation: none; }
+}
+
 @theme {
   --color-melhek-navy: #010B3D;
   --color-navy: #010B3D;

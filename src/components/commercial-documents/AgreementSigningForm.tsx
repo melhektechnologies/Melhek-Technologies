@@ -4,6 +4,11 @@ import { useEffect, useRef, useState, type FormEvent, type PointerEvent } from "
 import { AGREEMENT_ID, AGREEMENT_VERSION } from "@/lib/commercial-documents/agreement";
 
 type Confirmations = { readTerms: boolean; authority: boolean; intention: boolean };
+const confirmationItems = [
+  ["readTerms", "I have reviewed this Referral Partnership Agreement and agree to its terms."],
+  ["authority", "I am authorized to sign this Agreement for Kenenét Consultancy."],
+  ["intention", "I intend the signature below to sign this Agreement electronically."],
+] as const satisfies ReadonlyArray<readonly [keyof Confirmations, string]>;
 
 function pointOnCanvas(canvas: HTMLCanvasElement, event: PointerEvent<HTMLCanvasElement>) {
   const rect = canvas.getBoundingClientRect();
@@ -16,6 +21,7 @@ function pointOnCanvas(canvas: HTMLCanvasElement, event: PointerEvent<HTMLCanvas
 export default function AgreementSigningForm() {
   const [signerName, setSignerName] = useState("");
   const [confirmations, setConfirmations] = useState<Confirmations>({ readTerms: false, authority: false, intention: false });
+  const [shakeConfirmations, setShakeConfirmations] = useState(false);
   const [hasDrawn, setHasDrawn] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -23,6 +29,7 @@ export default function AgreementSigningForm() {
   const [telegramStatus, setTelegramStatus] = useState<"sent" | "unavailable">("unavailable");
   const [completedPdfUrl, setCompletedPdfUrl] = useState("");
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const confirmationsRef = useRef<HTMLFieldSetElement>(null);
   const drawingRef = useRef(false);
 
   useEffect(() => () => {
@@ -30,10 +37,20 @@ export default function AgreementSigningForm() {
   }, [completedPdfUrl]);
 
   const allConfirmed = confirmations.readTerms && confirmations.authority && confirmations.intention;
-  const signatureReady = signerName.trim().length >= 3 && hasDrawn;
+
+  function showConfirmationFeedback() {
+    setError("Please check all three required confirmations before signing.");
+    setShakeConfirmations(true);
+    window.setTimeout(() => setShakeConfirmations(false), 500);
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) navigator.vibrate?.([90, 50, 90]);
+    confirmationsRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    const missingKey = confirmationItems.find(([key]) => !confirmations[key])?.[0];
+    if (missingKey) document.getElementById(`agreement-confirmation-${missingKey}`)?.focus({ preventScroll: true });
+  }
 
   function beginDrawing(event: PointerEvent<HTMLCanvasElement>) {
     event.preventDefault();
+    setError("");
     const canvas = canvasRef.current;
     const context = canvas?.getContext("2d");
     if (!canvas || !context) return;
@@ -78,7 +95,22 @@ export default function AgreementSigningForm() {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!allConfirmed || !signatureReady || submitting) return;
+    if (submitting) return;
+    if (!allConfirmed) {
+      showConfirmationFeedback();
+      return;
+    }
+    if (signerName.trim().length < 3) {
+      setError("Enter your full name to identify the signer.");
+      document.getElementById("agreement-signer-name")?.focus();
+      return;
+    }
+    if (!hasDrawn) {
+      setError("Draw your signature in the signing area before continuing.");
+      canvasRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      canvasRef.current?.focus({ preventScroll: true });
+      return;
+    }
     setSubmitting(true);
     setError("");
 
@@ -120,7 +152,11 @@ export default function AgreementSigningForm() {
   }
 
   function toggleConfirmation(key: keyof Confirmations) {
-    setConfirmations((current) => ({ ...current, [key]: !current[key] }));
+    setConfirmations((current) => {
+      const next = { ...current, [key]: !current[key] };
+      if (next.readTerms && next.authority && next.intention) setError("");
+      return next;
+    });
   }
 
   if (complete) {
@@ -144,31 +180,29 @@ export default function AgreementSigningForm() {
       </div>
 
       <form onSubmit={handleSubmit} className="mt-7 space-y-7">
-        <fieldset className="space-y-3">
+        <fieldset ref={confirmationsRef} className={`space-y-3 rounded-2xl ${shakeConfirmations ? "animate-confirmation-shake" : ""}`}>
           <legend className="mb-3 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-white/45">Required confirmations</legend>
-          {([
-            ["readTerms", "I have reviewed this Referral Partnership Agreement and agree to its terms."],
-            ["authority", "I am authorized to sign this Agreement for Kenenét Consultancy."],
-            ["intention", "I intend the signature below to sign this Agreement electronically."],
-          ] as const).map(([key, label]) => (
+          {confirmationItems.map(([key, label]) => (
             <label key={key} className={`flex cursor-pointer items-start gap-3 rounded-xl border p-3.5 text-sm leading-6 transition ${confirmations[key] ? "border-blue-300/30 bg-blue-300/[0.08] text-white" : "border-white/10 bg-white/[0.025] text-white/75 hover:border-white/20"}`}>
-              <input type="checkbox" checked={confirmations[key]} onChange={() => toggleConfirmation(key)} className="mt-1 h-4 w-4 shrink-0 accent-blue-400" />
+              <input id={`agreement-confirmation-${key}`} type="checkbox" checked={confirmations[key]} onChange={() => toggleConfirmation(key)} className="mt-1 h-4 w-4 shrink-0 accent-blue-400" />
               <span>{label}</span>
             </label>
           ))}
         </fieldset>
 
+        {error && <p role="alert" aria-live="assertive" className="rounded-xl border border-rose-300/25 bg-rose-300/[0.08] px-4 py-3 text-sm text-rose-100">{error}</p>}
+
         <div className="grid gap-5 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] md:gap-7">
           <div>
             <label htmlFor="agreement-signer-name" className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-white/45">Full name</label>
-            <input id="agreement-signer-name" autoComplete="name" required minLength={3} maxLength={100} placeholder="Enter Bayush Mamo" value={signerName} onChange={(event) => setSignerName(event.target.value)} className="w-full rounded-xl border border-white/15 bg-slate-950/50 px-4 py-3 text-sm text-white outline-none transition placeholder:text-white/25 focus:border-blue-300/60 focus:ring-2 focus:ring-blue-300/15" />
+            <input id="agreement-signer-name" autoComplete="name" required minLength={3} maxLength={100} placeholder="Enter Bayush Mamo" value={signerName} onChange={(event) => { setSignerName(event.target.value); setError(""); }} className="w-full rounded-xl border border-white/15 bg-slate-950/50 px-4 py-3 text-sm text-white outline-none transition placeholder:text-white/25 focus:border-blue-300/60 focus:ring-2 focus:ring-blue-300/15" />
             <p className="mt-2 text-xs leading-5 text-white/45">Signing for Kenenét Consultancy · Founder and Managing Director</p>
           </div>
 
           <fieldset>
             <legend className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-white/45">Draw your signature</legend>
             <div className="overflow-hidden rounded-2xl border border-white/10 bg-white">
-              <canvas ref={canvasRef} width={680} height={160} aria-label="Draw your signature in this area" className="block h-28 w-full touch-none cursor-crosshair" onPointerDown={beginDrawing} onPointerMove={continueDrawing} onPointerUp={endDrawing} onPointerCancel={endDrawing} />
+              <canvas ref={canvasRef} width={680} height={160} tabIndex={0} aria-label="Draw your signature in this area" className="block h-28 w-full touch-none cursor-crosshair focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-400" onPointerDown={beginDrawing} onPointerMove={continueDrawing} onPointerUp={endDrawing} onPointerCancel={endDrawing} />
               <div className="flex items-center justify-between border-t border-slate-200 px-3 py-2">
                 <span className="text-[10px] text-slate-500">Use your finger, mouse, or stylus. Your full name above identifies the signer.</span>
                 <button type="button" onClick={clearDrawing} className="text-[10px] font-semibold text-blue-800 underline underline-offset-2">Clear</button>
@@ -181,11 +215,9 @@ export default function AgreementSigningForm() {
           Your drawn signature will be included in the PDF, sent to Melhek by Telegram when delivery is available, and downloaded to your device. This page does not retain a copy. This is not a certificate-based signature.
         </div>
 
-        {error && <p role="alert" className="rounded-xl border border-rose-300/25 bg-rose-300/[0.08] px-4 py-3 text-sm text-rose-100">{error}</p>}
-
         <div className="flex flex-col items-start justify-between gap-4 border-t border-white/10 pt-6 sm:flex-row sm:items-center">
           <p className="text-xs leading-5 text-white/40">Referral Partnership Agreement</p>
-          <button type="submit" disabled={!allConfirmed || !signatureReady || submitting} className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-blue-300 px-6 py-3 text-sm font-bold text-slate-950 transition hover:bg-blue-200 disabled:cursor-not-allowed disabled:bg-slate-500 disabled:text-slate-900 sm:w-auto">
+          <button type="submit" disabled={submitting} className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-blue-300 px-6 py-3 text-sm font-bold text-slate-950 transition hover:bg-blue-200 disabled:cursor-wait disabled:bg-slate-500 disabled:text-slate-900 sm:w-auto">
             {submitting ? "Preparing signed copy…" : "Sign agreement & download copy"}
           </button>
         </div>

@@ -114,10 +114,17 @@ export async function POST(request: Request) {
           signal: AbortSignal.timeout(8_000),
           cache: "no-store",
         });
-        const telegramResult = await telegramResponse.json().catch(() => null) as { ok?: boolean } | null;
+        const telegramResult = await telegramResponse.json().catch(() => null) as { ok?: boolean; description?: string } | null;
         telegramStatus = telegramResponse.ok && telegramResult?.ok ? "sent" : "failed";
-      } catch {
+        if (telegramStatus === "failed") {
+          console.error("Kenenét agreement Telegram delivery rejected:", {
+            httpStatus: telegramResponse.status,
+            reason: telegramResult?.description?.slice(0, 180) ?? "Telegram returned no error detail",
+          });
+        }
+      } catch (error) {
         telegramStatus = "failed";
+        console.error("Kenenét agreement Telegram delivery request failed:", error instanceof Error ? error.name : "unknown error");
       }
     }
 

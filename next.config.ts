@@ -61,29 +61,11 @@ function errorMessage(error: unknown): string {
 
 const nextConfig: NextConfig = {
   outputFileTracingIncludes: {
-    "/api/internal/commercial-documents/signature-copy": [
-      "./src/lib/commercial-documents/fonts/Inter-Regular.woff",
-      "./src/lib/commercial-documents/fonts/Inter-Bold.woff",
-      "./public/logo-light.png",
-    ],
     "/api/agreements/kenenet-consultancy/sign": [
       "./src/lib/commercial-documents/fonts/Inter-Regular.woff",
       "./src/lib/commercial-documents/fonts/Inter-Bold.woff",
       "./public/logo-light.png",
     ],
-  },
-  async headers() {
-    return [
-      {
-        source: "/internal/commercial-documents/:path*",
-        headers: [
-          { key: "Cache-Control", value: "private, no-store, max-age=0" },
-          { key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" },
-          { key: "X-Content-Type-Options", value: "nosniff" },
-          { key: "Referrer-Policy", value: "no-referrer" },
-        ],
-      },
-    ];
   },
 };
 

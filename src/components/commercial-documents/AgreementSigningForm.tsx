@@ -108,7 +108,7 @@ export default function AgreementSigningForm() {
       setCompletedPdfUrl(objectUrl);
       const downloadLink = document.createElement("a");
       downloadLink.href = objectUrl;
-      downloadLink.download = `${AGREEMENT_ID}-v${AGREEMENT_VERSION}-party-b-signed.pdf`;
+      downloadLink.download = "Kenenet-Referral-Partnership-Agreement-signed.pdf";
       document.body.appendChild(downloadLink);
       downloadLink.click();
       downloadLink.remove();
@@ -131,7 +131,7 @@ export default function AgreementSigningForm() {
         <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-emerald-200">Party B signed copy</p>
         <h2 className="mt-2 font-display text-2xl font-bold text-white">Your signed copy is ready.</h2>
         <p className="mt-3 max-w-3xl text-sm leading-6 text-white/70">Please save the signed PDF and send it to Melhek for countersignature. The Agreement takes effect after both Parties sign.</p>
-        {completedPdfUrl && <a href={completedPdfUrl} download={AGREEMENT_ID + "-v" + AGREEMENT_VERSION + "-party-b-signed.pdf"} className="mt-5 inline-flex min-h-11 items-center justify-center rounded-full bg-blue-300 px-5 py-2.5 text-sm font-bold text-slate-950 transition hover:bg-blue-200">Download signed copy</a>}
+        {completedPdfUrl && <a href={completedPdfUrl} download="Kenenet-Referral-Partnership-Agreement-signed.pdf" className="mt-5 inline-flex min-h-11 items-center justify-center rounded-full bg-blue-300 px-5 py-2.5 text-sm font-bold text-slate-950 transition hover:bg-blue-200">Download signed copy</a>}
         <p className="mt-3 text-xs leading-5 text-white/45">The signed copy is prepared for this session and is not retained by this page. This signing method is not certificate-based.</p>
       </section>
     );
@@ -196,7 +196,7 @@ export default function AgreementSigningForm() {
         {error && <p role="alert" className="rounded-xl border border-rose-300/25 bg-rose-300/[0.08] px-4 py-3 text-sm text-rose-100">{error}</p>}
 
         <div className="flex flex-col items-start justify-between gap-4 border-t border-white/10 pt-6 sm:flex-row sm:items-center">
-          <p className="text-xs leading-5 text-white/40">Agreement {AGREEMENT_ID} · v{AGREEMENT_VERSION}</p>
+          <p className="text-xs leading-5 text-white/40">Referral Partnership Agreement</p>
           <button type="submit" disabled={!allConfirmed || !signatureReady || submitting} className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-blue-300 px-6 py-3 text-sm font-bold text-slate-950 transition hover:bg-blue-200 disabled:cursor-not-allowed disabled:bg-slate-500 disabled:text-slate-900 sm:w-auto">
             {submitting ? "Preparing signed copy…" : "Sign agreement & download copy"}
           </button>

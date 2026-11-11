@@ -189,7 +189,7 @@ export default function AiAssistant() {
     }
   }
 
-  if (pathname?.startsWith('/internal/commercial-documents') || pathname?.startsWith('/agreements/kenenet-consultancy')) return null
+  if (pathname?.startsWith('/agreements/kenenet-consultancy')) return null
 
   return (
     <div className="fixed bottom-6 right-6 z-[9999] font-sans">

@@ -106,7 +106,7 @@ export async function POST(request: Request) {
       headers: {
         ...noStoreHeaders,
         "Content-Type": "application/pdf",
-        "Content-Disposition": `attachment; filename="${AGREEMENT_ID}-v${AGREEMENT_VERSION}-party-b-signed.pdf"`,
+        "Content-Disposition": 'attachment; filename="Kenenet-Referral-Partnership-Agreement-signed.pdf"',
         "Content-Length": String(pdf.byteLength),
       },
     });

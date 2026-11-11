@@ -1,7 +1,6 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { Document, Font, Image, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
-import { AGREEMENT_ID } from "./agreement";
 import { createInitialAgreementSnapshot, type AgreementSnapshot } from "./snapshot";
 
 const fontDir = join(process.cwd(), "src", "lib", "commercial-documents", "fonts");
@@ -78,9 +77,9 @@ function PdfPage({ snapshot, children }: {
   return (
     <Page size="A4" style={styles.page}>
       <View style={styles.shell}>
-        <View fixed style={styles.header}><View style={styles.brandRow}><Image src={logo} style={styles.brandLogo} /><Text style={styles.brand}>MELHEK TECHNOLOGIES</Text></View><Text>{AGREEMENT_ID} · VERSION {snapshot.version}</Text></View>
+        <View fixed style={styles.header}><View style={styles.brandRow}><Image src={logo} style={styles.brandLogo} /><Text style={styles.brand}>MELHEK TECHNOLOGIES</Text></View></View>
         <View style={styles.body}>{children}</View>
-        <View fixed style={styles.footer}><Text>SIGNATURE COPY</Text><Text>{AGREEMENT_ID} · v{snapshot.version}</Text></View>
+        <View fixed style={styles.footer}><Text>REFERRAL PARTNERSHIP AGREEMENT</Text><Text>MELHEK TECHNOLOGIES</Text></View>
       </View>
     </Page>
   );
@@ -135,12 +134,12 @@ export default function AgreementSignaturePDF({ snapshot = createInitialAgreemen
   ];
 
   return (
-    <Document title={`${snapshot.title} · Signature Copy · v${snapshot.version}`} author="Melhek Technologies" subject={`${AGREEMENT_ID} · Version ${snapshot.version}`} language="en">
+    <Document title={snapshot.title + " · Signature Copy"} author="Melhek Technologies" subject="Melhek Technologies and Kenenét Consultancy" language="en">
       <PdfPage snapshot={snapshot}>
         <Text style={styles.eyebrow}>NON-EXCLUSIVE REFERRAL ARRANGEMENT</Text>
         <Text style={styles.title}>{snapshot.title}</Text>
         <Text style={styles.parties}>{snapshot.parties.map((party) => party.tradingName).join("  ·  ")}</Text>
-        <Text style={styles.banner}>{execution ? `PARTY B SIGNED · PARTY A COUNTERSIGNATURE REQUIRED · v${snapshot.version}` : `READY FOR SIGNATURE · VERSION ${snapshot.version}`}</Text>
+        <Text style={styles.banner}>{execution ? "PARTY B SIGNED · PARTY A COUNTERSIGNATURE REQUIRED" : "READY FOR SIGNATURE"}</Text>
         <Text style={styles.intro}>{execution ? "This PDF includes Party B’s signature record. Party A must also sign before the Agreement takes effect." : "Please review the complete agreement, sign the execution page, and return the signed copy through a communication channel mutually agreed by the Parties."}</Text>
 
         <Text style={styles.heading}>The Parties</Text>

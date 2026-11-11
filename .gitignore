@@ -19,6 +19,7 @@ out/
 
 # production
 build/
+src/generated/commercial-documents/
 
 # misc
 .DS_Store

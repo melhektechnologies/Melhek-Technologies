@@ -14,8 +14,6 @@ export default function robots(): MetadataRoute.Robots {
           "/pricing/desk/",
           "/pricecalculator",
           "/pricecalculator/",
-          "/internal/commercial-documents",
-          "/internal/commercial-documents/",
         ],
       },
     ],

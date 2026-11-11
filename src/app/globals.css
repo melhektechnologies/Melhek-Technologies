@@ -43,9 +43,11 @@
     overflow-x: hidden;
   }
 
-  /* Hide native cursor when custom cursor is active (pointer:fine = mouse/trackpad) */
+  /* Hide the native cursor only while the custom pointer is active. */
   @media (pointer: fine) {
-    *, *::before, *::after {
+    :root[data-custom-cursor="active"] *,
+    :root[data-custom-cursor="active"] *::before,
+    :root[data-custom-cursor="active"] *::after {
       cursor: none !important;
     }
   }

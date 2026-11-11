@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { CheckCircle2 } from "lucide-react";
 import AgreementDocument from "@/components/commercial-documents/AgreementDocument";
 import AgreementSigningForm from "@/components/commercial-documents/AgreementSigningForm";
-import { AGREEMENT_ID, AGREEMENT_VERSION } from "@/lib/commercial-documents/agreement";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -45,7 +44,6 @@ export default function KenenetAgreementPage() {
               <span className="block font-mono text-[9px] uppercase tracking-[0.14em] text-white/45">Referral partnership</span>
             </span>
           </div>
-          <p className="hidden font-mono text-[9px] uppercase tracking-[0.14em] text-white/45 sm:block">{AGREEMENT_ID} · v{AGREEMENT_VERSION}</p>
         </div>
       </header>
 
@@ -55,7 +53,7 @@ export default function KenenetAgreementPage() {
             <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-melhek-blue/30 bg-melhek-blue/10 px-3.5 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.17em] text-blue-200">
               <CheckCircle2 className="h-3.5 w-3.5" aria-hidden="true" /> Prepared for Melhek Technologies and Kenenét Consultancy
             </div>
-            <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-white/40">Non-exclusive referral · {AGREEMENT_ID} · v{AGREEMENT_VERSION}</p>
+            <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-white/40">Non-exclusive referral arrangement</p>
             <h1 className="font-display text-4xl font-extrabold leading-[1.06] tracking-tight sm:text-5xl md:text-6xl">
               Clear terms.<br /><span className="text-gradient">A trusted introduction.</span>
             </h1>
@@ -90,7 +88,7 @@ export default function KenenetAgreementPage() {
         <AgreementSigningForm />
 
         <footer className="mx-auto mt-8 flex max-w-5xl flex-col gap-2 border-t border-white/10 pt-5 text-[10px] leading-5 text-white/40 sm:flex-row sm:items-center sm:justify-between">
-          <p>{AGREEMENT_ID} · v{AGREEMENT_VERSION}</p>
+          <p>Referral Partnership Agreement</p>
           <p>Melhek Technologies · Kenenét Consultancy</p>
         </footer>
       </div>

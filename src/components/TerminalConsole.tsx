@@ -137,7 +137,7 @@ export default function TerminalConsole() {
     }
   }
 
-  if (pathname?.startsWith('/internal/commercial-documents') || pathname?.startsWith('/agreements/kenenet-consultancy')) return null
+  if (pathname?.startsWith('/agreements/kenenet-consultancy')) return null
 
   return (
     <>

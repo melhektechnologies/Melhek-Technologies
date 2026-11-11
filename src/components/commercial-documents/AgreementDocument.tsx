@@ -1,8 +1,6 @@
 import Image from "next/image";
 import { CheckCircle2 } from "lucide-react";
 import {
-  AGREEMENT_ID,
-  AGREEMENT_VERSION,
   agreementClauses,
   agreedCommercialTerms,
   partyDetails,
@@ -44,7 +42,7 @@ export default function AgreementDocument({ includeSignatureBlocks = true }: { i
         </div>
         <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-blue-700">Non-exclusive referral arrangement</p>
         <h2 className="mt-2 font-display text-3xl font-extrabold tracking-tight text-slate-950 sm:text-4xl">Referral Partnership Agreement</h2>
-        <p className="mt-2 text-xs text-slate-500">{AGREEMENT_ID} · v{AGREEMENT_VERSION} · Effective on the date of the last signature</p>
+        <p className="mt-2 text-xs text-slate-500">Effective on the date of the last signature</p>
       </div>
 
       <section aria-label="Parties" className="mb-8 grid gap-3 sm:grid-cols-2 sm:gap-4">

@@ -6,15 +6,11 @@ import { AlertCircle, ArrowRight, Lock, ShieldCheck } from 'lucide-react';
 
 type AuthGateProps = {
   configured: boolean;
-  scope?: "pricing" | "commercial-documents";
 };
 
-export default function AuthGate({ configured, scope = "pricing" }: AuthGateProps) {
-  const isCommercialDocuments = scope === "commercial-documents";
-  const authEndpoint = isCommercialDocuments
-    ? "/api/internal/commercial-documents/auth"
-    : "/api/pricing/auth";
-  const inputId = isCommercialDocuments ? "commercial-documents-access-key" : "pricing-access-key";
+export default function AuthGate({ configured }: AuthGateProps) {
+  const authEndpoint = "/api/pricing/auth";
+  const inputId = "pricing-access-key";
   const router = useRouter();
   const [accessKey, setAccessKey] = useState('');
   const [error, setError] = useState('');
@@ -69,14 +65,12 @@ export default function AuthGate({ configured, scope = "pricing" }: AuthGateProp
 
         <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] font-mono font-bold uppercase tracking-widest text-melhek-blue">
           <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-melhek-blue" />
-          {isCommercialDocuments ? 'Private Signature Desk' : 'Internal Commercial Desk'}
+          Internal Commercial Desk
         </div>
 
         <h1 className="mb-1.5 text-2xl font-syne font-extrabold text-white">Melhek Technologies</h1>
         <p className="mx-auto mb-8 max-w-xs text-xs leading-relaxed text-white/40">
-          {isCommercialDocuments
-            ? 'This private agreement workspace is restricted. Enter its dedicated access key to continue.'
-            : 'This private workspace is restricted. Enter your access key to continue.'}
+          This private workspace is restricted. Enter your access key to continue.
         </p>
 
         {configured ? (
@@ -118,25 +112,13 @@ export default function AuthGate({ configured, scope = "pricing" }: AuthGateProp
               disabled={isSubmitting || !accessKey}
               className="btn-primary w-full justify-center !py-3.5 text-sm uppercase tracking-wider disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {isSubmitting
-                ? 'Checking access…'
-                : isCommercialDocuments
-                  ? 'Unlock Signature Desk'
-                  : 'Unlock Commercial Desk'}
+              {isSubmitting ? 'Checking access…' : 'Unlock Commercial Desk'}
               <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
             </button>
           </form>
         ) : (
           <div role="status" className="rounded-2xl border border-amber-400/20 bg-amber-400/5 p-4 text-left text-xs leading-relaxed text-amber-100/80">
-            {isCommercialDocuments ? (
-              <>
-                Agreement access is not configured on this server. Set the server-only <code>COMMERCIAL_DOCS_ACCESS_KEY</code> and <code>PRICING_SESSION_SECRET</code> environment variables to enable it.
-              </>
-            ) : (
-              <>
-                Private access is not configured on this deployment. Set server-only <code>PRICING_ACCESS_KEY</code> and <code>PRICING_SESSION_SECRET</code> environment variables to enable it.
-              </>
-            )}
+            Private access is not configured on this deployment. Set server-only <code>PRICING_ACCESS_KEY</code> and <code>PRICING_SESSION_SECRET</code> environment variables to enable it.
           </div>
         )}
 
